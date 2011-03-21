@@ -1,6 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# .bashrc
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -28,38 +26,50 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
+## Prompt
+TRUE="\033[1;32m"
+FALSE="\033[1;31m"
+NEUTRAL="\[\033[1;33m\]"
+ACCENT="\[\033[1;30m\]"
+LIGHT="\[\033[0;37m\]"
+case "$HOSTNAME" in
+    shappu2000)
+	BASE="\[\033[0;36m\]"
+	BOLD="\[\033[1;36m\]"
+	;;
+    habals)
+	BASE="\[\033[0;33m\]"
+	BOLD="\[\033[1;33m\]"
+	;;
+    dvorak)
+	BASE="\[\033[0;34m\]"
+	BOLD="\[\033[1;34m\]"
+	;;
+    *)
+	BASE="\[\033[0;31m\]"
+	BOLD="\[\033[1;31m\]"
+	;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
+BOLD_RETURN=$(echo -e $NEUTRAL)
 
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+function prompt_command {
+    if [[ $? = 0 ]]; then 
+	BOLD_RETURN=$(echo -e $TRUE)
     else
-	color_prompt=
+	BOLD_RETURN=$(echo -e $FALSE)
     fi
-fi
+}
 
-BC="\[\033[1;34m\]"
-C="\[\033[0;34m\]"
-G="\[\033[1;30m\]"
-LG="\[\033[0;37m\]"
+PROMPT_COMMAND=prompt_command
 
-if [ "$color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}$LG-$BC-($C\u$G@$C\h$G:$C\W$BC)-$LG "
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+function set_colors
+{
+    PS1="${debian_chroot:+($debian_chroot)}\${BOLD_RETURN}-$BOLD-($BASE\u$ACCENT@$BASE\h$ACCENT:$BASE\W$BOLD)-$LIGHT "
+}
+set_colors
+
+export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -74,24 +84,15 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
-alias ll='ls -l'
-alias la='ls -aFC'
-alias l='ls -AlF'
-
 # Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -103,4 +104,19 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+platform='unknown'
+unamestr=`uname`
+if [ "$unamestr" == 'Linux' ]
+then
+    platform='linux'
+elif [ "$unamestr" == 'FreeBSD' ]
+then
+    platform='freebsd'
+elif [ "$unamestr" == 'Darwin' ]
+then
+    platform='darwin'
+fi
+
+export PLATFORM=$platform
+export MAIL=$HOME/mailbox
 export EDITOR='emacs -nw'
