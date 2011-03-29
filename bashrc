@@ -120,3 +120,6 @@ fi
 export PLATFORM=$platform
 export MAIL=$HOME/mailbox
 export EDITOR='emacs -nw'
+export PRINTER='lw32'
+
+export PYTHONSTARTUP="$HOME/.pythonrc.py"
