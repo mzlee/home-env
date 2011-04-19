@@ -14,12 +14,19 @@
 ; (setq text-mode-hook 'turn-on-auto-fill)
 ; (setq fill-column 80)
 
-; Set soft tabs
-
+;; Add installed modules
 (setq load-path (cons "~/share/emacs/site-lisp" load-path))
 (require 'org-install)
+(require 'yaml-mode)
 
+;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("Makefrag\\'" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
+(add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
+
+;; Org Mode keys
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
@@ -46,9 +53,6 @@
 (add-hook 'c++-mode-hook 'my-c-indent-setup)
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 (add-hook 'html-mode-hook
 		  (setq tab-width 3))
