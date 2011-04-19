@@ -14,7 +14,7 @@ if [ -f /lusr/lib/misc/path.sh ]; then
 fi
 # !! DO NOT REMOVE THIS BLOCK !!
 
-export PATH=${HOME}/bin${PATH}:
+export PATH=${HOME}/bin:${PATH}
 
 case "$HOSTNAME" in
     habals|dvorak)
