@@ -8,16 +8,35 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# !! DO NOT REMOVE THIS BLOCK !!
+if [ -f /lusr/lib/misc/path.sh ]; then
+	. /lusr/lib/misc/path.sh
+fi
+# !! DO NOT REMOVE THIS BLOCK !!
+
+export PATH=${HOME}/bin${PATH}:
+export PRINTER=lw32
+export EDITOR=emacs
+
+case "$HOSTNAME" in
+    habals|dvorak)
+	PUBLIC_MACHINE=0
+	;;
+    *)
+	PUBLIC_MACHINE=1
+	;;
+esac
+
+if [ $PUBLIC_MACHINE -eq 1 ]; then
+    umask 077
+else
+    umask 022
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
 	. "$HOME/.bashrc"
     fi
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$HOME/.gem/ruby/1.9.1/bin:$PATH"
-
 fi
