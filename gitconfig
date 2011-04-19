@@ -1,0 +1,30 @@
+[user]
+	name = Michael Lee
+	email = mzlee@cs.utexas.edu
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+[core]
+	excludesfile = ~/.gitignore
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[color "branch"]
+	local = yellow
+	remote = green
+	current = yellow reverse
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
