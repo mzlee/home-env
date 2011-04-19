@@ -15,8 +15,6 @@ fi
 # !! DO NOT REMOVE THIS BLOCK !!
 
 export PATH=${HOME}/bin${PATH}:
-export PRINTER=lw32
-export EDITOR=emacs
 
 case "$HOSTNAME" in
     habals|dvorak)

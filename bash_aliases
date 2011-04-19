@@ -24,5 +24,5 @@ alias less="less -R"
 alias gopen="gnome-open"
 
 # svn commands
-#alias svndiff='svn diff --diff-cmd colordiff -x "-u -w -p" "$@" | less
+#alias svndiff='svn diff --diff-cmd colordiff -x "-u -w -p" "$@" | less'
 #alias svnst='svn st | grep -v kbuild | grep -v db- | grep -v glibc | grep -v qemu-kvm'

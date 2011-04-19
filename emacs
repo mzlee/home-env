@@ -16,17 +16,16 @@
 
 ; Set soft tabs
 
-;; Locally installed files
-;(setq load-path (cons "~/share/emacs/site-lisp" load-path))
-;(require 'org-install)
+(setq load-path (cons "~/share/emacs/site-lisp" load-path))
+(require 'org-install)
 
-;(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-;(global-set-key "\C-cl" 'org-store-link)
-;(global-set-key "\C-ca" 'org-agenda)
-;(global-set-key "\C-cb" 'org-iswitchb)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
-;(global-font-lock-mode 1)                     ; for all buffers
-;(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
+(global-font-lock-mode 1)                     ; for all buffers
+(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 
 (setq c-basic-offset 3)
 (setq python-basic-offset 4)
@@ -46,10 +45,15 @@
 (add-hook 'c-mode-hook 'my-c-indent-setup)
 (add-hook 'c++-mode-hook 'my-c-indent-setup)
 
-;(require 'yaml-mode)
-;(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(add-hook 'html-mode-hool
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+(add-hook 'html-mode-hook
 		  (setq tab-width 3))
 
-;(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+(setq tex-mode-hook '(lambda () (auto-fill-mode 1)))
+(setq latex-mode-hook '(lambda () (auto-fill-mode 1)))

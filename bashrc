@@ -104,22 +104,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-platform='unknown'
-unamestr=`uname`
-if [ "$unamestr" == 'Linux' ]
-then
-    platform='linux'
-elif [ "$unamestr" == 'FreeBSD' ]
-then
-    platform='freebsd'
-elif [ "$unamestr" == 'Darwin' ]
-then
-    platform='darwin'
-fi
-
-export PLATFORM=$platform
-export MAIL=$HOME/mailbox
 export EDITOR='emacs -nw'
 export PRINTER='lw32'
-
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
