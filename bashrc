@@ -106,4 +106,5 @@ fi
 
 export EDITOR='emacs -nw'
 export PRINTER='lw32'
+export PYTHONPATH="$HOME/lib/python2.6/site-packages"
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
