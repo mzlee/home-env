@@ -1,0 +1,6 @@
+[submodule "org-mode"]
+	path = org-mode
+	url = git://orgmode.org/org-mode.git
+[submodule "yaml-mode"]
+	path = yaml-mode
+	url = git://github.com/yoshiki/yaml-mode.git
