@@ -61,6 +61,8 @@
 
 (setq tex-mode-hook '(lambda () (auto-fill-mode 1)))
 (setq latex-mode-hook '(lambda () (auto-fill-mode 1)))
+(setq org-mode-hook '(lambda () (auto-fill-mode 1)))
+
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.

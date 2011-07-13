@@ -45,5 +45,5 @@ EDITOR=vi
 PS1="`uname -n`$ "
 NNTPSERVER="newshost.cc.utexas.edu"
 
-umask 077
+#umask 077
 export MAIL PS1 EDITOR MAILER
