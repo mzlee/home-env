@@ -15,7 +15,9 @@
 (setq fill-column 80)
 
 ;; Add installed modules
+(setq load-path (cons "~/.emacs.d/site-lisp" load-path))
 (setq load-path (cons "~/share/emacs/site-lisp" load-path))
+
 (require 'org-install)
 (require 'yaml-mode)
 
