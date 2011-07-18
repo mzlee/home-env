@@ -12,12 +12,16 @@
 
 ;; When in text (or related mode) break the lines at 80 chars
 ; (setq text-mode-hook 'turn-on-auto-fill)
-; (setq fill-column 80)
+(setq fill-column 80)
 
 ;; Add installed modules
 (setq load-path (cons "~/share/emacs/site-lisp" load-path))
 (require 'org-install)
 (require 'yaml-mode)
+
+(require 'org-velocity)
+(setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
+(global-set-key (kbd "C-c v") 'org-velocity-read)
 
 ;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -75,3 +79,14 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+
+;; Trying to define a new mode
+;(defvar javascript-mode-font-lock-keywords
+;   '(("\\(--.*\\)" 1 'font-lock-comment-face)))
+(define-derived-mode javascript-mode java-mode "JavaScript"
+  "Major mode to edit JavaScript files."
+;  (set (make-local-variable 'font-lock-keywords)
+;       '(javascript-mode-font-lock-keywords))
+;  (set (make-local-variable 'comment-start) "--"))
+  )
+(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
