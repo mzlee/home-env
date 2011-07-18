@@ -26,7 +26,8 @@
 ;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("Makefrag\\'" . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("Makefrag\\." . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("Makefile\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
 
