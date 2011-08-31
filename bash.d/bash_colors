@@ -1,0 +1,19 @@
+## Bash Colors
+TRUE="\033[1;32m"
+FALSE="\033[1;31m"
+NEUTRAL="\[\033[1;33m\]"
+ACCENT="\[\033[1;30m\]"
+LIGHT="\[\033[0;37m\]"
+BOLD_RETURN=$(echo -e $NEUTRAL)
+
+function prompt_command {
+    if [[ $? = 0 ]]; then
+	BOLD_RETURN=$(echo -e $TRUE)
+    else
+	BOLD_RETURN=$(echo -e $FALSE)
+    fi
+}
+function set_colors
+{
+    PS1="${debian_chroot:+($debian_chroot)}\${BOLD_RETURN}-$BOLD-($BASE\u$ACCENT@$BASE\h$ACCENT:$BASE\W$BOLD)-$LIGHT "
+}
