@@ -1,21 +1,3 @@
-case "$HOSTNAME" in
-    shappu2000)
-	BASE="\[\033[0;36m\]"
-	BOLD="\[\033[1;36m\]"
-	;;
-    habals)
-	BASE="\[\033[0;33m\]"
-	BOLD="\[\033[1;33m\]"
-	;;
-    dvorak)
-	BASE="\[\033[0;34m\]"
-	BOLD="\[\033[1;34m\]"
-	;;
-    *)
-	BASE="\[\033[0;35m\]"
-	BOLD="\[\033[1;35m\]"
-	;;
-esac
 case `uname -s` in
     Linux)
 	platform='linux'
