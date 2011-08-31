@@ -15,8 +15,9 @@
 (setq fill-column 80)
 
 ;; Add installed modules
-(setq load-path (cons "~/.emacs.d/site-lisp" load-path))
-(setq load-path (cons "~/share/emacs/site-lisp" load-path))
+(add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/share/emacs/site-lisp")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp")
 
 (require 'org-install)
 (require 'yaml-mode)
@@ -55,20 +56,20 @@
   (setq indent-tabs-mode nil)
   (setq python-basic-offset 4))
 
-(add-hook 'python-mode-hoo 'my-py-indent-setup)
+(defun my-org-indent-setup ()
+  (auto-fill-mode 1)
+  (setq indent-tabs-mode nil))
+
+(add-hook 'python-mode-hook 'my-py-indent-setup)
 (add-hook 'c-mode-hook 'my-c-indent-setup)
 (add-hook 'c++-mode-hook 'my-c-indent-setup)
-
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(add-hook 'html-mode-hook
-		  (setq tab-width 3))
+(add-hook 'html-mode-hook (setq tab-width 3))
+(add-hook 'tex-mode-hook (auto-fill-mode 1))
+(add-hook 'latex-mode-hook (auto-fill-mode 1))
+(add-hook 'org-mode-hook 'my-org-indent-setup)
 
 (put 'narrow-to-region 'disabled nil)
-
-(setq tex-mode-hook '(lambda () (auto-fill-mode 1)))
-(setq latex-mode-hook '(lambda () (auto-fill-mode 1)))
-(setq org-mode-hook '(lambda () (auto-fill-mode 1)))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
