@@ -19,7 +19,7 @@ alias g=""
 alias s=""
 
 alias less="less -R"
-if [ "$PLATFORM" == "Linux" ]; then
+if [ "$PLATFORM" == "linux" ]; then
    alias gopen="gnome-open"
 fi
 
