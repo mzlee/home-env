@@ -1,3 +1,4 @@
+# .bash_env
 case `uname -s` in
     Linux)
 	platform='linux'
@@ -19,8 +20,14 @@ export PYTHONPATH="$HOME/lib/python2.6/site-packages"
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 
-export HISTCONTROL=ignoredups:ignorespace
-export HISTSIZE=1000
-export HISTFILESIZE=2000
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=1000
+HISTFILESIZE=2000
+
 shopt -s histappend
 shopt -s checkwinsize
+
+if [ $PLATFORM = darwin ]
+then
+    test -r /sw/bin/init.sh && . /sw/bin/init.sh
+fi
