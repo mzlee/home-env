@@ -8,6 +8,8 @@ function profile_append {
 ## Check current platform and state
 [ -z "$PS1" ] && return
 
+users
+
 ## Grab-all for bash files
 BASH_DIR=~/.bash.d
 if [ -d $BASH_DIR ]; then
