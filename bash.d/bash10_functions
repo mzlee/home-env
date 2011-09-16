@@ -10,9 +10,10 @@ function choice {
     fi
 }
 
-function find_pub_machine {
+function pub_machine {
     local COUNT=0
-    if [ -f $HOME/.public_machines ]
+    DOMAIN=cs.utexas.edu
+    if [ -f $HOME/.${DOMAIN} ]
     then
 	if [ -n "$LAST_PUBLIC" ]
 	then
@@ -27,12 +28,12 @@ function find_pub_machine {
 	fi
 	while [ $COUNT -lt 5 -a -z "$LAST_PUBLIC" ]
 	do
-	    local mach=`choice $HOME/.public_machines`
-	    local ulist=`ssh $mach "users"`
+	    local mach=`choice $HOME/.${DOMAIN}`
+	    local ulist=`ssh $mach.${DOMAIN} "users"`
 	    echo "$mach => $ulist"
 	    if [ -z "$ulist" ]
 	    then
-		export LAST_PUBLIC=$mach
+		export LAST_PUBLIC=${mach}.${DOMAIN}
 	    fi
 	    local COUNT=`expr $COUNT + 1`
 	done
@@ -42,7 +43,7 @@ function find_pub_machine {
 function pub_connect {
     while [ -z "$LAST_PUBLIC" ]
     do
-	find_pub_machine
+	pub_machine
     done
-    ssh $USERNAME@$LAST_PUBLIC $@
+    ssh `whoami`@$LAST_PUBLIC $@
 }
