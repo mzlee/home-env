@@ -18,7 +18,13 @@ export EDITOR='emacs -nw'
 export PRINTER='lw32'
 export PYTHONPATH="$HOME/lib/python2.6/site-packages"
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
-export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
+if [ $PLATFORM = darwin ]
+then
+    export CLICOLOR=1
+    export LSCOLORS=ExFxCxDxBxegedabagacad
+else
+    export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
+fi
 
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=1000
