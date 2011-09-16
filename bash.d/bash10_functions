@@ -41,11 +41,15 @@ function pub_machine {
 }
 
 function pub_connect {
-    while [ -z "$LAST_PUBLIC" ]
-    do
-	pub_machine
-    done
-    ssh `whoami`@$LAST_PUBLIC $@
+    DOMAIN=cs.utexas.edu
+    if [ -f $HOME/.${DOMAIN} ]
+    then
+	while [ -z "$LAST_PUBLIC" ]
+	do
+	    pub_machine
+	done
+	ssh `whoami`@$LAST_PUBLIC $@
+    fi
 }
 
 OLD_CP=/bin/cp
