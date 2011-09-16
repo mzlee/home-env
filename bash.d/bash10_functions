@@ -10,7 +10,7 @@ function choice {
     fi
 }
 
-function find_pub_machine {
+function pub_machine {
     local COUNT=0
     if [ -f $HOME/.public_machines ]
     then
@@ -44,5 +44,56 @@ function pub_connect {
     do
 	find_pub_machine
     done
-    ssh $USERNAME@$LAST_PUBLIC $@
+    ssh $LAST_PUBLIC $@
+}
+
+OLD_CP=/bin/cp
+
+function cp {
+    args=( $@ )
+    progress=0
+    i=0
+    for arg in ${args}
+    do
+	if [ $arg = "--progress" ]
+	then
+	    progress=1
+	fi
+	i=`expr i+1`
+    done
+
+    if [ $progress = 0 -a $PLATFORM = linux ]
+    then
+	${OLD_CP} ${args[@]}
+    else
+	i=0
+	for arg in ${args[@]}
+	do
+	    if [ ${arg:0:1} = "-" ]
+	    then
+		unset args[i]
+	    fi
+	    i=`expr $i+1`
+	done
+	cp_p ${args[@]}
+    fi
+}
+
+function cp_p
+{
+   strace -q -ewrite ${OLD_CP} -- "${1}" "${2}" 2>&1 \
+      | awk '{
+        count += $NF
+            if (count % 10 == 0) {
+               percent = count / total_size * 100
+               printf "%3d%% [", percent
+               for (i=0;i<=percent;i++)
+                  printf "="
+               printf ">"
+               for (i=percent;i<100;i++)
+                  printf " "
+               printf "]\r"
+            }
+         }
+         END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
