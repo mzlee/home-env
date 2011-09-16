@@ -25,5 +25,5 @@ if [ $PLATFORM = linux ]
 then
     PROMPT_COMMAND=prompt_command
     set_colors
-    find_pub_machine
+    pub_machine
 fi
