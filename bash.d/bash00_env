@@ -37,3 +37,9 @@ if [ $PLATFORM = darwin ]
 then
     test -r /sw/bin/init.sh && . /sw/bin/init.sh
 fi
+
+`which mendeleydesktop > /dev/null`
+if [ $? = 0 ]
+then
+    export PAPERS_DIR="$HOME/Documents/papers"
+fi

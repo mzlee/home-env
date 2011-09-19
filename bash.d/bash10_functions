@@ -102,3 +102,23 @@ function cp_p
          }
          END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
+
+function papers
+{
+    if [ -n "$PAPERS_DIR" ]
+    then
+	DIR=`echo $1|tr '[:lower:]' '[:upper:]'`
+	IFS_BAK=$IFS
+	IFS="
+"
+	for d in `ls -1 $PAPERS_DIR`
+	do
+	    if [ "${d#*(}" = "$DIR)" ]
+	    then
+		cd "$PAPERS_DIR/${d}"
+		break
+	    fi
+	done
+	IFS=$IFS_BAK
+    fi
+}
