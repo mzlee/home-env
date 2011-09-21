@@ -1,2 +1,8 @@
 # .bash_cmds
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Bash Completion (don't remove me...)
+if [ -f /etc/bash_completion ] && ! shopt -oq posix
+then
+    . /etc/bash_completion
+fi
