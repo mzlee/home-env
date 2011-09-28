@@ -111,14 +111,76 @@ function papers
 	IFS_BAK=$IFS
 	IFS="
 "
-	for d in `ls -1 $PAPERS_DIR`
-	do
-	    if [ "${d#*(}" = "$DIR)" ]
+	if [ -z "${DIR}" ]
+	then
+	    local count=0
+	    for d in `ls -1 $PAPERS_DIR`
+	    do
+		if [ "${d#*\(}" != "${d}" ]
+		then
+		    printf "%12s\t" "(${d#*\(}"
+		    local count=`expr ${count} + 1`
+		    if [ ${count} = 8 ]
+		    then
+			printf "\n"
+			count=0
+		    fi
+		fi
+	    done
+	    if [ ${count} != 0 ]
 	    then
-		cd "$PAPERS_DIR/${d}"
-		break
+		printf "\n"
 	    fi
-	done
+	else
+	    for d in `ls -1 $PAPERS_DIR`
+	    do
+		if [ "${d#*\(}" = "$DIR)" ]
+		then
+		    cd "$PAPERS_DIR/${d}"
+		    break
+		fi
+	    done
+	fi
+	IFS=$IFS_BAK
+    fi
+}
+
+function notes
+{
+    if [ -n "$NOTES_DIR" ]
+    then
+	DIR=`echo $1|tr '[:upper:]' '[:lower:]'`
+	IFS_BAK=$IFS
+	IFS="
+"
+	if [ -z ${DIR} ]
+	then
+	    local count=0
+	    for d in `ls -1 $NOTES_DIR`
+	    do
+		printf "%8s\t" ${d}
+		count=`expr ${count} + 1`
+		if [ ${count} = 8 ]
+		then
+		    printf "\n"
+		    count=0
+		fi
+	    done
+	    if [ ${count} != 0 ]
+	    then
+		printf "\n"
+	    fi
+	else
+	    for d in `ls -1 $NOTES_DIR`
+	    do
+		if [ "${d#${DIR}*}" != "${d}" ]
+		then
+		    IFS=$IFS_BAK
+		    emacs "$NOTES_DIR/${d}/notes.org"
+		    break
+		fi
+	    done
+	fi
 	IFS=$IFS_BAK
     fi
 }

@@ -47,5 +47,10 @@ shopt -s checkwinsize
 `which mendeleydesktop > /dev/null`
 if [ $? = 0 ]
 then
-    export PAPERS_DIR="$HOME/Documents/papers"
+    PAPERS_DIR="$HOME/Documents/papers"
+    export PAPERS_DIR
 fi
+
+# Look for the first directory called notes and set that
+NOTES_DIR=$(readlink -f `find $HOME/Documents/ -type d -name notes -print -quit` 2> /dev/null)
+export NOTES_DIR
