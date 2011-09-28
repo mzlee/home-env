@@ -52,5 +52,5 @@ then
 fi
 
 # Look for the first directory called notes and set that
-NOTES_DIR=$(readlink -f `find $HOME/Documents/ -type d -name notes -print -quit` 2> /dev/null)
+NOTES_DIR=$(readlink -f `find $HOME/ -type d -name notes -print -quit` 2> /dev/null)
 export NOTES_DIR
