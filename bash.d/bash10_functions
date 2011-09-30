@@ -10,6 +10,19 @@ function choice {
     fi
 }
 
+function check_machine {
+    local mach="$1"
+    local ulist=`ssh $mach "users"`;
+    for u in $ulist
+    do
+	if [ $u != mzlee ]
+	then
+	    return ""
+	fi
+    done
+    return $mach
+}
+
 function pub_machine {
     local COUNT=0
     DOMAIN=cs.utexas.edu
@@ -17,24 +30,17 @@ function pub_machine {
     then
 	if [ -n "$LAST_PUBLIC" ]
 	then
-	    local ulist=`ssh $LAST_PUBLIC "users"`;
-	    for u in $ulist
-	    do
-		if [ $u != mzlee ]
-		then
-		    export LAST_PUBLIC=""
-		fi
-	    done
+	    LAST_PUBLIC=check_machine $LAST_PUBLIC
+	    export LAST_PUBLIC
 	fi
 	while [ $COUNT -lt 5 -a -z "$LAST_PUBLIC" ]
 	do
 	    local mach=`choice $HOME/.${DOMAIN}`
-	    echo "Trying ${mach}..."
-	    local ulist=`ssh $mach.${DOMAIN} "users"`
-	    echo "$mach => $ulist"
-	    if [ -z "$ulist" ]
+	    debug "Trying ${mach}..."
+	    local mach=check_machine "$mach.${DOMAIN}"
+	    if [ -z "$mach" ]
 	    then
-		export LAST_PUBLIC=${mach}.${DOMAIN}
+		export LAST_PUBLIC=$mach
 	    fi
 	    local COUNT=`expr $COUNT + 1`
 	done

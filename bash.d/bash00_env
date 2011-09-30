@@ -1,4 +1,5 @@
 # .bash_env
+debug Platform
 case `uname -s` in
     Linux)
 	platform='linux'
@@ -16,16 +17,21 @@ esac
 export PLATFORM="$platform"
 
 ## Path
+debug Path
 export PATH=${HOME}/bin:${PATH}
 export LD_LIBRARY_PATH=${HOME}/lib:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
 
 ## Editor
+debug Editor
 export EDITOR='emacs -nw'
 
 ## Python
+debug Python
 export PYTHONPATH="$HOME/lib/python2.6/site-packages"
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
+## Platform
+debug Platform
 if [ $PLATFORM = darwin ]
 then
     export CLICOLOR=1
@@ -37,6 +43,7 @@ then
     export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 fi
 
+debug History
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -44,6 +51,7 @@ HISTFILESIZE=2000
 shopt -s histappend
 shopt -s checkwinsize
 
+debug Papers
 `which mendeleydesktop > /dev/null`
 if [ $? = 0 ]
 then
@@ -51,6 +59,9 @@ then
     export PAPERS_DIR
 fi
 
+debug Notes
 # Look for the first directory called notes and set that
 NOTES_DIR=$(readlink -f `find $HOME/ -type d -name notes -print -quit` 2> /dev/null)
 export NOTES_DIR
+
+debug Done

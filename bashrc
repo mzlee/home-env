@@ -5,10 +5,15 @@ function profile_append {
     export PROFILE="$PROFILE:$1"
 }
 
+function debug {
+    if [ -n "${DEBUG}" ]
+    then
+	echo $@
+    fi
+}
+
 ## Check current platform and state
 [ -z "$PS1" ] && return
-
-users
 
 ## Grab-all for bash files
 BASH_DIR=~/.bash.d
