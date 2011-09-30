@@ -29,6 +29,7 @@ function pub_machine {
 	while [ $COUNT -lt 5 -a -z "$LAST_PUBLIC" ]
 	do
 	    local mach=`choice $HOME/.${DOMAIN}`
+	    echo "Trying ${mach}..."
 	    local ulist=`ssh $mach.${DOMAIN} "users"`
 	    echo "$mach => $ulist"
 	    if [ -z "$ulist" ]
