@@ -21,6 +21,7 @@
 
 (require 'org-install)
 (require 'yaml-mode)
+(require 'matlab-mode)
 
 (require 'org-velocity)
 (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
