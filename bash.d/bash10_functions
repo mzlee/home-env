@@ -137,7 +137,8 @@ function papers
 	else
 	    for d in `ls -1 $PAPERS_DIR`
 	    do
-		if [ "${d#*\(}" = "$DIR)" ]
+		D=`echo ${d#*\(}|tr '[:lower:]' '[:upper:]'`
+		if [ "${D}" = "$DIR)" ]
 		then
 		    cd "$PAPERS_DIR/${d}"
 		    break
