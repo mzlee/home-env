@@ -32,3 +32,8 @@ then
     set_colors
     pub_machine
 fi
+
+if [ -d '/lusr/opt/condor' ]
+then
+    /lusr/opt/condor/bin/condor_vacate > /dev/null
+fi
