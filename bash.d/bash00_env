@@ -18,7 +18,7 @@ export PLATFORM="$platform"
 
 ## Path
 debug Path
-export PATH=${HOME}/bin:${PATH}
+export PATH=${HOME}/bin:${PATH}:/opt/google/chrome/
 export LD_LIBRARY_PATH=${HOME}/lib:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
 
 ## Editor
