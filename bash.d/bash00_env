@@ -67,4 +67,7 @@ then
     export NOTES_DIR
 fi
 
+# Set the locale
+export LANG=en_US.utf8
+
 debug Done
