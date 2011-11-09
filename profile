@@ -14,14 +14,21 @@ if [ -f /lusr/lib/misc/path.sh ]; then
 fi
 # !! DO NOT REMOVE THIS BLOCK !!
 
-case "$HOSTNAME" in
-    habals|dvorak)
+FQDN=`hostname --long`
+case "$FQDN" in
+    *.csres.utexas.edu)
 	PUBLIC_MACHINE=0
 	;;
-    *)
+    *.cs.utexas.edu)
 	PUBLIC_MACHINE=1
 	;;
+    *)
+        echo ${FQDN}
+        PUBLIC_MACHINE=1
+        ;;
 esac
+
+export FQDN
 
 if [ $PUBLIC_MACHINE -eq 1 ]; then
     umask 077
