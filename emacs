@@ -43,7 +43,7 @@
 (global-font-lock-mode 1)                     ; for all buffers
 (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 
-(setq c-basic-offset 3)
+(setq c-basic-offset 4)
 (setq python-basic-offset 4)
 
 (global-set-key [?\M-1] 'goto-line)
@@ -65,6 +65,10 @@
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
   (c-set-style "linux-tabs-only"))
+
+(defun java-code-indent-setup ()
+  (setq indent-tabs-mode nil)
+  (setq c-basic-offset 4))
 
 (defun my-py-indent-setup ()
   (setq indent-tabs-mode nil)
@@ -94,6 +98,7 @@
 		(c-kernel-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
+(add-hook 'java-mode-hook 'java-code-indent-setup)
 (add-hook 'python-mode-hook 'my-py-indent-setup)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'html-mode-hook (setq tab-width 3))
