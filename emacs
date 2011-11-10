@@ -49,9 +49,22 @@
 (global-set-key [?\M-1] 'goto-line)
 (global-set-key [?\M-5] 'query-replace-regexp)
 
-(defun my-c-indent-setup ()
+(defun c-lineup-arglist-tabs-only (ignored)
+  "Line up argument lists by tabs, not spaces"
+  (let* ((anchor (c-langelem-pos c-syntactic-element))
+	 (column (c-langelem-2nd-pos c-syntactic-element))
+	 (offset (- (1+ column) anchor))
+	 (steps (floor offset c-basic-offset)))
+    (* (max steps 1)
+       c-basic-offset)))
+
+(defun c-user-code-indent-setup ()
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 3))
+
+(defun c-kernel-code-indent-setup ()
+  (setq indent-tabs-mode t)
+  (c-set-style "linux-tabs-only"))
 
 (defun my-py-indent-setup ()
   (setq indent-tabs-mode nil)
@@ -61,9 +74,27 @@
   (auto-fill-mode 1)
   (setq indent-tabs-mode nil))
 
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            ;; Add kernel style
+            (c-add-style
+             "linux-tabs-only"
+             '("linux" (c-offsets-alist
+                        (arglist-cont-nonempty
+                         c-lineup-gcc-asm-reg
+                         c-lineup-arglist-tabs-only))))))
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable kernel mode for the appropriate files
+              (when (and filename
+                         (string-match (expand-file-name "~/linux")
+                                       filename))
+		(c-kernel-code-indent-setup)))))
+(add-hook 'c-mode-hook 'c-user-code-indent-setup)
+(add-hook 'c++-mode-hook 'c-user-code-indent-setup)
 (add-hook 'python-mode-hook 'my-py-indent-setup)
-(add-hook 'c-mode-hook 'my-c-indent-setup)
-(add-hook 'c++-mode-hook 'my-c-indent-setup)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'html-mode-hook (setq tab-width 3))
 (add-hook 'tex-mode-hook (auto-fill-mode 1))
