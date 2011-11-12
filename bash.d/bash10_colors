@@ -54,7 +54,7 @@ esac
 
 TRUE="\033[1;32m"
 FALSE="\033[1;31m"
-NEUTRAL="\[\033[1;33m\]"
+NEUTRAL="\033[1;33m"
 ACCENT="\[\033[1;30m\]"
 LIGHT="\[\033[0;37m\]"
 BOLD_RETURN=$(echo -e $NEUTRAL)

@@ -11,12 +11,17 @@ alias emacs="emacs -nw"
 alias emasc="emacs -nw"
 alias emac="emacs -nw"
 
+# grep aliases
+alias grhn="grep -rHn"
+alias grin="grep -rHni"
+
 # useful commands
 alias wtf='watch -n 1 w -hs'
 
 # removing default commands
 alias g=""
 alias s=""
+
 
 alias less="less -R"
 if [ "$PLATFORM" == "linux" ]; then
