@@ -70,20 +70,25 @@ function cp {
 	i=`expr i+1`
     done
 
-    if [ $progress = 0 -a $PLATFORM = linux ]
+    if [ $PLATFORM = linux ]
     then
-	${OLD_CP} ${args[@]}
+	if [ $progress = 0 ]
+	then
+	    ${OLD_CP} ${args[@]}
+	else
+	    i=0
+	    for arg in ${args[@]}
+	    do
+		if [ ${arg:0:1} = "-" ]
+		then
+		    unset args[i]
+		fi
+		i=`expr $i+1`
+	    done
+	    cp_p ${args[@]}
+	fi
     else
-	i=0
-	for arg in ${args[@]}
-	do
-	    if [ ${arg:0:1} = "-" ]
-	    then
-		unset args[i]
-	    fi
-	    i=`expr $i+1`
-	done
-	cp_p ${args[@]}
+	${OLD_CP} ${args[@]}
     fi
 }
 
