@@ -70,4 +70,9 @@ fi
 # Set the locale
 export LANG=en_US.utf8
 
+if [ ${TERM} != screen ]
+then
+    [ -f ${HOME}/.Xmodmap ] && xmodmap ${HOME}/.Xmodmap 2> /dev/null
+fi
+
 debug Done

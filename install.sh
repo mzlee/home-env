@@ -1,7 +1,7 @@
 #!/bin/sh
 
 HOME_ENV=`pwd`
-DEFAULT_FILES="bash.d  bashrc bash_logout  emacs  gitconfig  gitignore profile pythonrc.py"
+DEFAULT_FILES="bash.d  bashrc bash_logout  emacs  gitconfig  gitignore profile pythonrc.py Xmodmap"
 FILES=${@:-${DEFAULT_FILES}}
 
 for FILE in ${FILES}
