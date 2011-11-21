@@ -31,7 +31,7 @@ function pub_machine {
 	then
 	    check_machine
 	fi
-	while [ $COUNT -lt 5 -a -z "$LAST_PUBLIC" ]
+	while [ -z "$LAST_PUBLIC" ]
 	do
 	    local mach=`choice $HOME/.${DOMAIN}`
 	    echo "Trying ${mach}..."
@@ -47,10 +47,7 @@ function pub_connect {
     DOMAIN=cs.utexas.edu
     if [ -f $HOME/.${DOMAIN} ]
     then
-	while [ -z "$LAST_PUBLIC" ]
-	do
-	    pub_machine
-	done
+	pub_machine
 	ssh `whoami`@$LAST_PUBLIC $@
     fi
 }
