@@ -28,9 +28,9 @@ fi
 ## Happens after everything is setup
 if [ $PLATFORM = linux ]
 then
-    PROMPT_COMMAND=prompt_command
+#    PROMPT_COMMAND=prompt_command
     set_colors
-    pub_machine
+#    pub_machine
 fi
 
 if [ -d '/lusr/opt/condor' ]
