@@ -69,6 +69,7 @@ fi
 
 # Set the locale
 export LANG=en_US.utf8
+export TZ="America/Chicago"
 
 if [ ${TERM} != screen ]
 then
