@@ -2,30 +2,33 @@
 
 # ls aliases
 alias la='ls -AF'
-alias ll="ls -l"
+alias ll='ls -l'
 alias l='ls -AlF'
-alias sl="ls"
+
+# typos
+alias sl='ls'
+alias dc='cd'
 
 # emacs aliases
-alias emacs="emacs -nw"
-alias emasc="emacs -nw"
-alias emac="emacs -nw"
+alias emacs='emacs -nw'
+alias emasc='emacs -nw'
+alias emac='emacs -nw'
 
 # grep aliases
-alias grhn="grep -rHn"
-alias grin="grep -rHni"
+alias grhn='grep -rHn'
+alias grin='grep -rHni'
 
 # useful commands
 alias wtf='watch -n 1 w -hs'
 
 # removing default commands
-alias g=""
-alias s=""
+alias g=''
+alias s=''
 
 
-alias less="less -R"
-if [ "$PLATFORM" == "linux" ]; then
-   alias gopen="gnome-open"
+alias less='less -R'
+if [ '$PLATFORM' == 'linux' ]; then
+   alias gopen='gnome-open'
 fi
 
 # svn commands
