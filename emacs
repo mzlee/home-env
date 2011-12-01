@@ -93,8 +93,10 @@
             (let ((filename (buffer-file-name)))
               ;; Enable kernel mode for the appropriate files
               (when (and filename
-                         (string-match (expand-file-name "~/linux")
-                                       filename))
+			 (or
+			  (string-match (expand-file-name "~/linux") filename)
+			  (string-match (expand-file-name "~/privos/host") filename)
+			  ))
 		(c-kernel-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
