@@ -101,7 +101,7 @@
 (add-hook 'java-mode-hook 'java-code-indent-setup)
 (add-hook 'python-mode-hook 'my-py-indent-setup)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-hook 'html-mode-hook (setq tab-width 3))
+(add-hook 'html-mode-hook (setq tab-width 4))
 (add-hook 'tex-mode-hook (auto-fill-mode 1))
 (add-hook 'latex-mode-hook (auto-fill-mode 1))
 (add-hook 'org-mode-hook 'my-org-indent-setup)
