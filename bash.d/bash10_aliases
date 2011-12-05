@@ -25,6 +25,11 @@ alias wtf='watch -n 1 w -hs'
 alias g=''
 alias s=''
 
+alias keyon="ssh-add -t 10800"
+alias keyoff='ssh-add -D'
+alias keylist='ssh-add -l'
+alias keylock='ssh-add -x'
+alias keyunlock='ssh-add -X'
 
 alias less='less -R'
 if [ '$PLATFORM' == 'linux' ]; then
