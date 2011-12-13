@@ -14,7 +14,7 @@ if [ -f /lusr/lib/misc/path.sh ]; then
 fi
 # !! DO NOT REMOVE THIS BLOCK !!
 
-FQDN=`hostname -f`
+FQDN=$(hostname -f)
 case "$FQDN" in
     *.csres.utexas.edu)
 	PUBLIC_MACHINE=0
