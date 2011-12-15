@@ -48,6 +48,7 @@
 
 (global-set-key [?\M-1] 'goto-line)
 (global-set-key [?\M-5] 'query-replace-regexp)
+(global-set-key "\C-x/" 'comment-or-uncomment-region)
 
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
