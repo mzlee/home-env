@@ -84,7 +84,9 @@ then
 fi
 
 # Set the locale
-export LANG=en_US.utf8
+if [ ${PLATFORM} == 'linux' ]; then
+    export LANG=en_US.utf8
+fi
 export TZ="America/Chicago"
 
 if [ ${TERM} != screen ]
