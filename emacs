@@ -48,6 +48,7 @@
 
 (global-set-key [?\M-1] 'goto-line)
 (global-set-key [?\M-5] 'query-replace-regexp)
+(global-set-key "\C-x/" 'comment-or-uncomment-region)
 
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
@@ -93,8 +94,10 @@
             (let ((filename (buffer-file-name)))
               ;; Enable kernel mode for the appropriate files
               (when (and filename
-                         (string-match (expand-file-name "~/linux")
-                                       filename))
+			 (or
+			  (string-match (expand-file-name "~/linux") filename)
+			  (string-match (expand-file-name "~/privos/host") filename)
+			  ))
 		(c-kernel-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
