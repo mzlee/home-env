@@ -18,8 +18,24 @@ export PLATFORM="$platform"
 
 ## Path
 debug Path
-export PATH=${HOME}/bin:${PATH}:/opt/google/chrome/
-export LD_LIBRARY_PATH=${HOME}/lib:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
+extra_bin="${HOME}/bin /opt/google/chrome"
+extra_lib="${HOME}/lib /usr/local/lib /usr/lib"
+for path in ${extra_bin}
+do
+    if [ -d ${path} ]
+    then
+	PATH=${path}:${PATH}
+    fi
+done
+for path in ${extra_lib}
+do
+    if [ -d ${path} ]
+    then
+	LD_LIBRARY_PATH=${path}:${LD_LIBRARY_PATH}
+    fi
+done
+export PATH
+export LD_LIBRARY_PATH
 
 ## Editor
 debug Editor
@@ -75,5 +91,13 @@ if [ ${TERM} != screen ]
 then
     [ -f ${HOME}/.Xmodmap ] && xmodmap ${HOME}/.Xmodmap 2> /dev/null
 fi
+
+#if [ `id -u` != 0 ]; then
+#  export VIRTUALENV_USE_DISTRIBUTE="1"
+#  export WORKON_HOME="$HOME/.virtualenvs"
+#  . /usr/local/bin/virtualenvwrapper.sh
+#  export PIP_VIRTUALENV_BASE="$WORKON_HOME"
+#  export PIP_RESPECT_VIRTUALENV="true"
+#fi
 
 debug Done

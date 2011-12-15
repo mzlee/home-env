@@ -16,8 +16,8 @@
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-(add-to-list 'load-path "~/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
 (require 'org-install)
 (require 'yaml-mode)
