@@ -19,11 +19,14 @@ case "$FQDN" in
     *.csres.utexas.edu)
 	PUBLIC_MACHINE=0
 	;;
+    mzlee-*)
+	PUBLIC_MACHINE=0
+	;;
     *.cs.utexas.edu)
 	PUBLIC_MACHINE=1
 	;;
     *)
-        echo ${FQDN}
+        echo "WARNING defaulting to public"
         PUBLIC_MACHINE=1
         ;;
 esac
