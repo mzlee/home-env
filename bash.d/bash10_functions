@@ -3,8 +3,7 @@ function choice {
     file="$1"
     lc=`wc -l < $file`
 
-    if [ "$lc" -gt 0 ]
-    then
+    if [ "$lc" -gt 0 ]; then
 	line=`expr 1 + $RANDOM % $lc`
 	head -n $line $file | tail -n 1
     fi
@@ -12,8 +11,7 @@ function choice {
 
 function check_machine {
     local ulist=`ssh $LAST_PUBLIC "users"`;
-    for u in $ulist
-    do
+    for u in $ulist; do
 	if [ $u != mzlee ]
 	then
 	    debug "$u"
@@ -25,14 +23,12 @@ function check_machine {
 function pub_machine {
     local COUNT=0
     DOMAIN=cs.utexas.edu
-    if [ -f $HOME/.${DOMAIN} ]
-    then
-	if [ -n "$LAST_PUBLIC" ]
-	then
+    if [ -f $HOME/.${DOMAIN} ]; then
+	if [ -n "$LAST_PUBLIC" ]; then
 	    check_machine
 	fi
-	while [ -z "$LAST_PUBLIC" ]
-	do
+
+	while [ -z "$LAST_PUBLIC" ]; do
 	    local mach=`choice $HOME/.${DOMAIN}`
 	    echo "Trying ${mach}..."
 	    LAST_PUBLIC="$mach.${DOMAIN}"
@@ -45,8 +41,7 @@ function pub_machine {
 
 function pub_connect {
     DOMAIN=cs.utexas.edu
-    if [ -f $HOME/.${DOMAIN} ]
-    then
+    if [ -f $HOME/.${DOMAIN} ]; then
 	pub_machine
 	ssh `whoami`@$LAST_PUBLIC $@
     fi
@@ -58,26 +53,20 @@ function cp {
     args=( $@ )
     progress=0
     i=0
-    for arg in ${args}
-    do
-	if [ $arg = "--progress" ]
-	then
+    for arg in ${args}; do
+	if [ $arg = "--progress" ]; then
 	    progress=1
 	fi
 	i=`expr i+1`
     done
 
-    if [ $PLATFORM = linux ]
-    then
-	if [ $progress = 0 ]
-	then
+    if [ $PLATFORM = linux ]; then
+	if [ $progress = 0 ]; then
 	    ${OLD_CP} ${args[@]}
 	else
 	    i=0
-	    for arg in ${args[@]}
-	    do
-		if [ ${arg:0:1} = "-" ]
-		then
+	    for arg in ${args[@]}; do
+		if [ ${arg:0:1} = "-" ]; then
 		    unset args[i]
 		fi
 		i=`expr $i+1`
@@ -110,38 +99,30 @@ function cp_p
 
 function papers
 {
-    if [ -n "$PAPERS_DIR" ]
-    then
+    if [ -n "$PAPERS_DIR" ]; then
 	DIR=`echo $1|tr '[:lower:]' '[:upper:]'`
 	IFS_BAK=$IFS
-	IFS="
-"
-	if [ -z "${DIR}" ]
-	then
+	IFS=$'\n'
+	if [ -z "${DIR}" ]; then
 	    local count=0
-	    for d in `ls -1 $PAPERS_DIR`
-	    do
-		if [ "${d#*\(}" != "${d}" ]
-		then
+	    for d in `ls -1 $PAPERS_DIR`; do
+		if [ "${d#*\(}" != "${d}" ]; then
 		    printf "%12s\t" "(${d#*\(}"
 		    local count=`expr ${count} + 1`
-		    if [ ${count} = 8 ]
-		    then
+		    if [ ${count} = 8 ]; then
 			printf "\n"
 			count=0
 		    fi
 		fi
 	    done
-	    if [ ${count} != 0 ]
-	    then
+
+	    if [ ${count} != 0 ]; then
 		printf "\n"
 	    fi
 	else
-	    for d in `ls -1 $PAPERS_DIR`
-	    do
+	    for d in `ls -1 $PAPERS_DIR`; do
 		D=`echo ${d#*\(}|tr '[:lower:]' '[:upper:]'`
-		if [ "${D}" = "$DIR)" ]
-		then
+		if [ "${D}" = "$DIR)" ]; then
 		    cd "$PAPERS_DIR/${d}"
 		    break
 		fi
@@ -153,34 +134,26 @@ function papers
 
 function notes
 {
-    if [ -n "$NOTES_DIR" ]
-    then
+    if [ -n "$NOTES_DIR" ]; then
 	DIR=`echo $1|tr '[:upper:]' '[:lower:]'`
 	IFS_BAK=$IFS
-	IFS="
-"
-	if [ -z ${DIR} ]
-	then
+	IFS=$'\n'
+	if [ -z ${DIR} ]; then
 	    local count=0
-	    for d in `ls -1 $NOTES_DIR`
-	    do
+	    for d in `ls -1 $NOTES_DIR`; do
 		printf "%8s\t" ${d}
 		count=`expr ${count} + 1`
-		if [ ${count} = 8 ]
-		then
+		if [ ${count} = 8 ]; then
 		    printf "\n"
 		    count=0
 		fi
 	    done
-	    if [ ${count} != 0 ]
-	    then
+	    if [ ${count} != 0 ]; then
 		printf "\n"
 	    fi
 	else
-	    for d in `ls -1 $NOTES_DIR`
-	    do
-		if [ "${d#${DIR}*}" != "${d}" ]
-		then
+	    for d in `ls -1 $NOTES_DIR`; do
+		if [ "${d#${DIR}*}" != "${d}" ]; then
 		    IFS=$IFS_BAK
 		    emacs "$NOTES_DIR/${d}/notes.org"
 		    break
