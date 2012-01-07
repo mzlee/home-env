@@ -52,3 +52,14 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
+# Hadoop Aliases
+unalias fs &> /dev/null
+unalias hls &> /dev/null
+alias fs='hadoop dfs'
+alias hls='fs -ls'
+alias hrm='fs -rm'
+alias hrmr='fs -rmr'
+alias hcat='fs -cat'
+alias hput='fs -put'
+alias hget='fs -get'
