@@ -22,6 +22,9 @@ case "$FQDN" in
     mzlee-*)
 	PUBLIC_MACHINE=0
 	;;
+    wireless-*)
+	PUBLIC_MACHINE=0
+	;;
     *.cs.utexas.edu)
 	PUBLIC_MACHINE=1
 	;;
