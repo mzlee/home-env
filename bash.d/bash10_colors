@@ -55,18 +55,18 @@ esac
 TRUE="\033[1;32m"
 FALSE="\033[1;31m"
 NEUTRAL="\033[1;33m"
-ACCENT="\[\033[1;30m\]"
-LIGHT="\[\033[0;37m\]"
-BOLD_RETURN=$(echo -e $NEUTRAL)
+ACCENT="\\[\033[1;30m\\]"
+LIGHT="\\[\033[0;37m\\]"
 
 function prompt_command {
     if [[ $? = 0 ]]; then
-	BOLD_RETURN=$(echo -e $TRUE)
+	echo -e $TRUE
     else
-	BOLD_RETURN=$(echo -e $FALSE)
+	echo -e $FALSE
     fi
 }
+## PROMPT_COMMAND=prompt_command
 function set_colors
 {
-    PS1="${debian_chroot:+($debian_chroot)}\${BOLD_RETURN}-$BOLD-($BASE\u$ACCENT@$BASE\h$ACCENT:$BASE\W$BOLD)-$LIGHT "
+    PS1="${debian_chroot:+($debian_chroot)}\$(prompt_command)-$BOLD-($BASE\u$ACCENT@$BASE\h$ACCENT:$BASE\W$BOLD)-$LIGHT "
 }
