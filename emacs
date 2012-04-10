@@ -67,6 +67,10 @@
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 3))
 
+(defun c-qemu-code-indent-setup ()
+  (setq indent-tabs-mode nil)
+  (setq c-basic-offset 4))
+
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
   (c-set-style "linux-tabs-only"))
@@ -98,11 +102,15 @@
             (let ((filename (buffer-file-name)))
               ;; Enable kernel mode for the appropriate files
               (when (and filename
-			 (or
-			  (string-match (expand-file-name "~/linux") filename)
-			  (string-match (expand-file-name "~/privos/host") filename)
-			  ))
+			 (string-match "/linux.*/" filename))
 		(c-kernel-code-indent-setup)))))
+(add-hook 'c-mode-hook
+	  (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable kernel mode for the appropriate files
+              (when (and filename
+			 (string-match "/qemu.*/" filename ))
+		(c-qemu-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
 (add-hook 'java-mode-hook 'java-code-indent-setup)
