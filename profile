@@ -25,6 +25,9 @@ case "$FQDN" in
     wireless-*)
 	PUBLIC_MACHINE=0
 	;;
+    chopin)
+	PUBLIC_MACHINE=0
+	;;
     *.cs.utexas.edu)
 	PUBLIC_MACHINE=1
 	;;
