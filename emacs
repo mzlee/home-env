@@ -22,10 +22,14 @@
 (require 'org-install)
 (require 'yaml-mode)
 (require 'matlab-mode)
-
 (require 'org-velocity)
+
+;; Add modes
 (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
 (global-set-key (kbd "C-c v") 'org-velocity-read)
+
+(load "folding" 'nomessage 'noerror)
+(folding-mode-add-find-file-hook)
 
 ;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
