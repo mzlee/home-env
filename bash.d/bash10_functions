@@ -47,6 +47,26 @@ function pub_connect {
     fi
 }
 
+function pub_cpto {
+    DOMAIN=cs.utexas.edu
+    if [ -f $HOME/.${DOMAIN} ]; then
+	pub_machine
+	local SRC=$1
+	local DEST=${2:-${SRC}}
+	scp $SRC `whoami`@$LAST_PUBLIC:$DEST
+    fi
+}
+
+function pub_cpfrom {
+    DOMAIN=cs.utexas.edu
+    if [ -f $HOME/.${DOMAIN} ]; then
+	pub_machine
+	local SRC=$1
+	local DEST=${2:-${SRC}}
+	scp `whoami`@$LAST_PUBLIC:$SRC $DEST
+    fi
+}
+
 OLD_CP=/bin/cp
 
 function cp {
@@ -130,6 +150,12 @@ function papers
 	fi
 	IFS=$IFS_BAK
     fi
+}
+
+function find_notes
+{
+    NOTES_DIR=$(readlink -f `find $HOME/ -type d -name notes -print -quit` 2> /dev/null)
+    export NOTES_DIR
 }
 
 function notes
