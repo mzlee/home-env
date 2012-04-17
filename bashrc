@@ -35,5 +35,5 @@ fi
 
 if [ -d '/lusr/opt/condor' ]
 then
-    /lusr/opt/condor/bin/condor_vacate > /dev/null
+    # /lusr/opt/condor/bin/condor_vacate > /dev/null
 fi
