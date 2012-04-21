@@ -190,8 +190,18 @@ function notes
     fi
 }
 
+function notify-end
+{
+    local JOB=$1
+    while [ 1 ]; do
+	notify-send "FINISHED JOB on $HOSTNAME: $JOB"
+	sleep 5
+    done
+}
+
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
 #find and list processes matching a case-insensitive partial-match string
+# Mostly for OSX
 function fp
 {
     arg=${1-'.*'}
