@@ -190,13 +190,9 @@ function notes
     fi
 }
 
-function notify-end
+function bell
 {
-    local JOB=$1
-    while [ 1 ]; do
-	notify-send "FINISHED JOB on $HOSTNAME: $JOB"
-	sleep 5
-    done
+    notify-send "FINISHED JOB on $HOSTNAME: $@"
 }
 
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
