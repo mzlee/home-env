@@ -28,9 +28,6 @@
 (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
 (global-set-key (kbd "C-c v") 'org-velocity-read)
 
-(load "folding" 'nomessage 'noerror)
-(folding-mode-add-find-file-hook)
-
 ;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
@@ -71,6 +68,10 @@
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 4))
 
+(defun c-qt-code-indent-setup ()
+  (setq indent-tabs-mode nil)
+  (setq c-basic-offset 4))
+
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
   (c-set-style "linux-tabs-only"))
@@ -89,7 +90,6 @@
 
 (add-hook 'c-mode-common-hook
           (lambda ()
-            ;; Add kernel style
             (c-add-style
              "linux-tabs-only"
              '("linux" (c-offsets-alist
@@ -111,6 +111,13 @@
               (when (and filename
 			 (string-match "/qemu.*/" filename ))
 		(c-qemu-code-indent-setup)))))
+(add-hook 'c-mode-hook
+	  (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable kernel mode for the appropriate files
+              (when (and filename
+			 (string-match "/qt.*/" filename ))
+		(c-qt-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
 (add-hook 'java-mode-hook 'java-code-indent-setup)
