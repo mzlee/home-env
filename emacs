@@ -66,14 +66,17 @@
 
 (defun c-qemu-code-indent-setup ()
   (setq indent-tabs-mode nil)
+  (setq vc-handled-backends nil)
   (setq c-basic-offset 4))
 
 (defun c-qt-code-indent-setup ()
   (setq indent-tabs-mode nil)
+  (setq vc-handled-backends nil)
   (setq c-basic-offset 4))
 
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
+  (setq vc-handled-backends nil)
   (c-set-style "linux-tabs-only"))
 
 (defun java-code-indent-setup ()
