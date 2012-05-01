@@ -96,7 +96,7 @@ fi
 
 debug Done
 
-export HADOOP_HOME=/var/local/airavat/hadoop
-export HADOOP_CONF_DIR=/var/local/airavat/hadoop/conf
-export JAVA_HOME=/usr/lib/jvm/j2sdk-image
-export PATH=$PATH:$HADOOP_HOME/bin
+# export HADOOP_HOME=/var/local/airavat/hadoop
+# export HADOOP_CONF_DIR=/var/local/airavat/hadoop/conf
+# export JAVA_HOME=/usr/lib/jvm/j2sdk-image
+# export PATH=$PATH:$HADOOP_HOME/bin
