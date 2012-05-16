@@ -160,13 +160,13 @@ function find_notes
 
 function notes
 {
-    if [ -n "$NOTES_DIR" ]; then
+    if [ -n "${NOTES_DIR}" ]; then
 	DIR=`echo $1|tr '[:upper:]' '[:lower:]'`
 	IFS_BAK=$IFS
 	IFS=$'\n'
 	if [ -z ${DIR} ]; then
 	    local count=0
-	    for d in `ls -1 $NOTES_DIR`; do
+	    for d in `ls -1 ${NOTES_DIR}`; do
 		printf "%8s\t" ${d}
 		count=`expr ${count} + 1`
 		if [ ${count} = 8 ]; then
@@ -178,15 +178,44 @@ function notes
 		printf "\n"
 	    fi
 	else
-	    for d in `ls -1 $NOTES_DIR`; do
+	    for d in `ls -1 ${NOTES_DIR}`; do
 		if [ "${d#${DIR}*}" != "${d}" ]; then
 		    IFS=$IFS_BAK
-		    emacs "$NOTES_DIR/${d}/notes.org"
-		    break
+		    emacs "${NOTES_DIR}/${d}/notes.org"
+		    __commit_notes  ${d}/notes.org
+		    return
 		fi
 	    done
+	    echo -n "Project not found.  Create new project [N/y]? "
+	    read create
+	    if [ "${create:0:1}" == 'y' -o "${create:0:1}" == 'Y' ]; then
+		IFS=$IFS_BAK
+		mkdir "${NOTES_DIR}/${DIR}"
+		echo "#+TITLE: ${DIR}" > "${NOTES_DIR}/${DIR}/notes.org"
+		cat "${NOTES_DIR}/.notes.tmpl" >> "${NOTES_DIR}/${DIR}/notes.org"
+		emacs "${NOTES_DIR}/${DIR}/notes.org"
+		__commit_notes ${DIR}/notes.org
+		return
+	    fi
 	fi
 	IFS=$IFS_BAK
+    fi
+}
+
+function __commit_notes
+{
+    if [ -n "${NOTES_DIR}" ]; then
+	DIR=${1}
+	echo -n "Commit changes to ${DIR} [N/y]? "
+	read commit
+	if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	    echo -n "Message? "
+	    read message
+	    pushd ${NOTES_DIR} > /dev/null
+	    git add ${DIR}
+	    git ci -m "${message}"
+	    popd > /dev/null
+	fi
     fi
 }
 
