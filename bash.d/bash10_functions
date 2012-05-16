@@ -182,8 +182,10 @@ function notes
 		if [ "${d#${DIR}*}" != "${d}" ]; then
 		    IFS=$IFS_BAK
 		    emacs "${NOTES_DIR}/${d}/notes.org"
-		    __git_commit ${NOTES_DIR} ${d}/notes.org
-		    return
+		    pushd ${NOTES_DIR} > /dev/null
+		    commit ${d}/notes.org
+		    popd > /dev/null
+		    return 0
 		fi
 	    done
 	    echo -n "Project not found.  Create new project [N/y]? "
@@ -194,8 +196,10 @@ function notes
 		echo "#+TITLE: ${DIR}" > "${NOTES_DIR}/${DIR}/notes.org"
 		cat "${NOTES_DIR}/.notes.tmpl" >> "${NOTES_DIR}/${DIR}/notes.org"
 		emacs "${NOTES_DIR}/${DIR}/notes.org"
-		__git_commit ${NOTES_DIR} ${DIR}/notes.org
-		return
+		pushd ${NOTES_DIR} > /dev/null
+		commit ${DIR}/notes.org
+		popd > /dev/null
+		return 0
 	    fi
 	fi
 	IFS=$IFS_BAK
@@ -204,38 +208,58 @@ function notes
 
 function commit
 {
-    local OBJ=${PWD}/${1}
-    local BASE_DIR=$(git rev-parse --show-toplevel 2> /dev/null)/
-    local is_git=$?
-    local OBJ=${OBJ#${BASE_DIR}}
+    git rev-parse --show-toplevel 1> /dev/null 2> /dev/null
+    local is_git=${?}
+    ls -d .svn 1> /dev/null 2>/dev/null
+    local is_svn=${?}
     if [ ${is_git} == 0 ]; then
+	local BASE_DIR=$(git rev-parse --show-toplevel 2> /dev/null)
+	local OBJ=${PWD#${BASE_DIR}}/${1}
+	local OBJ=${OBJ#/}
 	if [ -n "${OBJ}" ]; then
-	    __git_commit ${BASE_DIR} ${OBJ}
-	else
-	    echo -n "Commit everything [N/y]? "
-	    read all
-	    if [ "${all:0:1}" == 'y' -o "${all:0:1}" == 'Y' ]; then
-		echo "Silly, this is a bad idea..."
-	    fi
+	    __git_commit ${OBJ}
 	fi
+    elif [ ${is_svn} == 0 ]; then
+	local OBJ=${1}
+	if [ -n "${OBJ}" ]; then
+	    __svn_commit ${OBJ}
+	fi
+    else
+	echo "No valid repository found"
+	return 255
     fi
 }
 
 function __git_commit
 {
-    local GIT_DIR=${1}
-    local OBJ=${2}
-    if [ -d "${GIT_DIR}" ]; then
-	pushd ${GIT_DIR} > /dev/null
-	echo -n "Commit changes to ${OBJ} [N/y]? "
-	read commit
-	if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
-	    echo -n "Message? "
-	    read message
-	    git add ${OBJ}
-	    git ci -m "${message} (${OBJ})"
+    local OBJ=${1}
+    echo -n "Commit changes to ${OBJ} [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	echo -n "Message? "
+	read message
+	if [ -z "${message}" ]; then
+	    echo "Aborting"
+	    return 255
 	fi
-	popd > /dev/null
+	git add ${OBJ}
+	git ci -m "${message} (${OBJ})"
+    fi
+}
+
+function __svn_commit
+{
+    local OBJ=${1}
+    echo -n "Commit changes to ${OBJ} [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	echo -n "Message? "
+	read message
+	if [ -z "${message}" ]; then
+	    echo "Aborting"
+	    return 255
+	fi
+	svn ci ${OBJ} -m "${message} (${OBJ})"
     fi
 }
 
