@@ -4,3 +4,6 @@
 [submodule "yaml-mode"]
 	path = yaml-mode
 	url = git://github.com/yoshiki/yaml-mode.git
+[submodule "tuareg-mode"]
+	path = tuareg-mode
+	url = git://github.com/afeinberg/tuareg-mode.git
