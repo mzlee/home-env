@@ -11,7 +11,7 @@ do
     then
 	`diff -w -q ${HOME_ENV}/${FILE} ${HOME}/.${FILE} > /dev/null`
 	need_link=${?}
-	if [ ${?} -eq 1 ]
+	if [ ${need_link} -eq 1 ]
 	then
 	    mv ${HOME}/.${FILE} ${HOME}/.${FILE}-
 	fi
