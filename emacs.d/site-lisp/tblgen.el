@@ -956,18 +956,17 @@ Regexp match data 0 points to the chars."
     (define-key map "\C-c.l" 'tblgen-insert-let-form)
     (define-key map "\C-c.m" 'tblgen-insert-match-form)
     (define-key map "\C-c.t" 'tblgen-insert-try-form)
-    (when tblgen-with-caml-mode-p
-      ;; Trigger caml-types
-      (define-key map [?\C-c ?\C-t] 'caml-types-show-type)
-      ;; To prevent misbehavior in case of error during exploration.
-      (define-key map [(control mouse-2)] 'caml-types-mouse-ignore)
-      (define-key map [(control down-mouse-2)] 'caml-types-explore)
-      ;; Trigger caml-help
-      (define-key map [?\C-c ?i] 'ocaml-add-path)
-      (define-key map [?\C-c ?\[] 'ocaml-open-module)
-      (define-key map [?\C-c ?\]] 'ocaml-close-module)
-      (define-key map [?\C-c ?h] 'caml-help)
-      (define-key map [?\C-c ?\t] 'caml-complete))
+	;; Trigger caml-types
+	(define-key map [?\C-c ?\C-t] 'caml-types-show-type)
+	;; To prevent misbehavior in case of error during exploration.
+	(define-key map [(control mouse-2)] 'caml-types-mouse-ignore)
+	(define-key map [(control down-mouse-2)] 'caml-types-explore)
+	;; Trigger caml-help
+	(define-key map [?\C-c ?i] 'ocaml-add-path)
+	(define-key map [?\C-c ?\[] 'ocaml-open-module)
+	(define-key map [?\C-c ?\]] 'ocaml-close-module)
+	(define-key map [?\C-c ?h] 'caml-help)
+	(define-key map [?\C-c ?\t] 'caml-complete)
     map)
   "Keymap used in Tblgen mode.")
   
@@ -1097,8 +1096,6 @@ Special keys for Tblgen mode:\\{tblgen-mode-map}"
   (set-syntax-table tblgen-mode-syntax-table)
   (setq local-abbrev-table tblgen-mode-abbrev-table)
 
-  (tblgen-build-menu)
-
   (make-local-variable 'paragraph-start)
   (setq paragraph-start (concat "^[ \t]*$\\|\\*)$\\|" page-delimiter))
   (make-local-variable 'paragraph-separate)
@@ -1138,7 +1135,8 @@ Special keys for Tblgen mode:\\{tblgen-mode-map}"
    tblgen-font-lock-keywords
    (append
     (list
-     (list "\\<\\(external\\|open\\|include\\|rule\\|s\\(ig\\|truct\\)\\|module\\|functor\\|with[ \t\n]+\\(type\\|module\\)\\|val\\|type\\|method\\|virtual\\|constraint\\|class\\|in\\|inherit\\|initializer\\|let\\|rec\\|and\\|begin\\|object\\|end\\)\\>"
+     ;; (list "\\<\\(external\\|open\\|include\\|rule\\|s\\(ig\\|truct\\)\\|module\\|functor\\|with[ \t\n]+\\(type\\|module\\)\\|val\\|type\\|method\\|virtual\\|constraint\\|class\\|in\\|inherit\\|initializer\\|let\\|rec\\|and\\|begin\\|object\\|end\\)\\>"
+     (list "\\<\\(include\\|val\\|type\\|class\\|multiclass\\|in\\|let\\|and\\|or\\)\\>"
 	   0 'tblgen-font-lock-governing-face nil nil))
     (if tblgen-support-metaocaml
 	(list (list "\\.<\\|>\\.\\|\\.~\\|\\.!"
@@ -1147,7 +1145,8 @@ Special keys for Tblgen mode:\\{tblgen-mode-map}"
     (list
      (list "\\<\\(false\\|true\\)\\>"
 	   0 'font-lock-constant-face nil nil)
-     (list "\\<\\(as\\|do\\(ne\\|wnto\\)?\\|else\\|for\\|if\\|m\\(atch\\|utable\\)\\|new\\|p\\(arser\\|rivate\\)\\|t\\(hen\\|o\\|ry\\)\\|w\\(h\\(en\\|ile\\)\\|ith\\)\\|lazy\\|exception\\|raise\\|failwith\\|exit\\|assert\\|fun\\(ction\\)?\\)\\>"
+     ;; (list "\\<\\(as\\|do\\(ne\\|wnto\\)?\\|else\\|for\\|if\\|m\\(atch\\|utable\\)\\|new\\|p\\(arser\\|rivate\\)\\|t\\(hen\\|o\\|ry\\)\\|w\\(h\\(en\\|ile\\)\\|ith\\)\\|lazy\\|exception\\|raise\\|failwith\\|exit\\|assert\\|fun\\(ction\\)?\\)\\>"
+     (list "\\<\\(foreach\\|if\\|eq\\|empty\\|def\\|defm\\|head\\|tail\\)\\>"
 	   0 'font-lock-keyword-face nil nil)
      (list "[][;,()|{}]\\|[@^!:*=<>&/%+~?#---]\\.?\\|\\.\\.\\.*\\|\\<\\(asr\\|asl\\|lsr\\|lsl\\|l?or\\|l?and\\|xor\\|not\\|mod\\|of\\|ref\\)\\>"
 	   0 'tblgen-font-lock-operator-face nil nil)
@@ -3034,73 +3033,6 @@ current phrase else insert a newline and indent."
 
 (defvar tblgen-definitions-menu-last-buffer nil)
 (defvar tblgen-definitions-keymaps nil)
-
-(defun tblgen-build-menu ()
-  (easy-menu-define
-   tblgen-mode-menu (list tblgen-mode-map)
-   "Tblgen Mode Menu."
-   '("Tblgen"
-     ("Interactive Mode"
-      ["Run Caml Toplevel" tblgen-run-caml t]
-      ["Interrupt Caml Toplevel" tblgen-interrupt-caml
-       :active (comint-check-proc tblgen-interactive-buffer-name)]
-      ["Kill Caml Toplevel" tblgen-kill-caml
-       :active (comint-check-proc tblgen-interactive-buffer-name)]
-      ["Evaluate Region" tblgen-eval-region
-       ;; Region-active-p for XEmacs and mark-active for Emacs
-       :active (if (fboundp 'region-active-p) (region-active-p) mark-active)]
-      ["Evaluate Phrase" tblgen-eval-phrase t]
-      ["Evaluate Buffer" tblgen-eval-buffer t])
-     ("Caml Forms"
-      ["try .. with .." tblgen-insert-try-form t]
-      ["match .. with .." tblgen-insert-match-form t]
-      ["let .. in .." tblgen-insert-let-form t]
-      ["if .. then .. else .." tblgen-insert-if-form t]
-      ["while .. do .. done" tblgen-insert-while-form t]
-      ["for .. do .. done" tblgen-insert-for-form t]
-      ["begin .. end" tblgen-insert-begin-form t])
-     ["Switch .ml/.mli" tblgen-find-alternate-file t]
-     "---"
-     ["Compile..." compile t]
-     ["Reference Manual..." tblgen-browse-manual t]
-     ["Caml Library..." tblgen-browse-library t]
-     ("Definitions"
-      ["Scan..." tblgen-list-definitions t])
-     "---"
-     [ "Show type at point" caml-types-show-type
-       tblgen-with-caml-mode-p]
-     "---"
-     [ "Complete identifier" caml-complete
-       tblgen-with-caml-mode-p]
-     [ "Help for identifier" caml-help
-       tblgen-with-caml-mode-p]
-     [ "Add path for documentation" ocaml-add-path
-       tblgen-with-caml-mode-p]
-     [ "Open module for documentation" ocaml-open-module
-       tblgen-with-caml-mode-p]
-     [ "Close module for documentation" ocaml-close-module
-       tblgen-with-caml-mode-p]
-     "---"
-     ["Customize Tblgen Mode..." (customize-group 'tblgen) t]
-     ("Tblgen Options" ["Dummy" nil t])
-     ("Tblgen Interactive Options" ["Dummy" nil t])
-     "---"
-     ["About" tblgen-about t]
-     ["Help" tblgen-help t]))
-  (easy-menu-add tblgen-mode-menu)
-  (tblgen-update-options-menu)
-  ;; Save and update definitions menu
-  (if tblgen-with-xemacs
-      (add-hook 'activate-menubar-hook 'tblgen-update-definitions-menu)
-    (if (not (functionp 'easy-menu-create-keymaps)) ()
-      ;; Patch for Emacs
-      (add-hook 'menu-bar-update-hook
-		'tblgen-with-emacs-update-definitions-menu)
-      (make-local-variable 'tblgen-definitions-keymaps)
-      (setq tblgen-definitions-keymaps
-	    (cdr (easy-menu-create-keymaps
-		  "Definitions" tblgen-definitions-menu)))
-      (setq tblgen-definitions-menu-last-buffer nil))))
 
 (easy-menu-define
   tblgen-interactive-mode-menu tblgen-interactive-mode-map
