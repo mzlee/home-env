@@ -3,8 +3,8 @@ function choice {
     file=${1}
     lc=$(wc -l < $file)
 
-    if [ ${lc} > 0 ]; then
-	sed -n $((1 + $RANDOM % ${lc})) p ${file}
+    if [ ${lc} -gt 0 ]; then
+	sed -n "$((1 + $RANDOM % ${lc})) p" ${file}
     fi
 }
 
