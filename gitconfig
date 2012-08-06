@@ -5,7 +5,8 @@
 	co = checkout
 	ci = commit
 	st = status
-	br = checkout -b
+	br = branch
+	new-br = co -b
 	br-show = branch -a
 	stash-diff = stash show --pretty=raw
 	hist = log --date=short --graph --pretty=\"%h %ar | %s%d [%an]\"
