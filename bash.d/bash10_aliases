@@ -34,7 +34,7 @@ alias keyunlock='ssh-add -X'
 
 alias less='less -R'
 if [ $PLATFORM = linux ]; then
-   alias gopen='xdg-open'
+   alias open='xdg-open'
 fi
 
 # svn commands
