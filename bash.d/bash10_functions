@@ -20,7 +20,7 @@ function check_machine {
 }
 
 function pub_machine {
-    DOMAIN=cs.utexas.edu
+    local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
 	if [ -n "${LAST_PUBLIC}" ]; then
 	    check_machine
@@ -37,7 +37,7 @@ function pub_machine {
 }
 
 function pub_connect {
-    DOMAIN=cs.utexas.edu
+    local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
 	pub_machine
 	ssh $(whoami)@${LAST_PUBLIC} ${@}
@@ -45,7 +45,7 @@ function pub_connect {
 }
 
 function pub_cpto {
-    DOMAIN=cs.utexas.edu
+    local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
 	pub_machine
 	local SRC=${1}
@@ -55,7 +55,7 @@ function pub_cpto {
 }
 
 function pub_cpfrom {
-    DOMAIN=cs.utexas.edu
+    local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
 	pub_machine
 	local SRC=${1}
