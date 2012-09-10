@@ -23,9 +23,9 @@
 (require 'yaml-mode)
 (require 'matlab-mode)
 (require 'org-velocity)
-(require 'tuareg)
-(require 'tblgen)
-(require 'camldebug)
+;; (require 'tuareg)
+;; (require 'tblgen)
+;; (require 'camldebug)
 
 ;; Add modes
 (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
@@ -38,12 +38,12 @@
 (add-to-list 'auto-mode-alist '("Makefile\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
-(add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
 
-(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
-(autoload 'camldebug "camldebug" "Run the Caml debugger" t)
-(autoload 'tblgen-mode "tblgen" "Major mode for editing TableGen code" t)
+;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+;; (autoload 'tblgen-mode "tblgen" "Major mode for editing TableGen code" t)
 
 
 ;; Org Mode keys
