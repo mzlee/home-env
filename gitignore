@@ -1,5 +1,7 @@
 .svn*
 *~
 *.o
+*.a
+*.so*
 *.pyc
 *.log
