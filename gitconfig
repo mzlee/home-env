@@ -5,6 +5,7 @@
 	co = checkout
 	ci = commit
 	st = status
+	ch = diff --name-status -r
 	br = branch
 	new-br = co -b
 	br-show = branch -a
@@ -13,6 +14,7 @@
 	hist-stat = log --stat --graph --pretty=\"%h %ar |%C(yellow)%d%Creset%n%s [%an]\"
 	type = cat-file -t
 	dump = cat-file -p
+	flash = !git stash && git pull --rebase ${@} && git stash pop && echo "Flashed "
 [core]
 	excludesfile = ~/.gitignore
 [color]
