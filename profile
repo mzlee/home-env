@@ -32,8 +32,7 @@ case "$FQDN" in
 	PUBLIC_MACHINE=1
 	;;
     *)
-        echo "WARNING defaulting to public"
-        PUBLIC_MACHINE=1
+        PUBLIC_MACHINE=0
         ;;
 esac
 
