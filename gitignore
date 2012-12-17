@@ -3,5 +3,9 @@
 *.o
 *.a
 *.so*
-*.pyc
+*.ko
+*.cmd
 *.log
+*.pyc
+.DS_Store
+.Python
