@@ -74,6 +74,11 @@
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 3))
 
+(defun c-nginx-code-indent-setup ()
+  (setq indent-tabs-mode nil)
+  (setq vc-handled-backends nil)
+  (setq c-basic-offset 4))
+
 (defun c-qemu-code-indent-setup ()
   (setq indent-tabs-mode nil)
   (setq vc-handled-backends nil)
@@ -120,17 +125,31 @@
 (add-hook 'c-mode-hook
 	  (lambda ()
             (let ((filename (buffer-file-name)))
-              ;; Enable kernel mode for the appropriate files
+              ;; Enable qemu mode for the appropriate files
               (when (and filename
-			 (string-match "/qemu.*/" filename ))
-		(c-qemu-code-indent-setup)))))
-(add-hook 'c-mode-hook
-	  (lambda ()
-            (let ((filename (buffer-file-name)))
-              ;; Enable kernel mode for the appropriate files
+			 (string-match "/qemu.*/" filename))
+		(c-qemu-code-indent-setup))
               (when (and filename
-			 (string-match "/qt.*/" filename ))
-		(c-qt-code-indent-setup)))))
+			 (string-match "/nginx.*/" filename))
+		(c-nginx-code-indent-setup))
+              (when (and filename
+			 (string-match "/qt.*/" filename))
+		(c-qt-code-indent-setup))
+	      )))
+;; (add-hook 'c-mode-hook
+;; 	  (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable kernel mode for the appropriate files
+;;               (when (and filename
+;; 			 (string-match "/nginx.*/" filename ))
+;; 		(c-nginx-code-indent-setup)))))
+;; (add-hook 'c-mode-hook
+;; 	  (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable kernel mode for the appropriate files
+;;               (when (and filename
+;; 			 (string-match "/qt.*/" filename ))
+;; 		(c-qt-code-indent-setup)))))
 (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
 (add-hook 'java-mode-hook 'java-code-indent-setup)
