@@ -18,7 +18,7 @@ export PLATFORM="$platform"
 
 ## Path
 debug Path
-extra_bin="${HOME}/bin /opt/google/chrome"
+extra_bin="/usr/local/sbin ${HOME}/bin /opt/google/chrome"
 extra_lib="${HOME}/lib /usr/local/lib /usr/lib"
 for path in ${extra_bin}
 do
@@ -85,6 +85,8 @@ if [ ${TERM} != screen ]
 then
     [ -f ${HOME}/.Xmodmap ] && xmodmap ${HOME}/.Xmodmap 2> /dev/null
 fi
+
+NOTES_DIR="/Users/mzlee/Documents/research/notes"
 
 #if [ `id -u` != 0 ]; then
 #  export VIRTUALENV_USE_DISTRIBUTE="1"
