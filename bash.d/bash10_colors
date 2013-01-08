@@ -77,6 +77,9 @@ function _powerline_ps1 {
 
 function ps1_toggle {
     local tmp=${PROMPT_COMMAND}
-    export PROMPT_COMMAND=${_OLD_PROMPT_COMMAND}
-    export _OLD_PROMPT_COMMAND=${tmp}
+    export PROMPT_COMMAND=${_ALT_PROMPT_COMMAND}
+    export _ALT_PROMPT_COMMAND=${tmp}
 }
+
+## Set it up for powerline-bash
+export _ALT_PROMPT_COMMAND="_powerline_ps1"
