@@ -53,6 +53,7 @@ then
     export CLICOLOR=1
     export LSCOLORS=ExFxCxDxBxegedabagacad
     test -r /sw/bin/init.sh && . /sw/bin/init.sh
+    export PROMPT_COMMAND="_powerline_ps1"
 elif [ $PLATFORM = linux ]
 then
     export PRINTER='lw32'
