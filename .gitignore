@@ -1,3 +1,6 @@
+## Ignore custom bash files
+bash.d/bash5*_*
+
 ## Ignore compiled files
 *.elc
 
