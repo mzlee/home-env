@@ -18,8 +18,7 @@ function debug {
 ## Grab-all for bash files
 BASH_DIR=~/.bash.d
 if [ -d $BASH_DIR ]; then
-    files=`ls $BASH_DIR`
-    for file in $files; do
+    for file in $(ls $BASH_DIR); do
 	profile_append $file
 	. $BASH_DIR/$file
     done
