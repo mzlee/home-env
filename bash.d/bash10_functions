@@ -164,11 +164,13 @@ function notes
 	if [ -z ${DIR} ]; then
 	    local count=0
 	    for d in $(ls -1 ${NOTES_DIR}); do
-		printf "%8s\t" ${d}
-		count=$(( ${count} + 1 ))
-		if [ ${count} = 8 ]; then
-		    printf "\n"
-		    count=0
+		if [ ! -f "${NOTES_DIR}/${d}/.hide" ]; then
+		    printf "%8s\t" ${d}
+		    count=$(( ${count} + 1 ))
+		    if [ ${count} = 8 ]; then
+			printf "\n"
+			count=0
+		    fi
 		fi
 	    done
 	    if [ ${count} != 0 ]; then
