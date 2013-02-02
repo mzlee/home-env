@@ -267,6 +267,16 @@ function bell
     notify-send "FINISHED JOB on $HOSTNAME: $@"
 }
 
+function _powerline_ps1 {
+    export PS1="$(python ~/.home_env/powerline-bash.py $?)"
+}
+
+function ps1_toggle {
+    local tmp=${PROMPT_COMMAND}
+    export PROMPT_COMMAND=${_ALT_PROMPT_COMMAND}
+    export _ALT_PROMPT_COMMAND=${tmp}
+}
+
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
 #find and list processes matching a case-insensitive partial-match string
 # Mostly for OSX

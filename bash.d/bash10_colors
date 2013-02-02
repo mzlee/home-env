@@ -71,15 +71,5 @@ function set_colors
     PS1="${debian_chroot:+($debian_chroot)}\$(prompt_command)-$BOLD-($BASE\u$ACCENT@$BASE\h$ACCENT:$BASE\W$BOLD)-$LIGHT "
 }
 
-function _powerline_ps1 {
-    export PS1="$(python ~/.home_env/powerline-bash.py $?)"
-}
-
-function ps1_toggle {
-    local tmp=${PROMPT_COMMAND}
-    export PROMPT_COMMAND=${_ALT_PROMPT_COMMAND}
-    export _ALT_PROMPT_COMMAND=${tmp}
-}
-
 ## Set it up for powerline-bash
 export _ALT_PROMPT_COMMAND="_powerline_ps1"
