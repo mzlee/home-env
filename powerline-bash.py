@@ -11,12 +11,30 @@ import argparse
 def warn(msg):
     print '[powerline-bash] ', msg
 
+KNOWN_MACHINES = {
+    "chopin" : 28,
+    "dvorak" : 26,
+    "elgar" : 94,
+}
+
+def Machine():
+    uname = os.uname()
+    bg = 232
+    if uname[0] == "Darwin":
+        bg = 237
+    elif uname[0] == "Linux":
+        if uname[1] in KNOWN_MACHINES:
+            bg = KNOWN_MACHINES[uname[1]]
+        else:
+            bg = 20 + (ord(uname[1][2]) % 6) * 32
+    return bg
 
 class Color:
     # The following link is a pretty good resources for color values:
     # http://www.calmar.ws/vim/color-output.png
 
-    PATH_BG = 237  # dark grey
+    PATH_BG = Machine()
+    # PATH_BG = 237  # dark grey
     PATH_FG = 250  # light grey
     CWD_FG = 254  # nearly-white grey
     SEPARATOR_FG = 244
@@ -36,7 +54,6 @@ class Color:
 
     VIRTUAL_ENV_BG = 35  # a mid-tone green
     VIRTUAL_ENV_FG = 22
-
 
 class Powerline:
     symbols = {
