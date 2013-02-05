@@ -33,8 +33,8 @@ class Color:
     # The following link is a pretty good resources for color values:
     # http://www.calmar.ws/vim/color-output.png
 
-    PATH_BG = Machine()
-    # PATH_BG = 237  # dark grey
+    HOST_PATH_BG = Machine()
+    PATH_BG = 237  # dark grey
     PATH_FG = 250  # light grey
     CWD_FG = 254  # nearly-white grey
     SEPARATOR_FG = 244
@@ -140,11 +140,14 @@ def add_cwd_segment(powerline, cwd, maxdepth, cwd_only=False):
         names = names[:2] + [u'\u2026'] + names[2 - maxdepth:]
 
     if not cwd_only:
+        powerline.append(Segment(powerline, ' %s ' % names.pop(0), Color.PATH_FG,
+            Color.HOST_PATH_BG, powerline.separator_thin, Color.SEPARATOR_FG))
         for n in names[:-1]:
             powerline.append(Segment(powerline, ' %s ' % n, Color.PATH_FG,
                 Color.PATH_BG, powerline.separator_thin, Color.SEPARATOR_FG))
-    powerline.append(Segment(powerline, ' %s ' % names[-1], Color.CWD_FG,
-        Color.PATH_BG))
+    if len(names):
+        powerline.append(Segment(powerline, ' %s ' % names[-1], Color.CWD_FG,
+            Color.PATH_BG))
 
 
 def get_hg_status():
