@@ -55,8 +55,8 @@ class Color:
     SVN_CHANGES_BG = 148
     SVN_CHANGES_FG = 22  # dark green
 
-    VIRTUAL_ENV_BG = 35  # a mid-tone green
-    VIRTUAL_ENV_FG = 22
+    VIRTUAL_ENV_FG = 226 # Maize and
+    VIRTUAL_ENV_BG = 19  # Blue
 
 class Powerline:
     symbols = {
