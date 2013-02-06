@@ -12,9 +12,12 @@ def warn(msg):
     print '[powerline-bash] ', msg
 
 KNOWN_MACHINES = {
-    "chopin" : 28,
-    "dvorak" : 26,
-    "elgar" : 94,
+    "chopin"  : 46,
+    "dvorak"  : 26,
+    "elgar"   : 94,
+    "roberts" : 160,
+    "reid"    : 40,
+    "darvill" : 202,
 }
 
 def Machine():
