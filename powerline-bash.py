@@ -14,22 +14,22 @@ def warn(msg):
 KNOWN_MACHINES = {
     "chopin"  : 46,
     "dvorak"  : 26,
-    "elgar"   : 94,
-    "roberts" : 160,
-    "reid"    : 40,
-    "darvill" : 202,
+    # "elgar"   : 94,
+    # "roberts" : 160,
+    # "reid"    : 40,
+    # "darvill" : 202,
 }
 
 def Machine():
     uname = os.uname()
     bg = 232
     if uname[0] == "Darwin":
-        bg = 237
+        bg = 232
     elif uname[0] == "Linux":
         if uname[1] in KNOWN_MACHINES:
             bg = KNOWN_MACHINES[uname[1]]
         else:
-            bg = 20 + (ord(uname[1][2]) % 6) * 32
+            bg = hash(uname[1]) & 0xff
     return bg
 
 class Color:
