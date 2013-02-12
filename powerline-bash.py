@@ -13,7 +13,7 @@ def warn(msg):
 
 KNOWN_MACHINES = {
     "chopin"  : 46,
-    "dvorak"  : 26,
+    # "dvorak"  : 26,
     # "elgar"   : 94,
     # "roberts" : 160,
     # "reid"    : 40,
@@ -190,12 +190,26 @@ def add_hg_segment(powerline, cwd):
     powerline.append(Segment(powerline, ' %s ' % branch, fg, bg))
     return True
 
+GIT_VERSION = None
+def get_git_version():
+    global GIT_VERSION
+    if not GIT_VERSION:
+        output = subprocess.Popen(['git', 'version'], stdout=subprocess.PIPE).communicate()[0]
+        GIT_VERSION = tuple([int(x) for x in output.split().pop().split('.')])
+    return GIT_VERSION
 
+GIT_STATUS = []
 def get_git_status():
+    global GIT_STATUS
     has_pending_commits = True
     has_untracked_files = False
     origin_position = ""
-    output = subprocess.Popen(['git', 'status', '--ignore-submodules'],
+    if not GIT_STATUS:
+        if get_git_version() < (1, 7, 0, 5):
+            GIT_STATUS = ['git', 'status']
+        else:
+            GIT_STATUS = ['git', 'status', '--ignore-submodules']
+    output = subprocess.Popen(GIT_STATUS,
             stdout=subprocess.PIPE).communicate()[0]
     for line in output.split('\n'):
         origin_status = re.findall(
