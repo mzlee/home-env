@@ -190,25 +190,30 @@ def add_hg_segment(powerline, cwd):
     powerline.append(Segment(powerline, ' %s ' % branch, fg, bg))
     return True
 
-GIT_VERSION = None
 def get_git_version():
-    global GIT_VERSION
-    if not GIT_VERSION:
+    if 'GIT_VERSION' in os.environ:
+        output = os.environ['GIT_VERSION']
+    else:
         output = subprocess.Popen(['git', 'version'], stdout=subprocess.PIPE).communicate()[0]
-        GIT_VERSION = tuple([int(x) for x in output.split()[2].split('.')])
+    GIT_VERSION = tuple([int(x) for x in output.split()[2].split('.')])
     return GIT_VERSION
 
-GIT_STATUS = []
+def prefix_dir(cwd):
+    if 'BLACKLIST_DIRS' not in os.environ:
+        return False
+    for d in os.environ['BLACKLIST_DIRS'].split(':'):
+        if cwd.startswith(d):
+            return True
+    return False
+
 def get_git_status():
-    global GIT_STATUS
     has_pending_commits = True
     has_untracked_files = False
     origin_position = ""
-    if not GIT_STATUS:
-        if get_git_version() < (1, 7, 0, 5):
-            GIT_STATUS = ['git', 'status']
-        else:
-            GIT_STATUS = ['git', 'status', '--ignore-submodules']
+    if get_git_version() < (1, 7, 0, 5):
+        GIT_STATUS = ['git', 'status']
+    else:
+        GIT_STATUS = ['git', 'status', '--ignore-submodules']
     output = subprocess.Popen(GIT_STATUS,
             stdout=subprocess.PIPE).communicate()[0]
     for line in output.split('\n'):
@@ -230,6 +235,9 @@ def get_git_status():
 
 def add_git_segment(powerline, cwd):
     #cmd = "git branch 2> /dev/null | grep -e '\\*'"
+    cwd = os.getcwd()
+    if prefix_dir(cwd):
+        return True
     p1 = subprocess.Popen(['git', 'branch'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p2 = subprocess.Popen(['grep', '-e', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
     output = p2.communicate()[0].strip()
