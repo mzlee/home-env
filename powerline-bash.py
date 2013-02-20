@@ -236,7 +236,10 @@ def get_git_status():
 def add_git_segment(powerline, cwd):
     #cmd = "git branch 2> /dev/null | grep -e '\\*'"
     cwd = os.getcwd()
+    bg = Color.REPO_CLEAN_BG
+    fg = Color.REPO_CLEAN_FG
     if prefix_dir(cwd):
+        powerline.append(Segment(powerline, ' git ', fg, bg))
         return True
     p1 = subprocess.Popen(['git', 'branch'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p2 = subprocess.Popen(['grep', '-e', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -250,8 +253,6 @@ def add_git_segment(powerline, cwd):
     if has_untracked_files:
         branch += ' +'
 
-    bg = Color.REPO_CLEAN_BG
-    fg = Color.REPO_CLEAN_FG
     if has_pending_commits:
         bg = Color.REPO_DIRTY_BG
         fg = Color.REPO_DIRTY_FG
