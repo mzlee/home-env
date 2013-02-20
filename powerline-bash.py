@@ -195,7 +195,7 @@ def get_git_version():
     global GIT_VERSION
     if not GIT_VERSION:
         output = subprocess.Popen(['git', 'version'], stdout=subprocess.PIPE).communicate()[0]
-        GIT_VERSION = tuple([int(x) for x in output.split().pop().split('.')])
+        GIT_VERSION = tuple([int(x) for x in output.split()[2].split('.')])
     return GIT_VERSION
 
 GIT_STATUS = []
