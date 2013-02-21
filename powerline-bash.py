@@ -191,17 +191,17 @@ def add_hg_segment(powerline, cwd):
     return True
 
 def get_git_version():
-    if 'GIT_VERSION' in os.environ:
-        output = os.environ['GIT_VERSION']
-    else:
+    output = os.getenv("GIT_VERSION")
+    if output is None:
         output = subprocess.Popen(['git', 'version'], stdout=subprocess.PIPE).communicate()[0]
     GIT_VERSION = tuple([int(x) for x in output.split()[2].split('.')])
     return GIT_VERSION
 
 def prefix_dir(cwd):
-    if 'BLACKLIST_DIRS' not in os.environ:
+    dirs = os.getenv("BLACKLIST_DIRS")
+    if dirs is None:
         return False
-    for d in os.environ['BLACKLIST_DIRS'].split(':'):
+    for d in dirs.split(':'):
         if cwd.startswith(d):
             return True
     return False
