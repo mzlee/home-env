@@ -1,3 +1,15 @@
+# Check to see if SSH Agent is already running
+agent_pid="$(ps -ef | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
+
+# If the agent is not running (pid is zero length string)
+if [[ -z "$agent_pid" ]]; then
+    eval "$(ssh-agent)"
+else
+    agent_ppid="$(($agent_pid - 1))"
+    agent_sock="$(find /tmp/ssh-* -type s -iname "agent.$agent_ppid")"
+    export SSH_AGENT_PID="$agent_pid"
+    export SSH_AUTH_SOCK="$agent_sock"
+fi
 
 if [ -n "${SSH_AGENT_PID}" ]; then
     export PROMPT_COMMAND=_powerline_ps1
