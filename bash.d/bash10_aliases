@@ -17,6 +17,7 @@ alias emac='emacs -nw'
 # grep aliases
 alias grhn='grep -rHn'
 alias grin='grep -rHni'
+alias psg='ps aux | grep'
 
 # useful commands
 alias wtf='watch -n 1 w -hs'
