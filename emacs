@@ -31,6 +31,9 @@
 (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
 (global-set-key (kbd "C-c v") 'org-velocity-read)
 
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+
 ;; Add auto modes
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
@@ -40,11 +43,11 @@
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 ;; (autoload 'tblgen-mode "tblgen" "Major mode for editing TableGen code" t)
-
 
 ;; Org Mode keys
 (global-set-key "\C-cl" 'org-store-link)
