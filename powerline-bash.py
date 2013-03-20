@@ -5,7 +5,6 @@ import os
 import subprocess
 import sys
 import re
-import argparse
 
 
 def warn(msg):
@@ -356,12 +355,22 @@ def get_valid_cwd():
     return cwd
 
 if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('--cwd-only', action='store_true')
-    arg_parser.add_argument('--mode', action='store', default='patched')
-    arg_parser.add_argument('--shell', action='store', default='bash')
-    arg_parser.add_argument('prev_error', nargs='?', default=0)
-    args = arg_parser.parse_args()
+    try:
+        import argparse
+        arg_parser = argparse.ArgumentParser()
+        arg_parser.add_argument('--cwd-only', action='store_true')
+        arg_parser.add_argument('--mode', action='store', default='patched')
+        arg_parser.add_argument('--shell', action='store', default='bash')
+        arg_parser.add_argument('prev_error', nargs='?', default=0)
+        args = arg_parser.parse_args()
+    except:
+        class DummyArgs(object):
+            def __init__(self):
+                self.mode = "compatible"
+                self.shell = "bash"
+                self.cwd_only = False
+                self.prev_error = 0
+        args = DummyArgs()
 
     p = Powerline(mode=args.mode, shell=args.shell)
     cwd = get_valid_cwd()
