@@ -7,3 +7,6 @@
 [submodule "tuareg-mode"]
 	path = tuareg-mode
 	url = git://github.com/afeinberg/tuareg-mode.git
+[submodule "tramp"]
+	path = tramp
+	url = git://git.savannah.gnu.org/tramp.git
