@@ -23,6 +23,7 @@
 (require 'yaml-mode)
 (require 'matlab-mode)
 (require 'org-velocity)
+(require 'tramp)
 ;; (require 'tuareg)
 ;; (require 'tblgen)
 ;; (require 'camldebug)
