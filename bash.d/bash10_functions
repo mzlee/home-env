@@ -19,6 +19,11 @@ function check_machine {
     done
 }
 
+function new_machine {
+    export LAST_PUBLIC=""
+    pub_machine
+}
+
 function pub_machine {
     local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
@@ -28,6 +33,9 @@ function pub_machine {
 
 	while [ -z "${LAST_PUBLIC}" ]; do
 	    local mach=$(choice ${HOME}/.${DOMAIN})
+	    if [ ${mach:0:1} == "#" ]; then
+		continue
+	    fi
 	    echo "Trying ${mach}..."
 	    LAST_PUBLIC="${mach}.${DOMAIN}"
 	    check_machine
@@ -62,6 +70,23 @@ function pub_cpfrom {
 	local DEST=${2:-${SRC}}
 	scp $(whoami)@${LAST_PUBLIC}:${SRC} ${DEST}
     fi
+}
+
+function proxy_connect {
+    local PROXY_PORT=${PROXY_PORT:-8080}
+    local PROXY_HOST=${PROXY_HOST:-chopin}
+    ssh -D ${PROXY_PORT} -Nf ${PROXY_HOST}
+    sudo networksetup -setsocksfirewallproxystate Wi-Fi on
+}
+
+function proxy_disconnect {
+    local PROXY_PORT=${PROXY_PORT:-8080}
+    local PROXY_PID=$(lsof -t -i @localhost:${PROXY_PORT} -sTCP:listen)
+    echo ${PROXY_PID}
+    if [ -n "${PROXY_PID}" ]; then
+	kill ${PROXY_PID}
+	sudo networksetup -setsocksfirewallproxystate Wi-Fi off
+   fi
 }
 
 OLD_CP=/bin/cp
