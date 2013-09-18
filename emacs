@@ -76,7 +76,12 @@
 
 (defun c-user-code-indent-setup ()
   (setq indent-tabs-mode nil)
-  (setq c-basic-offset 3))
+  (setq c-basic-offset 4))
+
+(defun c-tab-code-indent-setup ()
+  (setq indent-tabs-mode t)
+  (setq default-tab-width 4)
+  (setq c-basic-offset 4))
 
 (defun c-nginx-code-indent-setup ()
   (setq indent-tabs-mode nil)
@@ -126,6 +131,13 @@
               (when (and filename
 			 (string-match "/linux.*/" filename))
 		(c-kernel-code-indent-setup)))))
+(add-hook 'c-mode-hook
+	  (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable relic mode for the appropreiate files
+              (when (and filename
+			 (string-match "/relic.*/" filename))
+		(c-tab-code-indent-setup)))))
 (add-hook 'c-mode-hook
 	  (lambda ()
             (let ((filename (buffer-file-name)))
