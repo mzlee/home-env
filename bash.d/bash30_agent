@@ -1,5 +1,5 @@
 # Check to see if SSH Agent is already running
-agent_pid="$(ps -ef | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
+agent_pid="$(ps aux | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
 
 # If the agent is not running (pid is zero length string)
 if [[ -z "$agent_pid" ]]; then
@@ -9,6 +9,7 @@ else
     agent_ppid=${agent_sock#agent.}
     export SSH_AGENT_PID="$agent_pid"
     export SSH_AUTH_SOCK="$agent_sock"
+    echo "Agent pid ${SSH_AGENT_PID}"
 fi
 
 if [ -n "${SSH_AGENT_PID}" ]; then
