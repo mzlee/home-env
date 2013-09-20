@@ -82,7 +82,6 @@ function proxy_connect {
 function proxy_disconnect {
     local PROXY_PORT=${PROXY_PORT:-8080}
     local PROXY_PID=$(lsof -t -i @localhost:${PROXY_PORT} -sTCP:listen)
-    echo ${PROXY_PID}
     if [ -n "${PROXY_PID}" ]; then
 	kill ${PROXY_PID}
 	sudo networksetup -setsocksfirewallproxystate Wi-Fi off
