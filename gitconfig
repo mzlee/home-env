@@ -39,3 +39,5 @@
 	conflictstyle = diff3
 [push]
 	default = current
+[branch]
+	autosetuprebase = always
