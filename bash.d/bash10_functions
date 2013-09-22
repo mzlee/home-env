@@ -295,6 +295,14 @@ function _powerline_ps1 {
     export PS1="$(python ~/.home_env/powerline-bash.py $?)"
 }
 
+function _powerline_ps1_compat {
+    export PS1="$(python ~/.home_env/powerline-bash.py $? --mode=compatible)"
+}
+
+function set_powerline_compat {
+    export PROMPT_COMMAND=_powerline_ps1_compat
+}
+
 function ps1_toggle {
     local tmp=${PROMPT_COMMAND}
     export PROMPT_COMMAND=${_ALT_PROMPT_COMMAND}
