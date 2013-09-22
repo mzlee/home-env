@@ -299,14 +299,12 @@ function _powerline_ps1_compat {
     export PS1="$(python ~/.home_env/powerline-bash.py $? --mode=compatible)"
 }
 
-function set_powerline_compat {
-    export PROMPT_COMMAND=_powerline_ps1_compat
+function set_powerline {
+    export PROMPT_COMMAND=_powerline_ps1
 }
 
-function ps1_toggle {
-    local tmp=${PROMPT_COMMAND}
-    export PROMPT_COMMAND=${_ALT_PROMPT_COMMAND}
-    export _ALT_PROMPT_COMMAND=${tmp}
+function set_powerline_compat {
+    export PROMPT_COMMAND=_powerline_ps1_compat
 }
 
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/

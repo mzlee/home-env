@@ -25,15 +25,11 @@ if [ -d $BASH_DIR ]; then
 fi
 
 ## Happens after everything is setup
-if [ $PLATFORM = linux ]
-then
-#    PROMPT_COMMAND=prompt_command
-    set_colors
-#    pub_machine
+if [ $PLATFORM = linux ]; then
+    true
 fi
 
-if [ -d '/lusr/opt/condor' ]
-then
+if [ -d '/lusr/opt/condor' ]; then
     # /lusr/opt/condor/bin/condor_vacate > /dev/null
     true
 fi

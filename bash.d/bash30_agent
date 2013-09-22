@@ -11,7 +11,3 @@ else
     export SSH_AUTH_SOCK="$agent_sock"
     echo "Agent pid ${SSH_AGENT_PID}"
 fi
-
-if [ -n "${SSH_AGENT_PID}" ]; then
-    export PROMPT_COMMAND=_powerline_ps1
-fi

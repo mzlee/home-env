@@ -26,8 +26,6 @@ if [ -d $BASH_DIR ]; then
 fi
 
 ## Happens after everything is setup
-if [ $PLATFORM = linux ]
-then
-    PROMPT_COMMAND=prompt_command
-    set_colors
+if [ $PLATFORM = linux ]; then
+    true
 fi
