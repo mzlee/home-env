@@ -73,3 +73,7 @@ function set_colors
 
 ## Set it up for powerline-bash
 export _ALT_PROMPT_COMMAND="_powerline_ps1"
+
+if [ -f ${HOME}/.dircolors ]; then
+    eval $(dircolors ${HOME}/.dircolors)
+fi
