@@ -37,3 +37,5 @@
 	untracked = cyan
 [merge]
 	conflictstyle = diff3
+[push]
+	default = current
