@@ -56,7 +56,7 @@ then
     export PROMPT_COMMAND="_powerline_ps1"
 elif [ $PLATFORM = linux ]
 then
-    export PRINTER='lw32'
+    export PRINTER='lw601'
     export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 fi
 
@@ -78,7 +78,8 @@ fi
 
 # Set the locale
 if [ ${PLATFORM} == 'linux' ]; then
-    export LANG=en_US.utf8
+    export LANG=en_US.UTF-8
+    export LANGUAGE=en_US.UTF-8
 fi
 export TZ="America/Chicago"
 
