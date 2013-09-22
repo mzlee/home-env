@@ -13,6 +13,8 @@
 ;; When in text (or related mode) break the lines at 80 chars
 ; (setq text-mode-hook 'turn-on-auto-fill)
 (setq fill-column 80)
+(setq line-number-mode t)
+(setq column-number-mode t)
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
@@ -100,6 +102,7 @@
 
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
+  (setq tab-width 4)
   (setq vc-handled-backends nil)
   (c-set-style "linux-tabs-only"))
 
@@ -129,8 +132,10 @@
             (let ((filename (buffer-file-name)))
               ;; Enable kernel mode for the appropriate files
               (when (and filename
-			 (string-match "/linux.*/" filename))
+			 (or (string-match "/linux.*/" filename)
+			     (string-match "/kern.*/" filename)))
 		(c-kernel-code-indent-setup)))))
+
 (add-hook 'c-mode-hook
 	  (lambda ()
             (let ((filename (buffer-file-name)))
