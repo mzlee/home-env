@@ -3,3 +3,4 @@
 if [ -f ${HOME}/.dircolors ]; then
     eval $(dircolors ${HOME}/.dircolors)
 fi
+export PROMPT_COMMAND="_powerline_ps1"
