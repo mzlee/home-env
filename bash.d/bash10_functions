@@ -84,8 +84,8 @@ function proxy_disconnect {
     local PROXY_PID=$(lsof -t -i @localhost:${PROXY_PORT} -sTCP:listen)
     if [ -n "${PROXY_PID}" ]; then
 	kill ${PROXY_PID}
-	sudo networksetup -setsocksfirewallproxystate Wi-Fi off
-   fi
+    fi
+    sudo networksetup -setsocksfirewallproxystate Wi-Fi off
 }
 
 OLD_CP=/bin/cp
