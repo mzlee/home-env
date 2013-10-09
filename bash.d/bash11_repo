@@ -1,58 +1,131 @@
 # .bash_functions repo submodule
 
-function commit
+function _repo_type
 {
+    local flag
     git rev-parse --show-toplevel 1> /dev/null 2> /dev/null
-    local is_git=${?}
+    flag=${?}
+    if [ ${flag} == 0 ]; then
+	echo git
+	return 0
+    fi
     ls -d .svn 1> /dev/null 2>/dev/null
-    local is_svn=${?}
-    if [ ${is_git} == 0 ]; then
-	local BASE_DIR=$(git rev-parse --show-toplevel 2> /dev/null)
-	local OBJ=${PWD#${BASE_DIR}}/${1}
-	local OBJ=${OBJ#/}
-	if [ -n "${OBJ}" ]; then
-	    __git_commit ${OBJ}
-	fi
-    elif [ ${is_svn} == 0 ]; then
-	local OBJ=${1}
-	if [ -n "${OBJ}" ]; then
-	    __svn_commit ${OBJ}
-	fi
-    else
-	echo "No valid repository found"
-	return 255
+    flag=${?}
+    if [ ${flag} == 0 ]; then
+	echo svn
+	return 0
     fi
 }
+
+function repo_commit
+{
+    case $(_repo_type) in
+	git)
+	    local BASE_DIR=$(git rev-parse --show-toplevel 2> /dev/null)
+	    local OBJ=${PWD#${BASE_DIR}}/${1}
+	    local OBJ=${OBJ#/}
+	    if [ -n "${OBJ}" ]; then
+		__git_commit ${OBJ}
+	    fi
+	    ;;
+	svn)
+	    local OBJ=${1}
+	    if [ -n "${OBJ}" ]; then
+		__svn_commit ${OBJ}
+	    fi
+	    ;;
+	*)
+	    echo "No valid repository found"
+	    return 255
+	    ;;
+    esac
+}
+
+function repo_status
+{
+    TARGET=${1}
+    if [ -z ${TARGET} ]; then
+	TARGET=.
+    fi
+    pushd ${TARGET} > /dev/null
+    case $(_repo_type) in
+	git)
+	    git fetch
+	    git status
+	    ;;
+	svn)
+	    svn st
+	    ;;
+	*)
+	    echo "No valid repository found"
+    esac
+    popd > /dev/null
+}
+
+function repo_push
+{
+    TARGET=${1}
+    if [ -z ${TARGET} ]; then
+	TARGET=.
+    fi
+    pushd ${TARGET} > /dev/null
+    case $(_repo_type) in
+	git)
+	    git pull --rebase
+	    git push
+	    ;;
+	svn)
+	    ## This is a no-op
+	    true
+	    ;;
+	*)
+	    echo "No valid repository found"
+    esac
+    popd > /dev/null
+}
+
+function repo_pull
+{
+    TARGET=${1}
+    if [ -z ${TARGET} ]; then
+	TARGET=.
+    fi
+    pushd ${TARGET} > /dev/null
+    case $(_repo_type) in
+	git)
+	    git pull --rebase
+	    ;;
+	svn)
+	    svn up
+	    ;;
+	*)
+	    echo "No valid repository found"
+    esac
+    popd > /dev/null
+}
+
 
 function __git_commit
 {
     local OBJ=${1}
-    echo -n "Commit changes to ${OBJ} [N/y]? "
-    read commit
-    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
-	echo -n "Message? "
-	read message
-	if [ -z "${message}" ]; then
-	    echo "Aborting"
-	    return 255
-	fi
-	git add ${OBJ}
-	git ci -m "${message} (${OBJ})"
+    echo -n "Message? "
+    read message
+    if [ -z "${message}" ]; then
+	echo "No commit message, aborting"
+	return 255
     fi
+    git add ${OBJ}
+    git ci -m "[${OBJ}] ${message}"
 }
 
 function __svn_commit
 {
     local OBJ=${1}
-    echo -n "Commit changes to ${OBJ} [N/y]? "
-    read commit
-    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
-	echo -n "Message? "
-	read message
-	if [ -z "${message}" ]; then
-	    echo "Aborting"
-	    return 255
-	fi
-	svn ci ${OBJ} -m "${message} (${OBJ})"
+    echo -n "Message? "
+    read message
+    if [ -z "${message}" ]; then
+	echo "No commit message, aborting"
+	return 255
     fi
+    svn ci ${OBJ} -m "[${OBJ}] ${message}"
 }

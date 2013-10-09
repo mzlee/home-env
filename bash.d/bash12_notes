@@ -22,6 +22,35 @@ function _notes_list
     done
 }
 
+function _notes_update_helper
+{
+    local flag=0
+    OBJ=${1}
+    emacs "${OBJ}/notes.md"
+
+    echo -n "Commit changes to ${OBJ} [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	repo_commit ${OBJ}
+	flag=${?}
+    else
+	flag=255
+    fi
+    if [ ${flag} == 255 ]; then
+	return ${flag}
+    fi
+
+    echo -n "Push changes [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	repo_push
+	flag=${?}
+    else
+	flag=255
+    fi
+    return ${flag}
+}
+
 function _notes_update
 {
     local TARGET=$(echo $1|tr '[:upper:]' '[:lower:]')
@@ -64,27 +93,69 @@ function _notes_update
 	fi
     fi
 
-    emacs "${NOTES_DIR}/${FOUND}/notes.md"
     pushd ${NOTES_DIR} > /dev/null
-    commit ${d}/notes.md
+    _notes_update_helper ${FOUND}
+    popd > /dev/null
+}
+
+function _notes_commit
+{
+    local TARGET=$(echo $1|tr '[:upper:]' '[:lower:]')
+    local LIST=$(_notes_list)
+    local FOUND=
+
+    for d in ${LIST}; do
+	if [ "${d#${TARGET}*}" != "${d}" ]; then
+	    ## Found the project
+	    FOUND=${d}
+	fi
+    done
+
+    if [ -z ${FOUND} ]; then
+	echo "No such project!"
+	return 0
+    fi
+
+    pushd ${NOTES_DIR} > /dev/null
+
+    repo_commit ${FOUND}
+    local flag=${?}
+    if [ ${flag} == 255 ]; then
+	popd > /dev/null
+	return ${flag}
+    fi
+
+    echo -n "Push changes [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	repo_push
+    else
+	return 0
+    fi
     popd > /dev/null
 }
 
 function notes
 {
     if [ -z "${NOTES_DIR}" ]; then
-	return
+	return 0
     fi
     local ACTION=${1}
     case ${ACTION} in
+	status)
+	    ## Repo fetch and status
+	    repo_status ${NOTES_DIR}
+	    ;;
 	commit)
 	    ## Commit All
+	    _notes_commit ${2}
 	    ;;
 	pull)
 	    ## Manual pull
 	    ;;
 	push)
 	    ## Manual push
+	    repo_push ${NOTES_DIR}
 	    ;;
 	*)
 	    _notes_update ${ACTION}
