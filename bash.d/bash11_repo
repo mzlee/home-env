@@ -1,0 +1,58 @@
+# .bash_functions repo submodule
+
+function commit
+{
+    git rev-parse --show-toplevel 1> /dev/null 2> /dev/null
+    local is_git=${?}
+    ls -d .svn 1> /dev/null 2>/dev/null
+    local is_svn=${?}
+    if [ ${is_git} == 0 ]; then
+	local BASE_DIR=$(git rev-parse --show-toplevel 2> /dev/null)
+	local OBJ=${PWD#${BASE_DIR}}/${1}
+	local OBJ=${OBJ#/}
+	if [ -n "${OBJ}" ]; then
+	    __git_commit ${OBJ}
+	fi
+    elif [ ${is_svn} == 0 ]; then
+	local OBJ=${1}
+	if [ -n "${OBJ}" ]; then
+	    __svn_commit ${OBJ}
+	fi
+    else
+	echo "No valid repository found"
+	return 255
+    fi
+}
+
+function __git_commit
+{
+    local OBJ=${1}
+    echo -n "Commit changes to ${OBJ} [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	echo -n "Message? "
+	read message
+	if [ -z "${message}" ]; then
+	    echo "Aborting"
+	    return 255
+	fi
+	git add ${OBJ}
+	git ci -m "${message} (${OBJ})"
+    fi
+}
+
+function __svn_commit
+{
+    local OBJ=${1}
+    echo -n "Commit changes to ${OBJ} [N/y]? "
+    read commit
+    if [ "${commit:0:1}" == 'y' -o "${commit:0:1}" == 'Y' ]; then
+	echo -n "Message? "
+	read message
+	if [ -z "${message}" ]; then
+	    echo "Aborting"
+	    return 255
+	fi
+	svn ci ${OBJ} -m "${message} (${OBJ})"
+    fi
+}

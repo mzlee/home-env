@@ -3,4 +3,21 @@
 if [ -f ${HOME}/.dircolors ]; then
     eval $(dircolors ${HOME}/.dircolors)
 fi
+
+function _powerline_ps1 {
+    export PS1="$(python ~/.home_env/powerline-bash.py $?)"
+}
+
+function _powerline_ps1_compat {
+    export PS1="$(python ~/.home_env/powerline-bash.py $? --mode=compatible)"
+}
+
+function set_powerline {
+    export PROMPT_COMMAND=_powerline_ps1
+}
+
+function set_powerline_compat {
+    export PROMPT_COMMAND=_powerline_ps1_compat
+}
+
 export PROMPT_COMMAND="_powerline_ps1"

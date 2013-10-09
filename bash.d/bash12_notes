@@ -1,0 +1,57 @@
+# .bash_functions notes submodule
+
+function find_notes
+{
+    NOTES_DIR=$(readlink -f $(find ${HOME}/ -type d -name notes -print -quit) 2> /dev/null)
+    export NOTES_DIR
+}
+
+function notes
+{
+    if [ -n "${NOTES_DIR}" ]; then
+	local DIR=$(echo $1|tr '[:upper:]' '[:lower:]')
+	IFS_BAK=$IFS
+	IFS=$'\n'
+	if [ -z ${DIR} ]; then
+	    local count=0
+	    for d in $(ls -1 ${NOTES_DIR}); do
+		if [ ! -f "${NOTES_DIR}/${d}/.hide" ]; then
+		    printf "%8s\t" ${d}
+		    count=$(( ${count} + 1 ))
+		    if [ ${count} = 8 ]; then
+			printf "\n"
+			count=0
+		    fi
+		fi
+	    done
+	    if [ ${count} != 0 ]; then
+		printf "\n"
+	    fi
+	else
+	    for d in $(ls -1 ${NOTES_DIR}); do
+		if [ "${d#${DIR}*}" != "${d}" ]; then
+		    IFS=$IFS_BAK
+		    emacs "${NOTES_DIR}/${d}/notes.md"
+		    pushd ${NOTES_DIR} > /dev/null
+		    commit ${d}/notes.md
+		    popd > /dev/null
+		    return 0
+		fi
+	    done
+	    echo -n "Project not found.  Create new project [N/y]? "
+	    read create
+	    if [ "${create:0:1}" == 'y' -o "${create:0:1}" == 'Y' ]; then
+		IFS=$IFS_BAK
+		mkdir "${NOTES_DIR}/${DIR}"
+		echo "#+TITLE: ${DIR}" > "${NOTES_DIR}/${DIR}/notes.md"
+		cat "${NOTES_DIR}/.notes.tmpl" >> "${NOTES_DIR}/${DIR}/notes.md"
+		emacs "${NOTES_DIR}/${DIR}/notes.md"
+		pushd ${NOTES_DIR} > /dev/null
+		commit ${DIR}/notes.md
+		popd > /dev/null
+		return 0
+	    fi
+	fi
+	IFS=$IFS_BAK
+    fi
+}
