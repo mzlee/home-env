@@ -152,6 +152,7 @@ function notes
 	    ;;
 	pull)
 	    ## Manual pull
+	    repo_pull ${NOTES_DIR}
 	    ;;
 	push)
 	    ## Manual push
