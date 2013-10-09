@@ -6,52 +6,88 @@ function find_notes
     export NOTES_DIR
 }
 
+function _notes_list
+{
+    local i=0
+    for d in $(find ${NOTES_DIR}/* -maxdepth 1 -type d); do
+	local D=${d##${NOTES_DIR}/}
+	if [ -z ${D} ]; then
+	    continue
+	elif [ ${D} == ".git" ]; then
+	    continue
+	elif [ -f "${NOTES_DIR}/${D}/.hide" ]; then
+	    continue
+	fi
+	echo ${D}
+    done
+}
+
+function _notes_update
+{
+    local TARGET=$(echo $1|tr '[:upper:]' '[:lower:]')
+    local LIST=$(_notes_list)
+    local FOUND=
+
+    if [ -z ${TARGET} ]; then
+	## No input, just list
+	local i=0
+	for d in ${LIST}; do
+	    printf "%8s\t" ${d}
+	    i=$(( ${i} + 1 ))
+	    if [ ${i} = 8 ]; then
+		printf "\n"
+		i=0
+	    fi
+	done
+	if [ ${i} != 0 ]; then
+	    printf "\n"
+	fi
+	return 0
+    fi
+
+    for d in ${LIST}; do
+	if [ "${d#${TARGET}*}" != "${d}" ]; then
+	    ## Found the project
+	    FOUND=${d}
+	fi
+    done
+
+    if [ -z ${FOUND} ]; then
+	echo -n "Project not found.  Create new project [N/y]? "
+	read create
+	if [ "${create:0:1}" == 'y' -o "${create:0:1}" == 'Y' ]; then
+	    mkdir -p "${NOTES_DIR}/${TARGET}"
+	    cat "${NOTES_DIR}/.notes.tmpl" > "${NOTES_DIR}/${TARGET}/notes.md"
+	    FOUND=${TARGET}
+	else
+	    return 0
+	fi
+    fi
+
+    emacs "${NOTES_DIR}/${FOUND}/notes.md"
+    pushd ${NOTES_DIR} > /dev/null
+    commit ${d}/notes.md
+    popd > /dev/null
+}
+
 function notes
 {
-    if [ -n "${NOTES_DIR}" ]; then
-	local DIR=$(echo $1|tr '[:upper:]' '[:lower:]')
-	IFS_BAK=$IFS
-	IFS=$'\n'
-	if [ -z ${DIR} ]; then
-	    local count=0
-	    for d in $(ls -1 ${NOTES_DIR}); do
-		if [ ! -f "${NOTES_DIR}/${d}/.hide" ]; then
-		    printf "%8s\t" ${d}
-		    count=$(( ${count} + 1 ))
-		    if [ ${count} = 8 ]; then
-			printf "\n"
-			count=0
-		    fi
-		fi
-	    done
-	    if [ ${count} != 0 ]; then
-		printf "\n"
-	    fi
-	else
-	    for d in $(ls -1 ${NOTES_DIR}); do
-		if [ "${d#${DIR}*}" != "${d}" ]; then
-		    IFS=$IFS_BAK
-		    emacs "${NOTES_DIR}/${d}/notes.md"
-		    pushd ${NOTES_DIR} > /dev/null
-		    commit ${d}/notes.md
-		    popd > /dev/null
-		    return 0
-		fi
-	    done
-	    echo -n "Project not found.  Create new project [N/y]? "
-	    read create
-	    if [ "${create:0:1}" == 'y' -o "${create:0:1}" == 'Y' ]; then
-		IFS=$IFS_BAK
-		mkdir "${NOTES_DIR}/${DIR}"
-		echo "#+TITLE: ${DIR}" > "${NOTES_DIR}/${DIR}/notes.md"
-		cat "${NOTES_DIR}/.notes.tmpl" >> "${NOTES_DIR}/${DIR}/notes.md"
-		emacs "${NOTES_DIR}/${DIR}/notes.md"
-		pushd ${NOTES_DIR} > /dev/null
-		commit ${DIR}/notes.md
-		popd > /dev/null
-		return 0
-	    fi
-	fi
-	IFS=$IFS_BAK
+    if [ -z "${NOTES_DIR}" ]; then
+	return
     fi
+    local ACTION=${1}
+    case ${ACTION} in
+	commit)
+	    ## Commit All
+	    ;;
+	pull)
+	    ## Manual pull
+	    ;;
+	push)
+	    ## Manual push
+	    ;;
+	*)
+	    _notes_update ${ACTION}
+	    ;;
+    esac
 }
