@@ -155,6 +155,14 @@ function notes
 	    ## Manual push
 	    repo_push ${NOTES_DIR}
 	    ;;
+	help)
+	    echo 'notes:'
+	    echo '    status: Get the repo status'
+	    echo '    commit: Commit $2'
+	    echo '    help: Print this message'
+	    echo '    pull: Pull updates'
+	    echo '    push: Push commits'
+	    ;;
 	*)
 	    _notes_update ${ACTION}
 	    ;;
