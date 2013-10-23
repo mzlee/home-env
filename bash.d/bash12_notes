@@ -51,16 +51,26 @@ function _notes_update_helper
     return ${flag}
 }
 
+function _notes_find_target
+{
+    TARGET=${1}
+    LIST=$(_notes_list)
+    for d in ${LIST}; do
+	if [ "${d#${TARGET}*}" != "${d}" -o "${d%*${TARGET}}" != "${d}" ]; then
+	    echo ${d}
+	    break
+	fi
+    done
+}
+
 function _notes_update
 {
     local TARGET=$(echo $1|tr '[:upper:]' '[:lower:]')
-    local LIST=$(_notes_list)
-    local FOUND=
 
     if [ -z ${TARGET} ]; then
 	## No input, just list
 	local i=0
-	for d in ${LIST}; do
+	for d in $(_notes_list); do
 	    printf "%8s\t" ${d}
 	    i=$(( ${i} + 1 ))
 	    if [ ${i} = 8 ]; then
@@ -74,12 +84,7 @@ function _notes_update
 	return 0
     fi
 
-    for d in ${LIST}; do
-	if [ "${d#${TARGET}*}" != "${d}" ]; then
-	    ## Found the project
-	    FOUND=${d}
-	fi
-    done
+    local FOUND=$(_notes_find_target ${TARGET})
 
     if [ -z ${FOUND} ]; then
 	echo -n "Project not found.  Create new project [N/y]? "
@@ -101,15 +106,7 @@ function _notes_update
 function _notes_commit
 {
     local TARGET=$(echo $1|tr '[:upper:]' '[:lower:]')
-    local LIST=$(_notes_list)
-    local FOUND=
-
-    for d in ${LIST}; do
-	if [ "${d#${TARGET}*}" != "${d}" ]; then
-	    ## Found the project
-	    FOUND=${d}
-	fi
-    done
+    local FOUND=$(_notes_find_target ${TARGET})
 
     if [ -z ${FOUND} ]; then
 	echo "No such project!"
