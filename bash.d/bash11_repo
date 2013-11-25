@@ -104,15 +104,36 @@ function repo_pull
     popd > /dev/null
 }
 
+function repo_revert
+{
+    TARGET=${1}
+    if [ -z ${TARGET} ]; then
+	TARGET=.
+    fi
+    pushd ${TARGET} > /dev/null
+    case $(_repo_type) in
+	git)
+	    git reset ${TARGET}
+	    git co ${TARGET}
+	    ;;
+	svn)
+	    svn revert ${TARGET}
+	    ;;
+	*)
+	    echo "No valid repository found"
+    esac
+    popd > /dev/null
+}
+
 function repo
 {
     CMD=${1}
     shift
     case ${CMD} in
-	status)
+	st|status)
 	    repo_status ${@}
 	    ;;
-	commit)
+	ci|commit)
 	    repo_commit ${@}
 	    ;;
 	push)
@@ -121,12 +142,16 @@ function repo
 	pull)
 	    repo_pull ${@}
 	    ;;
+	co|checkout|revert)
+	    repo_revert ${@}
+	    ;;
 	*)
 	    echo "repo <cmd> [args]"
-	    echo -e "\tstatus"
 	    echo -e "\tcommit"
-	    echo -e "\tpush"
 	    echo -e "\tpull"
+	    echo -e "\tpush"
+	    echo -e "\trevert"
+	    echo -e "\tstatus"
 	    ;;
     esac
 }
