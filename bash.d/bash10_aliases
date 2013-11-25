@@ -67,5 +67,5 @@ alias egrep='egrep --color=auto'
 # alias hget='fs -get'
 
 if [ $PLATFORM = "darwin" ]; then
-    alias sublime="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
+    alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 fi
