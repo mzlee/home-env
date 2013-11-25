@@ -104,6 +104,33 @@ function repo_pull
     popd > /dev/null
 }
 
+function repo
+{
+    CMD=${1}
+    shift
+    case ${CMD} in
+	status)
+	    repo_status ${@}
+	    ;;
+	commit)
+	    repo_commit ${@}
+	    ;;
+	push)
+	    repo_push ${@}
+	    ;;
+	pull)
+	    repo_pull ${@}
+	    ;;
+	*)
+	    echo "repo <cmd> [args]"
+	    echo -e "\tstatus"
+	    echo -e "\tcommit"
+	    echo -e "\tpush"
+	    echo -e "\tpull"
+	    ;;
+    esac
+}
+
 
 function __git_commit
 {
