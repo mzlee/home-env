@@ -133,7 +133,9 @@
               ;; Enable kernel mode for the appropriate files
               (when (and filename
 			 (or (string-match "/linux.*/" filename)
-			     (string-match "/kern.*/" filename)))
+			     (string-match "/kern.*/" filename)
+			     (string-match "/kvm.*/" filename)
+			     (string-match "/libdune/" filename)))
 		(c-kernel-code-indent-setup)))))
 
 (add-hook 'c-mode-hook
