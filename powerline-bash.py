@@ -29,13 +29,13 @@ def Machine():
             bg = KNOWN_MACHINES[uname[1]]
         else:
             bg = hash(uname[1]) & 0xff
-    return bg
+    return uname[1], bg
 
 class Color:
     # The following link is a pretty good resources for color values:
     # http://www.calmar.ws/vim/color-output.png
 
-    HOST_PATH_BG = Machine()
+    HOST_NAME, HOST_PATH_BG = Machine()
     PATH_BG = 237  # dark grey
     PATH_FG = 250  # light grey
     CWD_FG = 254  # nearly-white grey
@@ -124,6 +124,10 @@ class Segment:
             self.powerline.fgcolor(self.separator_fg),
             self.separator))
 
+def add_host_segment(powerline, hostname):
+    if Color.HOST_NAME not in KNOWN_MACHINES:
+        powerline.append(Segment(powerline, '%s' % hostname,
+                                 Color.PATH_FG, Color.HOST_PATH_BG ^ 255))
 
 def add_cwd_segment(powerline, cwd, maxdepth, cwd_only=False):
     #powerline.append(' \\w ', 15, 237)
@@ -374,6 +378,7 @@ if __name__ == '__main__':
 
     p = Powerline(mode=args.mode, shell=args.shell)
     cwd = get_valid_cwd()
+    add_host_segment(p, Color.HOST_NAME)
     add_virtual_env_segment(p, cwd)
     #p.append(Segment(p, ' \\u ', 250, 240))
     #p.append(Segment(p, ' \\h ', 250, 238))
