@@ -29,7 +29,7 @@ def Machine():
             bg = KNOWN_MACHINES[uname[1]]
         else:
             bg = hash(uname[1]) & 0xff
-    return uname[1], bg
+    return uname, bg
 
 class Color:
     # The following link is a pretty good resources for color values:
@@ -125,7 +125,7 @@ class Segment:
             self.separator))
 
 def add_host_segment(powerline, hostname):
-    if Color.HOST_NAME not in KNOWN_MACHINES:
+    if Color.HOST_NAME[0] == "Linux" and Color.HOST_NAME[1] not in KNOWN_MACHINES:
         powerline.append(Segment(powerline, '%s' % hostname,
                                  Color.PATH_FG, Color.HOST_PATH_BG ^ 255))
 
