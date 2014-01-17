@@ -125,8 +125,8 @@ class Segment:
             self.separator))
 
 def add_host_segment(powerline, hostname):
-    if Color.HOST_NAME[0] == "Linux" and Color.HOST_NAME[1] not in KNOWN_MACHINES:
-        powerline.append(Segment(powerline, '%s' % hostname,
+    if hostname not in KNOWN_MACHINES:
+        powerline.append(Segment(powerline, ' %s ' % hostname,
                                  Color.PATH_FG, Color.HOST_PATH_BG ^ 255))
 
 def add_cwd_segment(powerline, cwd, maxdepth, cwd_only=False):
@@ -378,7 +378,8 @@ if __name__ == '__main__':
 
     p = Powerline(mode=args.mode, shell=args.shell)
     cwd = get_valid_cwd()
-    add_host_segment(p, Color.HOST_NAME)
+    if Color.HOST_NAME[0] == "Linux":
+        add_host_segment(p, Color.HOST_NAME[1])
     add_virtual_env_segment(p, cwd)
     #p.append(Segment(p, ' \\u ', 250, 240))
     #p.append(Segment(p, ' \\h ', 250, 238))
