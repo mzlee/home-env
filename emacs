@@ -102,7 +102,7 @@
 
 (defun c-kernel-code-indent-setup ()
   (setq indent-tabs-mode t)
-  (setq tab-width 4)
+  (setq tab-width 8)
   (setq vc-handled-backends nil)
   (c-set-style "linux-tabs-only"))
 
