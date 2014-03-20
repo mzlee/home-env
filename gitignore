@@ -14,3 +14,6 @@
 .DS_Store
 .Python
 *.dSYM/
+
+main.pdf
+main.out
