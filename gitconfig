@@ -7,7 +7,7 @@
 	st = status
 	ch = diff --name-status -r
 	br = branch
-	br-show = branch -a
+	br-show = branch -av
 	stash-diff = stash show --pretty=raw
 	hist = log --date=short --graph --pretty=\"%h %ar | %s%d [%an]\"
 	hist-stat = log --stat --graph --pretty=\"%h %ar |%C(yellow)%d%Creset%n%s [%an]\"
