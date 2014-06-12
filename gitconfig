@@ -6,6 +6,7 @@
 	ci = commit
 	st = status
 	ch = diff --name-status -r
+	ff = pull --ff-only
 	br = branch
 	br-show = branch -av
 	stash-diff = stash show --pretty=raw
