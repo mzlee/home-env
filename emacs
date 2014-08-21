@@ -223,3 +223,5 @@
 	        (concat user-temporary-file-directory ".auto-saves-"))
 (setq auto-save-file-name-transforms
 	        `((".*" ,user-temporary-file-directory t)))
+
+(load-file "~/.emacs.d/prelude/init.el")
