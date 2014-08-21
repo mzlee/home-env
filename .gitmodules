@@ -10,3 +10,6 @@
 [submodule "tramp"]
 	path = tramp
 	url = git://git.savannah.gnu.org/tramp.git
+[submodule "emacs.d/prelude"]
+	path = emacs.d/prelude
+	url = https://github.com/bbatsov/prelude.git
