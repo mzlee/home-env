@@ -1,8 +1,11 @@
-; from the template file /lusr/share/udb/pub/dotfiles/emacs
-;
-; This is just to give you some idea of the things you can set
-; in your .emacs file.  If you want to use any of these commands
-; remove the ";" from in front of the line.
+;;; emacs --Main emacs configuration
+;; from the template file /lusr/share/udb/pub/dotfiles/emacs
+;;
+;; This is just to give you some idea of the things you can set
+;; in your .emacs file.  If you want to use any of these commands
+;; remove the ";" from in front of the line.
+
+;;; Code;
 
 ;; To change the font size under X.
 ; (set-default-font "9x15")
@@ -20,6 +23,8 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+
+(load-file "~/.emacs.d/prelude/init.el")
 
 (require 'org-install)
 (require 'yaml-mode)
@@ -128,15 +133,15 @@
                          c-lineup-arglist-tabs-only))))))
 
 (add-hook 'c-mode-hook
-	  (lambda ()
+          (lambda ()
             (let ((filename (buffer-file-name)))
               ;; Enable kernel mode for the appropriate files
               (when (and filename
-			 (or (string-match "/linux.*/" filename)
-			     (string-match "/kern.*/" filename)
-			     (string-match "/kvm.*/" filename)
-			     (string-match "/libdune/" filename)))
-		(c-kernel-code-indent-setup)))))
+                         (or (string-match "/linux.*/" filename)
+                             (string-match "/kern.*/" filename)
+                             (string-match "/kvm.*/" filename)
+                             (string-match "/libdune/" filename)))
+                (c-kernel-code-indent-setup)))))
 
 (add-hook 'c-mode-hook
 	  (lambda ()
@@ -179,8 +184,8 @@
 (add-hook 'python-mode-hook 'my-py-indent-setup)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-hook 'html-mode-hook (setq tab-width 4))
-(add-hook 'tex-mode-hook (auto-fill-mode 1))
-(add-hook 'latex-mode-hook (auto-fill-mode 1))
+;; (add-hook 'tex-mode-hook (auto-fill-mode 1))
+;; (add-hook 'latex-mode-hook (auto-fill-mode 1))
 (add-hook 'org-mode-hook 'my-org-indent-setup)
 
 (put 'narrow-to-region 'disabled nil)
@@ -224,4 +229,4 @@
 (setq auto-save-file-name-transforms
 	        `((".*" ,user-temporary-file-directory t)))
 
-(load-file "~/.emacs.d/prelude/init.el")
+;;; emacs ends here
