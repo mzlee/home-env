@@ -1,4 +1,4 @@
-;;; emacs --Main emacs configuration
+;;; emacs -- Main emacs configuration
 ;; from the template file /lusr/share/udb/pub/dotfiles/emacs
 ;;
 ;; This is just to give you some idea of the things you can set
@@ -24,7 +24,8 @@
 (add-to-list 'load-path "/usr/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
-(load-file "~/.emacs.d/prelude/init.el")
+(when (not (version< emacs-version "24.1"))
+  (load-file "~/.emacs.d/prelude/init.el"))
 
 (require 'org-install)
 (require 'yaml-mode)
