@@ -139,7 +139,7 @@
               (when (and filename
                          (or (string-match "/linux.*/" filename)
                              (string-match "/kern.*/" filename)
-                             (string-match "/kvm.*/" filename)
+                             (string-match "/sandbar/" filename)
                              (string-match "/libdune/" filename)))
                 (c-kernel-code-indent-setup)))))
 
