@@ -4,18 +4,18 @@ function choice {
     lc=$(wc -l < $file)
 
     if [ ${lc} -gt 0 ]; then
-	sed -n "$((1 + $RANDOM % ${lc})) p" ${file}
+        sed -n "$((1 + $RANDOM % ${lc})) p" ${file}
     fi
 }
 
 function check_machine {
     local ulist=$(ssh $LAST_PUBLIC "users");
     for u in ${ulist}; do
-	if [ ${u} != "mzlee" ]
-	then
-	    debug "${u}"
-	    LAST_PUBLIC=""
-	fi
+        if [ ${u} != "mzlee" ]
+        then
+            debug "${u}"
+            LAST_PUBLIC=""
+        fi
     done
 }
 
@@ -27,19 +27,19 @@ function new_machine {
 function pub_machine {
     local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
-	if [ -n "${LAST_PUBLIC}" ]; then
-	    check_machine
-	fi
+        if [ -n "${LAST_PUBLIC}" ]; then
+            check_machine
+        fi
 
-	while [ -z "${LAST_PUBLIC}" ]; do
-	    local mach=$(choice ${HOME}/.${DOMAIN})
-	    if [ ${mach:0:1} == "#" ]; then
-		continue
-	    fi
-	    echo "Trying ${mach}..."
-	    LAST_PUBLIC="${mach}.${DOMAIN}"
-	    check_machine
-	done
+        while [ -z "${LAST_PUBLIC}" ]; do
+            local mach=$(choice ${HOME}/.${DOMAIN})
+            if [ ${mach:0:1} == "#" ]; then
+                continue
+            fi
+            echo "Trying ${mach}..."
+            LAST_PUBLIC="${mach}.${DOMAIN}"
+            check_machine
+        done
     fi
     export LAST_PUBLIC
 }
@@ -47,28 +47,28 @@ function pub_machine {
 function pub_connect {
     local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
-	pub_machine
-	ssh $(whoami)@${LAST_PUBLIC} ${@}
+        pub_machine
+        ssh $(whoami)@${LAST_PUBLIC} ${@}
     fi
 }
 
 function pub_cpto {
     local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
-	pub_machine
-	local SRC=${1}
-	local DEST=${2:-${SRC}}
-	scp ${SRC} $(whoami)@${LAST_PUBLIC}:${DEST}
+        pub_machine
+        local SRC=${1}
+        local DEST=${2:-${SRC}}
+        scp ${SRC} $(whoami)@${LAST_PUBLIC}:${DEST}
     fi
 }
 
 function pub_cpfrom {
     local DOMAIN=${DOMAIN:-cs.utexas.edu}
     if [ -f ${HOME}/.${DOMAIN} ]; then
-	pub_machine
-	local SRC=${1}
-	local DEST=${2:-${SRC}}
-	scp $(whoami)@${LAST_PUBLIC}:${SRC} ${DEST}
+        pub_machine
+        local SRC=${1}
+        local DEST=${2:-${SRC}}
+        scp $(whoami)@${LAST_PUBLIC}:${SRC} ${DEST}
     fi
 }
 
@@ -83,7 +83,7 @@ function proxy_disconnect {
     local PROXY_PORT=${PROXY_PORT:-8080}
     local PROXY_PID=$(lsof -t -i @localhost:${PROXY_PORT} -sTCP:listen)
     if [ -n "${PROXY_PID}" ]; then
-	kill ${PROXY_PID}
+        kill ${PROXY_PID}
     fi
     sudo networksetup -setsocksfirewallproxystate Wi-Fi off
 }
@@ -95,34 +95,34 @@ function cp {
     local progress=0
     local i=0
     for arg in ${args}; do
-	if [ $arg = "--progress" ]; then
-	    progress=1
-	fi
-	i=$(( ${i} + 1 ))
+        if [ $arg = "--progress" ]; then
+            progress=1
+        fi
+        i=$(( ${i} + 1 ))
     done
 
     if [ $PLATFORM = linux ]; then
-	if [ $progress = 0 ]; then
-	    ${OLD_CP} ${args[@]}
-	else
-	    i=0
-	    for arg in ${args[@]}; do
-		if [ ${arg:0:1} = "-" ]; then
-		    unset args[i]
-		fi
-		i=$(( ${i} + 1 ))
-	    done
-	    cp_p ${args[@]}
-	fi
+        if [ $progress = 0 ]; then
+            ${OLD_CP} ${args[@]}
+        else
+            i=0
+            for arg in ${args[@]}; do
+                if [ ${arg:0:1} = "-" ]; then
+                    unset args[i]
+                fi
+                i=$(( ${i} + 1 ))
+            done
+            cp_p ${args[@]}
+        fi
     else
-	${OLD_CP} ${args[@]}
+        ${OLD_CP} ${args[@]}
     fi
 }
 
 function cp_p
 {
-   strace -q -ewrite ${OLD_CP} -- "${1}" "${2}" 2>&1 \
-      | awk '{
+    strace -q -ewrite ${OLD_CP} -- "${1}" "${2}" 2>&1 \
+        | awk '{
         count += $NF
             if (count % 10 == 0) {
                percent = count / total_size * 100
@@ -141,35 +141,35 @@ function cp_p
 function papers
 {
     if [ -n "${PAPERS_DIR}" ]; then
-	DIR=$(echo $1|tr '[:lower:]' '[:upper:]')
-	IFS_BAK=$IFS
-	IFS=$'\n'
-	if [ -z "${DIR}" ]; then
-	    local count=0
-	    for d in $(ls -1 $PAPERS_DIR); do
-		if [ "${d#*\(}" != "${d}" ]; then
-		    printf "%12s\t" "(${d#*\(}"
-		    local count=$(( ${count} + 1))
-		    if [ ${count} = 8 ]; then
-			printf "\n"
-			count=0
-		    fi
-		fi
-	    done
+        DIR=$(echo $1|tr '[:lower:]' '[:upper:]')
+        IFS_BAK=$IFS
+        IFS=$'\n'
+        if [ -z "${DIR}" ]; then
+            local count=0
+            for d in $(ls -1 $PAPERS_DIR); do
+                if [ "${d#*\(}" != "${d}" ]; then
+                    printf "%12s\t" "(${d#*\(}"
+                    local count=$(( ${count} + 1))
+                    if [ ${count} = 8 ]; then
+                        printf "\n"
+                        count=0
+                    fi
+                fi
+            done
 
-	    if [ ${count} != 0 ]; then
-		printf "\n"
-	    fi
-	else
-	    for d in $(ls -1 ${PAPERS_DIR}); do
-		D=$(echo ${d#*\(}|tr '[:lower:]' '[:upper:]')
-		if [ "${D}" = "$DIR)" ]; then
-		    cd "${PAPERS_DIR}/${d}"
-		    break
-		fi
-	    done
-	fi
-	IFS=$IFS_BAK
+            if [ ${count} != 0 ]; then
+                printf "\n"
+            fi
+        else
+            for d in $(ls -1 ${PAPERS_DIR}); do
+                D=$(echo ${d#*\(}|tr '[:lower:]' '[:upper:]')
+                if [ "${D}" = "$DIR)" ]; then
+                    cd "${PAPERS_DIR}/${d}"
+                    break
+                fi
+            done
+        fi
+        IFS=$IFS_BAK
     fi
 }
 
@@ -185,9 +185,9 @@ function fp
 {
     arg=${1-'.*'}
     ps Ao pid,comm | \
-	awk '{match($0,/[^\/]+$|\W+$/); print substr($0,RSTART,RLENGTH)": "$1}' | \
-	grep -i "${arg}" | \
-	grep -v grep
+        awk '{match($0,/[^\/]+$|\W+$/); print substr($0,RSTART,RLENGTH)": "$1}' | \
+        grep -i "${arg}" | \
+        grep -v grep
 }
 
 function fk
