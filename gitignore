@@ -17,3 +17,7 @@
 
 main.pdf
 main.out
+
+## New emacs generated files and folders
+flycheck_*.tex
+auto/
