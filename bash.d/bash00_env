@@ -77,8 +77,8 @@ fi
 if [ ${PLATFORM} == 'linux' ]; then
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US.UTF-8
+    export TZ="America/Chicago"
 fi
-export TZ="America/Chicago"
 
 if [ ${TERM} != screen ]
 then

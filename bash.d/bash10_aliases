@@ -69,3 +69,7 @@ alias egrep='egrep --color=auto'
 if [ $PLATFORM = "darwin" ]; then
     alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 fi
+
+## Grabbed from http://brodoyouevencode.com/posts/useful-bash-aliases/
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +%T'
