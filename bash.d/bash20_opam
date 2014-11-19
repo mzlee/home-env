@@ -1,0 +1,4 @@
+
+
+# OPAM configuration
+. /filer/osa/home/mzlee/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
