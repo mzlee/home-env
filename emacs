@@ -24,15 +24,15 @@
 (add-to-list 'load-path "/usr/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
-(when (not (version< emacs-version "24.1"))
-  (load-file "~/.emacs.d/prelude/init.el"))
+;; (when (not (version< emacs-version "24.1"))
+;;  (load-file "~/.emacs.d/prelude/init.el"))
 
 (require 'org-install)
 (require 'yaml-mode)
 (require 'matlab-mode)
 (require 'org-velocity)
 (require 'tramp)
-;; (require 'tuareg)
+(require 'tuareg)
 ;; (require 'tblgen)
 ;; (require 'camldebug)
 
@@ -50,7 +50,10 @@
 (add-to-list 'auto-mode-alist '("Makefile\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
-;; (add-to-list 'auto-mode-alist '("\\.ml\\w?" . tuareg-mode))
+(setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
+(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+
 (add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
