@@ -71,6 +71,7 @@
 
 (setq c-basic-offset 4)
 (setq python-basic-offset 4)
+(setq ml-basic-offset 2)
 
 (global-set-key [?\M-1] 'goto-line)
 (global-set-key [?\M-5] 'query-replace-regexp)
