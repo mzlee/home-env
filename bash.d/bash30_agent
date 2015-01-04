@@ -5,7 +5,7 @@ agent_pid="$(ps aux | grep "ssh-agent" | grep -v "grep" | awk '{print($2)}')"
 if [[ -z "$agent_pid" ]]; then
     eval "$(ssh-agent)"
 else
-    agent_sock="$(find /tmp/ssh-* -type s -iname "agent.*")"
+    agent_sock="$(find /tmp/ssh-* -type s -iname "agent.*" 2> /dev/null)"
     agent_ppid=${agent_sock#agent.}
     export SSH_AGENT_PID="$agent_pid"
     export SSH_AUTH_SOCK="$agent_sock"
