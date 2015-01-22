@@ -21,6 +21,8 @@
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/org")
+(add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
@@ -28,9 +30,11 @@
 ;;  (load-file "~/.emacs.d/prelude/init.el"))
 
 (require 'org-install)
+(require 'org-velocity)
+(require 'ob-python)
+(require 'ob-ruby)
 (require 'yaml-mode)
 (require 'matlab-mode)
-(require 'org-velocity)
 (require 'tramp)
 (require 'tuareg)
 ;; (require 'tblgen)
