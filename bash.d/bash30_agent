@@ -9,7 +9,9 @@ else
     if [[ ( -z ${agent_sock} ) && ( ${PLATFORM} = "darwin" ) ]]; then
 	agent_sock="$(find /var/folders/*/*/*/ssh-* -type s -iname "agent.*" 2> /dev/null)"
     fi
-    agent_ppid=${agent_sock#agent.}
+    read -a agent_sock <<< "${agent_sock}"
+    agent_sock=${agent_sock[0]}
+    agent_pid=${agent_sock#*agent.}
     export SSH_AGENT_PID="$agent_pid"
     export SSH_AUTH_SOCK="$agent_sock"
     echo "Agent pid ${SSH_AGENT_PID}"
