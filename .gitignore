@@ -8,4 +8,5 @@ bash.d/bash5*_*
 emacs.d/etc/
 emacs.d/site-lisp/org/
 emacs.d/site-lisp/yaml-mode.el
+emacs.d/share/
 info/
