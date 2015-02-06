@@ -6,10 +6,12 @@ fi
 
 function _powerline_ps1 {
     export PS1="$(python ~/.home_env/powerline-bash.py --error=$?)"
+    export REPO=$(_repo_type)
 }
 
 function _powerline_ps1_compat {
     export PS1="$(python ~/.home_env/powerline-bash.py --error=$? --mode=compatible)"
+    export REPO=$(_repo_type)
 }
 
 function set_powerline {

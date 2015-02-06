@@ -2,19 +2,30 @@
 
 function _repo_type
 {
-    local flag
-    git rev-parse --show-toplevel 1> /dev/null 2> /dev/null
-    flag=${?}
-    if [ ${flag} == 0 ]; then
-	echo git
-	return 0
-    fi
-    ls -d .svn 1> /dev/null 2>/dev/null
-    flag=${?}
-    if [ ${flag} == 0 ]; then
-	echo svn
-	return 0
-    fi
+    local d;
+    d=$PWD;
+    while :; do
+        if test -d "$d/.git"; then
+            # git=$d;
+            echo git
+            break;
+        elif test -d "$d/.hg"; then
+            # hg=$d;
+            echo hg
+            break;
+        elif test -d "$d/.svn"; then
+            # svn=$d
+            echo svn
+            break;
+        fi;
+        test "$d" = / && break;
+        d=$(cd "$d/.." && echo "$PWD");
+    done;
+}
+
+function r
+{
+    ${REPO} "${@}"
 }
 
 function repo_commit
