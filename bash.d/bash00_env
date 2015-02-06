@@ -20,21 +20,21 @@ export PLATFORM="$platform"
 debug Path
 extra_bin="/usr/local/sbin ${HOME}/bin /opt/google/chrome"
 extra_lib="${HOME}/lib /usr/local/lib /usr/lib"
-for path in ${extra_bin}
-do
-    if [ -d ${path} ]
-    then
+for path in ${extra_bin}; do
+    if [ -d ${path} ]; then
 	PATH=${path}:${PATH}
     fi
 done
-for path in ${extra_lib}
-do
-    if [ -d ${path} ]
-    then
+PATH=$(tr ':' '\n' <<< "$PATH" | uniq | tr '\n' ':')
+PATH=${PATH%?}
+export PATH
+for path in ${extra_lib}; do
+    if [ -d ${path} ]; then
 	LD_LIBRARY_PATH=${path}:${LD_LIBRARY_PATH}
     fi
 done
-export PATH
+LD_LIBRARY_PATH=$(tr ':' '\n' <<< "$LD_LIBRARY_PATH" | sort -u | tr '\n' ':')
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH%?}
 export LD_LIBRARY_PATH
 
 ## Editor
@@ -64,14 +64,6 @@ HISTFILESIZE=2000
 
 shopt -s histappend
 shopt -s checkwinsize
-
-debug Papers
-`which mendeleydesktop > /dev/null`
-if [ $? = 0 ]
-then
-    PAPERS_DIR="$HOME/Documents/papers"
-    export PAPERS_DIR
-fi
 
 # Set the locale
 if [ ${PLATFORM} == 'linux' ]; then
