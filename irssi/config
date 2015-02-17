@@ -1,14 +1,9 @@
 servers = (
   {
-    address = "doraemon.eecs.umich.edu";
-    chatnet = "Lucy";
-    port = "6667";
   }
 );
 
-chatnets = { Lucy = { type = "IRC"; }; };
 
-channels = ( { name = "#lucy"; chatnet = "Lucy"; autojoin = "Yes"; } );
 
 aliases = {
   J = "join";
@@ -215,7 +210,7 @@ settings = {
   core = {
     real_name = "Michael Lee";
     user_name = "mzlee";
-    nick = "mzlee-mac";
+    nick = "mzlee";
     timestamp_format = "%H:%M";
   };
   "fe-text" = { actlist_sort = "refnum"; };
