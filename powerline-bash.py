@@ -365,7 +365,7 @@ if __name__ == '__main__':
         arg_parser.add_argument('--cwd-only', action='store_true')
         arg_parser.add_argument('--mode', action='store', default='patched')
         arg_parser.add_argument('--shell', action='store', default='bash')
-        arg_parser.add_argument('prev_error', nargs='?', default=0)
+        arg_parser.add_argument('--error', action='store', default=0)
         args = arg_parser.parse_args()
     except:
         class DummyArgs(object):
@@ -373,7 +373,7 @@ if __name__ == '__main__':
                 self.mode = "compatible"
                 self.shell = "bash"
                 self.cwd_only = False
-                self.prev_error = 0
+                self.error = 0
         args = DummyArgs()
 
     p = Powerline(mode=args.mode, shell=args.shell)
@@ -385,7 +385,7 @@ if __name__ == '__main__':
     #p.append(Segment(p, ' \\h ', 250, 238))
     add_cwd_segment(p, cwd, 5, args.cwd_only)
     add_repo_segment(p, cwd)
-    add_root_indicator(p, args.prev_error)
+    add_root_indicator(p, args.error)
     sys.stdout.write(p.draw())
 
 # vim: set expandtab:

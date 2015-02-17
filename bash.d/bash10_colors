@@ -5,11 +5,11 @@ if [ -f ${HOME}/.dircolors ]; then
 fi
 
 function _powerline_ps1 {
-    export PS1="$(python ~/.home_env/powerline-bash.py $?)"
+    export PS1="$(python ~/.home_env/powerline-bash.py --error=$?)"
 }
 
 function _powerline_ps1_compat {
-    export PS1="$(python ~/.home_env/powerline-bash.py $? --mode=compatible)"
+    export PS1="$(python ~/.home_env/powerline-bash.py --error=$? --mode=compatible)"
 }
 
 function set_powerline {
