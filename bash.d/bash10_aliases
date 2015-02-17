@@ -14,6 +14,11 @@ alias emacs='emacs -nw'
 alias emasc='emacs -nw'
 alias emac='emacs -nw'
 
+# backup aliases
+alias cp='cp --backup=numbered'
+alias ln='ln --backup=numbered'
+alias mv='mv -f --backup=numbered'
+
 # grep aliases
 alias grhn='grep -rHn'
 alias grin='grep -rHni'

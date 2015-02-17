@@ -23,6 +23,24 @@ function _repo_type
     done;
 }
 
+function _git
+{
+    if [ "X$REPO" == "Xgit" ]; then
+        /usr/bin/git "${@}"
+    elif [ "X$REPO" == "Xhg" ]; then
+        echo 'Did you mean "hg"?'
+    fi
+}
+
+function _hg
+{
+    if [ "X$REPO" == "Xhg" ]; then
+        /usr/bin/hg "${@}"
+    elif [ "X$REPO" == "Xgit" ]; then
+        echo 'Did you mean "git"?'
+    fi
+}
+
 function r
 {
     ${REPO} "${@}"

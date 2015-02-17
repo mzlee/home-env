@@ -1,4 +1,10 @@
 # .bash_env
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
 debug Platform
 case `uname -s` in
     Linux)

@@ -90,7 +90,7 @@ function proxy_disconnect {
 
 OLD_CP=/bin/cp
 
-function cp {
+function _cp {
     local args=( $@ )
     local progress=0
     local i=0
