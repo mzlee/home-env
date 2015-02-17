@@ -1,0 +1,6 @@
+[ui]
+username = Michael Z. Lee <mzlee@umich.com>
+
+[alias]
+bm = bookmark
+modified = !$HG status -m | awk '{print $$2}'
