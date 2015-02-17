@@ -15,9 +15,11 @@ alias emasc='emacs -nw'
 alias emac='emacs -nw'
 
 # backup aliases
-alias cp='cp --backup=numbered'
-alias ln='ln --backup=numbered'
-alias mv='mv -f --backup=numbered'
+if [ "${PLATFORM}" = "linux" ]; then
+    alias cp='cp --backup=numbered'
+    alias ln='ln --backup=numbered'
+    alias mv='mv -f --backup=numbered'
+fi
 
 # grep aliases
 alias grhn='grep -rHn'
