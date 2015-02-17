@@ -28,7 +28,7 @@ function _dedup_path {
     tr ':' '\n' <<< ${path} | awk '{
 if ($1 && !path_arr[$1]) {
   if (path) {
-    path=$1":"path
+    path=path":"$1
   } else {
     path=$1
   }
