@@ -83,7 +83,7 @@ shopt -s checkwinsize
 if [ ${PLATFORM} == 'linux' ]; then
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US.UTF-8
-    export TZ="America/Chicago"
+    export TZ="America/New_York"
 fi
 
 if [ ${TERM} != screen ]
