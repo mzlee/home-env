@@ -9,6 +9,7 @@
 	ff = pull --ff-only
 	br = branch
 	br-show = branch -av
+	amend = commit -a --amend
 	subpull = submodule foreach --recursive git pull origin master
 	stash-diff = stash show --pretty=raw
 	hist = log --date=short --graph --pretty=\"%h %ar | %s%d [%an]\"
