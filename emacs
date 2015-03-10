@@ -21,158 +21,163 @@
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/org")
-(add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
-(add-to-list 'load-path "/usr/share/emacs/site-lisp")
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/org")
+;; (add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp")
+;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
 ;; (when (not (version< emacs-version "24.1"))
 ;;  (load-file "~/.emacs.d/prelude/init.el"))
 
-(require 'org-install)
-(require 'org-velocity)
-(require 'ob-python)
-(require 'ob-ruby)
-(require 'yaml-mode)
-(require 'matlab-mode)
-(require 'tramp)
-(require 'tuareg)
+;; (require 'org-install)
+;; (require 'org-velocity)
+;; (require 'ob-python)
+;; (require 'ob-ruby)
+;; (require 'yaml-mode)
+;; (require 'matlab-mode)
+;; (require 'tramp)
+;; (require 'tuareg)
 ;; (require 'tblgen)
 ;; (require 'camldebug)
 
 ;; Add modes
-(setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
-(global-set-key (kbd "C-c v") 'org-velocity-read)
+;; (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
+;; (global-set-key (kbd "C-c v") 'org-velocity-read)
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 
 ;; Add auto modes
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;; (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("Makefrag\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("Makefile\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
-(setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
-(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+;; (setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
+;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 
-(add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
+;; (add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(add-to-list 'auto-mode-alist '("\\.m" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.mm" . objc-mode))
+
+(add-to-list 'auto-mode-alist '("BUCK" . python-mode))
 
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
 ;; (autoload 'tblgen-mode "tblgen" "Major mode for editing TableGen code" t)
 
 ;; Org Mode keys
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+;; (global-set-key "\C-cl" 'org-store-link)
+;; (global-set-key "\C-ca" 'org-agenda)
+;; (global-set-key "\C-cb" 'org-iswitchb)
 
-(global-font-lock-mode 1)                     ; for all buffers
-(add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
+;; (global-font-lock-mode 1)                     ; for all buffers
+;; (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 
-(setq c-basic-offset 4)
-(setq python-basic-offset 4)
-(setq ml-basic-offset 2)
+;; (setq c-basic-offset 4)
+;; (setq python-basic-offset 4)
+;; (setq ml-basic-offset 2)
 
 (global-set-key [?\M-1] 'goto-line)
 (global-set-key [?\M-5] 'query-replace-regexp)
 (global-set-key "\C-x/" 'comment-or-uncomment-region)
 
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces"
-  (let* ((anchor (c-langelem-pos c-syntactic-element))
-	 (column (c-langelem-2nd-pos c-syntactic-element))
-	 (offset (- (1+ column) anchor))
-	 (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
+;; (defun c-lineup-arglist-tabs-only (ignored)
+;;   "Line up argument lists by tabs, not spaces"
+;;   (let* ((anchor (c-langelem-pos c-syntactic-element))
+;; 	 (column (c-langelem-2nd-pos c-syntactic-element))
+;; 	 (offset (- (1+ column) anchor))
+;; 	 (steps (floor offset c-basic-offset)))
+;;     (* (max steps 1)
+;;        c-basic-offset)))
 
-(defun c-user-code-indent-setup ()
-  (setq indent-tabs-mode nil)
-  (setq c-basic-offset 4))
+;; (defun c-user-code-indent-setup ()
+;;   (setq indent-tabs-mode nil)
+;;   (setq c-basic-offset 4))
 
-(defun c-tab-code-indent-setup ()
-  (setq indent-tabs-mode t)
-  (setq default-tab-width 4)
-  (setq c-basic-offset 4))
+;; (defun c-tab-code-indent-setup ()
+;;   (setq indent-tabs-mode t)
+;;   (setq default-tab-width 4)
+;;   (setq c-basic-offset 4))
 
-(defun c-nginx-code-indent-setup ()
-  (setq indent-tabs-mode nil)
-  (setq vc-handled-backends nil)
-  (setq c-basic-offset 4))
+;; (defun c-nginx-code-indent-setup ()
+;;   (setq indent-tabs-mode nil)
+;;   (setq vc-handled-backends nil)
+;;   (setq c-basic-offset 4))
 
-(defun c-qemu-code-indent-setup ()
-  (setq indent-tabs-mode nil)
-  (setq vc-handled-backends nil)
-  (setq c-basic-offset 4))
+;; (defun c-qemu-code-indent-setup ()
+;;   (setq indent-tabs-mode nil)
+;;   (setq vc-handled-backends nil)
+;;   (setq c-basic-offset 4))
 
-(defun c-qt-code-indent-setup ()
-  (setq indent-tabs-mode nil)
-  (setq vc-handled-backends nil)
-  (setq c-basic-offset 4))
+;; (defun c-qt-code-indent-setup ()
+;;   (setq indent-tabs-mode nil)
+;;   (setq vc-handled-backends nil)
+;;   (setq c-basic-offset 4))
 
-(defun c-kernel-code-indent-setup ()
-  (setq indent-tabs-mode t)
-  (setq tab-width 8)
-  (setq vc-handled-backends nil)
-  (c-set-style "linux-tabs-only"))
+;; (defun c-kernel-code-indent-setup ()
+;;   (setq indent-tabs-mode t)
+;;   (setq tab-width 8)
+;;   (setq vc-handled-backends nil)
+;;   (c-set-style "linux-tabs-only"))
 
 (defun java-code-indent-setup ()
   (setq indent-tabs-mode nil)
-  (setq c-basic-offset 4))
+  (setq c-basic-offset 2))
 
-(defun my-py-indent-setup ()
-  (setq indent-tabs-mode nil)
-  (setq python-basic-offset 4))
+;; (defun my-py-indent-setup ()
+;;   (setq indent-tabs-mode nil)
+;;   (setq python-basic-offset 4))
 
-(defun my-org-indent-setup ()
-  (auto-fill-mode 1)
-  (setq indent-tabs-mode nil))
+;; (defun my-org-indent-setup ()
+;;   (auto-fill-mode 1)
+;;   (setq indent-tabs-mode nil))
 
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only))))))
+;; (add-hook 'c-mode-common-hook
+;;           (lambda ()
+;;             (c-add-style
+;;              "linux-tabs-only"
+;;              '("linux" (c-offsets-alist
+;;                         (arglist-cont-nonempty
+;;                          c-lineup-gcc-asm-reg
+;;                          c-lineup-arglist-tabs-only))))))
 
-(add-hook 'c-mode-hook
-          (lambda ()
-            (let ((filename (buffer-file-name)))
-              ;; Enable kernel mode for the appropriate files
-              (when (and filename
-                         (or (string-match "/linux.*/" filename)
-                             (string-match "/kern.*/" filename)
-                             (string-match "/sandbar/" filename)
-                             (string-match "/libdune/" filename)))
-                (c-kernel-code-indent-setup)))))
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable kernel mode for the appropriate files
+;;               (when (and filename
+;;                          (or (string-match "/linux.*/" filename)
+;;                              (string-match "/kern.*/" filename)
+;;                              (string-match "/sandbar/" filename)
+;;                              (string-match "/libdune/" filename)))
+;;                 (c-kernel-code-indent-setup)))))
 
-(add-hook 'c-mode-hook
-	  (lambda ()
-            (let ((filename (buffer-file-name)))
-              ;; Enable relic mode for the appropreiate files
-              (when (and filename
-			 (string-match "/relic.*/" filename))
-		(c-tab-code-indent-setup)))))
-(add-hook 'c-mode-hook
-	  (lambda ()
-            (let ((filename (buffer-file-name)))
-              ;; Enable qemu mode for the appropriate files
-              (when (and filename
-			 (string-match "/qemu.*/" filename))
-		(c-qemu-code-indent-setup))
-              (when (and filename
-			 (string-match "/nginx.*/" filename))
-		(c-nginx-code-indent-setup))
-              (when (and filename
-			 (string-match "/qt.*/" filename))
-		(c-qt-code-indent-setup))
-	      )))
+;; (add-hook 'c-mode-hook
+;; 	  (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable relic mode for the appropreiate files
+;;               (when (and filename
+;; 			 (string-match "/relic.*/" filename))
+;; 		(c-tab-code-indent-setup)))))
+;; (add-hook 'c-mode-hook
+;; 	  (lambda ()
+;;             (let ((filename (buffer-file-name)))
+;;               ;; Enable qemu mode for the appropriate files
+;;               (when (and filename
+;; 			 (string-match "/qemu.*/" filename))
+;; 		(c-qemu-code-indent-setup))
+;;               (when (and filename
+;; 			 (string-match "/nginx.*/" filename))
+;; 		(c-nginx-code-indent-setup))
+;;               (when (and filename
+;; 			 (string-match "/qt.*/" filename))
+;; 		(c-qt-code-indent-setup))
+;; 	      )))
 ;; (add-hook 'c-mode-hook
 ;; 	  (lambda ()
 ;;             (let ((filename (buffer-file-name)))
@@ -187,15 +192,15 @@
 ;;               (when (and filename
 ;; 			 (string-match "/qt.*/" filename ))
 ;; 		(c-qt-code-indent-setup)))))
-(add-hook 'c-mode-hook 'c-user-code-indent-setup)
-(add-hook 'c++-mode-hook 'c-user-code-indent-setup)
+;; (add-hook 'c-mode-hook 'c-user-code-indent-setup)
+;; (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
 (add-hook 'java-mode-hook 'java-code-indent-setup)
-(add-hook 'python-mode-hook 'my-py-indent-setup)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(add-hook 'html-mode-hook (setq tab-width 4))
+;; (add-hook 'python-mode-hook 'my-py-indent-setup)
+;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+;; (add-hook 'html-mode-hook (setq tab-width 4))
 ;; (add-hook 'tex-mode-hook (auto-fill-mode 1))
 ;; (add-hook 'latex-mode-hook (auto-fill-mode 1))
-(add-hook 'org-mode-hook 'my-org-indent-setup)
+;; (add-hook 'org-mode-hook 'my-org-indent-setup)
 
 (put 'narrow-to-region 'disabled nil)
 
@@ -218,13 +223,13 @@
 ;; Trying to define a new mode
 ;(defvar javascript-mode-font-lock-keywords
 ;   '(("\\(--.*\\)" 1 'font-lock-comment-face)))
-(define-derived-mode javascript-mode java-mode "JavaScript"
-  "Major mode to edit JavaScript files."
+;; (define-derived-mode javascript-mode java-mode "JavaScript"
+;;   "Major mode to edit JavaScript files."
 ;  (set (make-local-variable 'font-lock-keywords)
 ;       '(javascript-mode-font-lock-keywords))
 ;  (set (make-local-variable 'comment-start) "--"))
-  )
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+;;  )
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 
 (defvar user-temporary-file-directory
   (concat "/tmp/" user-login-name "/emacs.d/tmp"))
