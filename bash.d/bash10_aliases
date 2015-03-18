@@ -80,3 +80,6 @@ fi
 ## Grabbed from http://brodoyouevencode.com/posts/useful-bash-aliases/
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +%T'
+
+alias git=r
+alias hg=r
