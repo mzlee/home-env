@@ -1,27 +1,56 @@
 # .bash_functions repo submodule
 
-function _repo_type
+function _repo_dir
 {
     local d;
     d=$PWD;
     while :; do
-        if test -d "$d/.git"; then
-            # git=$d;
-            echo git
+        if [ -d "$d/.git" ]; then
             break;
-        elif test -d "$d/.hg"; then
-            # hg=$d;
-            echo hg
+        elif [ -d "$d/.hg" ]; then
             break;
-        elif test -d "$d/.svn"; then
-            # svn=$d
-            echo svn
+        elif [ -d "$d/.svn" ]; then
             break;
         fi;
-        test "$d" = / && break;
+	test "$d"  = / && return;
         d=$(cd "$d/.." && echo "$PWD");
-    done;
+    done
+    printf $d
 }
+
+function _repo_type
+{
+    local d=${1};
+    if [ -z ${d} ]; then
+	d=$(_repo_dir)
+    fi
+
+    if [ -d "$d/.git" ]; then
+        printf git
+    elif [ -d "$d/.hg" ]; then
+        printf hg
+    elif [ -d "$d/.svn" ]; then
+        printf svn
+    fi
+}
+
+function _repo_info
+{
+    local d=${1} br
+    if [ -z ${d} ]; then
+	d=$(_repo_dir)
+    fi
+    local r=$(_repo_type ${d})
+    if [ "X$r" == "Xhg" ]; then
+	br=$(__hg_info ${d})
+    elif [ "X$r" == "Xgit" ]; then
+	br=$(__git_info ${d})
+    fi
+    if [ -n "$br" ]; then
+	printf "($br)"
+    fi
+}
+
 
 function _git
 {
@@ -185,6 +214,49 @@ function repo
     esac
 }
 
+function __git_info
+{
+    local d=${1}
+    if [ -z ${d} ]; then
+	d=$(_repo_dir)
+    fi
+    if [ $(_repo_type ${d}) != "git" ]; then
+	return;
+    fi
+
+    local br
+    if test -f "$d/.git/HEAD" ; then
+	read br < "$d/.git/HEAD"
+	case $br in
+	    ref:\ refs/heads/*) br=${br#ref: refs/heads/} ;;
+	    *) br=$(expr substr "$br" 1 7) ;;
+	esac
+	if [ -f "$d/.git/rebase-merge/interactive" ]; then
+	    b="$(cat "$d/.git/rebase-merge/head-name")"
+	    b=${b#refs/heads/}
+	    br="$br|REBASE-i|$b"
+	elif [ -d "$d/.git/rebase-merge" ]; then
+	    b="$(cat "$d/.git/rebase-merge/head-name")"
+	    b=${b#refs/heads/}
+	    br="br|REBASE-m|$b"
+	else
+	    if [ -d "$d/.git/rebase-apply" ]; then
+		if [ -f "$d/.git/rebase-apply/rebasing" ]; then
+		    br="$br|REBASE"
+		elif [ -f "$d/.git/rebase-apply/applying" ]; then
+		    br="$br|AM"
+		else
+		    br="$br|AM/REBASE"
+		fi
+	    elif [ -f "$d/.git/MERGE_HEAD" ]; then
+		br="$br|MERGE"
+	    elif [ -f "$d/.git/BISECT_LOG" ]; then
+		br="$br|BISECT"
+	    fi
+	fi
+    fi
+    printf $br
+}
 
 function __git_commit
 {
@@ -209,4 +281,64 @@ function __svn_commit
 	return 255
     fi
     svn ci ${OBJ} -m "[${OBJ}] ${message}"
+}
+
+function __hg_info
+{
+    local d=${1}
+    if [ -z ${d} ]; then
+	d=$(_repo_dir)
+    fi
+    if [ $(_repo_type ${d}) != "hg" ]; then
+	return;
+    fi
+
+    local br extra
+    if [ -f "$d/.hg/bisect.state" ]; then
+	extra="|BISECT"
+    elif [ -f "$d/.hg/histedit-state" ]; then
+	extra="|HISTEDIT"
+    elif [ -f "$d/.hg/graftstate" ]; then
+	extra="|GRAFT"
+    elif [ -f "$d/.hg/unshelverebasestate" ]; then
+	extra="|UNSHELVE"
+    elif [ -f "$d/.hg/rebasestate" ]; then
+	extra="|REBASE"
+    elif [ -d "$d/.hg/merge" ]; then
+	extra="|MERGE"
+    fi
+
+    local dirstate=$(test -f $d/.hg/dirstate && \
+			    hexdump -vn 20 -e '1/1 "%02x"' $d/.hg/dirstate || \
+				echo "empty")
+    local current="$d/.hg/bookmarks.current"
+    if  [[ -f "$current" ]]; then
+	br=$(cat "$current")
+	# check to see if active bookmark needs update
+	local marks="$d/.hg/bookmarks"
+	if [[ -z "$extra" ]] && [[ -f "$marks" ]]; then
+	    local markstate=$(grep --color=never " $br$" "$marks" | cut -f 1 -d ' ')
+	    if [[ $markstate != $dirstate ]]; then
+		extra="|UPDATE_NEEDED"
+	    fi
+	fi
+    else
+	br=$(expr substr "$dirstate" 1 7)
+    fi
+    local remote="$d/.hg/remotenames"
+    if [[ -f "$remote" ]]; then
+	local marks=$(grep --color=never "^$dirstate bookmarks" "$remote" | \
+			     cut -f 3 -d ' ' | tr '\n' '|' | head -c -1)
+	if [[ -n "$marks" ]]; then
+	    br="$br|$marks"
+	fi
+    fi
+    local branch
+    if [[ -f $d/.hg/branch ]]; then
+	branch=$(cat $d/.hg/branch)
+	if [[ $branch != "default" ]]; then
+	    br="$br|$branch"
+	fi
+    fi
+    printf $br
 }
