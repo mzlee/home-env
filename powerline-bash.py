@@ -312,6 +312,12 @@ def add_repo_segment(powerline, cwd):
         except OSError:
             pass
 
+def add_lw_repo_segment(powerline, branch):
+    if branch:
+        branch = branch.strip()[1:-1]
+        bg = Color.REPO_CLEAN_BG
+        fg = Color.REPO_CLEAN_FG
+        powerline.append(Segment(powerline, ' %s ' % branch, fg, bg))
 
 def add_virtual_env_segment(powerline, cwd):
     env = os.getenv("VIRTUAL_ENV")
@@ -342,7 +348,8 @@ def get_valid_cwd():
         the working directory, so returning our guess will confuse people
     """
     try:
-        cwd = os.getcwd()
+        cwd = os.getenv('PWD')  # This is where the OS thinks we are
+        # cwd = os.getcwd()
     except:
         cwd = os.getenv('PWD')  # This is where the OS thinks we are
         parts = cwd.split(os.sep)
@@ -366,6 +373,7 @@ if __name__ == '__main__':
         arg_parser.add_argument('--mode', action='store', default='patched')
         arg_parser.add_argument('--shell', action='store', default='bash')
         arg_parser.add_argument('--error', action='store', default=0)
+        arg_parser.add_argument('--branch', action='store', default='')
         args = arg_parser.parse_args()
     except:
         class DummyArgs(object):
@@ -374,6 +382,7 @@ if __name__ == '__main__':
                 self.shell = "bash"
                 self.cwd_only = False
                 self.error = 0
+                self.branch = ''
         args = DummyArgs()
 
     p = Powerline(mode=args.mode, shell=args.shell)
@@ -384,7 +393,8 @@ if __name__ == '__main__':
     #p.append(Segment(p, ' \\u ', 250, 240))
     #p.append(Segment(p, ' \\h ', 250, 238))
     add_cwd_segment(p, cwd, 5, args.cwd_only)
-    add_repo_segment(p, cwd)
+    add_lw_repo_segment(p, args.branch)
+    # add_repo_segment(p, cwd)
     add_root_indicator(p, args.error)
     sys.stdout.write(p.draw())
 

@@ -5,13 +5,17 @@ if [ -f ${HOME}/.dircolors ]; then
 fi
 
 function _powerline_ps1 {
-    export PS1="$(python ~/.home_env/powerline-bash.py --error=$?)"
-    export REPO=$(_repo_type)
+    local err=${?}
+    local d=$(_repo_dir)
+    export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="$(_repo_info ${d})")"
+    export REPO=$(_repo_type ${d})
 }
 
 function _powerline_ps1_compat {
-    export PS1="$(python ~/.home_env/powerline-bash.py --error=$? --mode=compatible)"
-    export REPO=$(_repo_type)
+    local err=${?}
+    local d=$(_repo_dir)
+    export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="$(_repo_info ${d})" --mode=compatible)"
+    export REPO=$(_repo_type ${d})
 }
 
 function set_powerline {
