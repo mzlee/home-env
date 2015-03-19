@@ -55,24 +55,24 @@ function _repo_info
 function _git
 {
     if [ "X$REPO" == "Xgit" ]; then
-        /usr/bin/git "${@}"
+        ${REPO} "${@}"
     elif [ "X$REPO" == "Xhg" ]; then
-        echo 'Did you mean "hg"?'
+        ${REPO} 'Did you mean "hg"?'
     fi
 }
 
 function _hg
 {
     if [ "X$REPO" == "Xhg" ]; then
-        /usr/bin/hg "${@}"
+        ${REPO} "${@}"
     elif [ "X$REPO" == "Xgit" ]; then
-        echo 'Did you mean "git"?'
+        ${REPO} 'Did you mean "git"?'
     fi
 }
 
 function r
 {
-    ${REPO} "${@}"
+    _${REPO} "${@}"
 }
 
 function repo_commit
