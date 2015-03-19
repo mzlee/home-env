@@ -1,18 +1,18 @@
-[submodule "org-mode"]
-	path = org-mode
-	url = git://orgmode.org/org-mode.git
 [submodule "yaml-mode"]
 	path = yaml-mode
 	url = git://github.com/yoshiki/yaml-mode.git
 [submodule "tuareg-mode"]
 	path = tuareg-mode
 	url = git://github.com/afeinberg/tuareg-mode.git
+[submodule "emacs.d/prelude"]
+	path = emacs.d/prelude
+	url = git://github.com/bbatsov/prelude.git
+[submodule "emacs.d/site-lisp/logcat-mode"]
+	path = emacs.d/site-lisp/logcat-mode
+	url = git://github.com/dcolascione/logcat-mode.git
+[submodule "org-mode"]
+	path = org-mode
+	url = git://orgmode.org/org-mode.git
 [submodule "tramp"]
 	path = tramp
 	url = git://git.savannah.gnu.org/tramp.git
-[submodule "emacs.d/prelude"]
-	path = emacs.d/prelude
-	url = https://github.com/bbatsov/prelude.git
-[submodule "emacs.d/site-lisp/logcat-mode"]
-	path = emacs.d/site-lisp/logcat-mode
-	url = https://github.com/dcolascione/logcat-mode.git
