@@ -21,6 +21,7 @@
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/logcat-mode")
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/org")
 ;; (add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp")
@@ -39,6 +40,7 @@
 ;; (require 'tuareg)
 ;; (require 'tblgen)
 ;; (require 'camldebug)
+(require 'logcat)
 
 ;; Add modes
 ;; (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
