@@ -13,3 +13,6 @@
 [submodule "emacs.d/prelude"]
 	path = emacs.d/prelude
 	url = https://github.com/bbatsov/prelude.git
+[submodule "emacs.d/site-lisp/logcat-mode"]
+	path = emacs.d/site-lisp/logcat-mode
+	url = https://github.com/dcolascione/logcat-mode.git
