@@ -1,6 +1,12 @@
 [ui]
-username = Michael Z. Lee <mzlee@umich.com>
+    username = Michael Lee <michael-lee@umich.edu>
 
 [alias]
-bm = bookmark
-modified = !$HG status -m | awk '{print $$2}'
+    bm = bookmarks
+    br = bookmarks
+    rbm = !echo hg rebase -d master -s $1 && $HG rebase -d master -s $1
+    rebase-all = !$HG bookmarks | awk '{if ("*" == $$1) bm = $$2; else bm = $$1; if (bm != "master") print bm}' | xargs -n1 $HG rbm
+
+[extensions]
+hgk = !
+hgview = !
