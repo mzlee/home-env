@@ -7,15 +7,25 @@ fi
 function _powerline_ps1 {
     local err=${?}
     local d=$(_repo_dir)
-    export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="$(_repo_info ${d})")"
-    export REPO=$(_repo_type ${d})
+    if [ -n "${d}" ]; then
+        local br="$(_repo_info ${d})"
+        export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="${br}" --mode=patched)"
+        export REPO=$(_repo_type ${d})
+    else
+        export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --mode=patched)"
+    fi
 }
 
 function _powerline_ps1_compat {
     local err=${?}
     local d=$(_repo_dir)
-    export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="$(_repo_info ${d})" --mode=compatible)"
-    export REPO=$(_repo_type ${d})
+    if [ -n "${d}" ]; then
+        local br="$(_repo_info ${d})"
+        export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="${br}" --mode=compatible)"
+        export REPO=$(_repo_type ${d})
+    else
+        export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --mode=compatible)"
+    fi
 }
 
 function set_powerline {
