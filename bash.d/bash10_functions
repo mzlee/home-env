@@ -127,7 +127,7 @@ function cp_p
             if (count % 10 == 0) {
                percent = count / total_size * 100
                printf "%3d%% [", percent
-               for (i=0;i<=percent;i++)
+               for (i=0; i <= percent; i++)
                   printf "="
                printf ">"
                for (i=percent;i<100;i++)
@@ -181,25 +181,26 @@ function bell
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
 #find and list processes matching a case-insensitive partial-match string
 # Mostly for OSX
-function fp
-{
-    arg=${1-'.*'}
-    ps Ao pid,comm | \
-        awk '{match($0,/[^\/]+$|\W+$/); print substr($0,RSTART,RLENGTH)": "$1}' | \
-        grep -i "${arg}" | \
-        grep -v grep
-}
+### For OSX only, so wat
+# function fp
+# {
+#     arg=${1-'.*'}
+#     ps Ao pid,comm | \
+#         awk '{match($0,/[^\/]+$|\W+$/); print substr($0,RSTART,RLENGTH)": "$1}' | \
+#         grep -i "${arg}" | \
+#         grep -v grep
+# }
 
-function fk
-{
-    IFS_BAK=$IFS
-    IFS=$'\n'
-    PS3='Kill which process? (1 to cancel): '
-    select OPT in "Cancel" $(fp $1); do
-        if [ $OPT != "Cancel" ]; then
-            kill $(echo $OPT|awk '{print $NF}')
-        fi
-        break
-    done
-    IFS=$IFS_BAK
-}
+# function fk
+# {
+#     IFS_BAK=$IFS
+#     IFS=$'\n'
+#     PS3='Kill which process? (1 to cancel): '
+#     select OPT in "Cancel" $(fp $1); do
+#         if [ $OPT != "Cancel" ]; then
+#             kill $(echo $OPT|awk '{print $NF}')
+#         fi
+#         break
+#     done
+#     IFS=$IFS_BAK
+# }
