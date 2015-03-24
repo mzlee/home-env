@@ -21,3 +21,7 @@ main.out
 ## New emacs generated files and folders
 flycheck_*.tex
 auto/
+
+## Conflict generated files
+*.orig
+*.rej
