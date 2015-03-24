@@ -24,15 +24,15 @@ export PLATFORM="$platform"
 
 ## Path
 function _dedup_path {
-    local path=${1}
-    tr ':' '\n' <<< ${path} | awk '{
-if ($1 && !path_arr[$1]) {
+    local path="${1}"
+    tr ':' '\n' <<< "${path}" | awk '{
+if ($0 && !path_arr[$0]) {
   if (path) {
-    path=path":"$1
+    path=path":"$0
   } else {
-    path=$1
+    path=$0
   }
-  path_arr[$1]=1
+  path_arr[$0]=1
 }} END {print path}'
 }
 debug Path
@@ -43,13 +43,14 @@ for path in ${extra_bin}; do
 	PATH=${path}:${PATH}
     fi
 done
-export PATH=$(_dedup_path ${PATH})
+export PATH=$(_dedup_path "${PATH}")
+echo $PATH
 for path in ${extra_lib}; do
     if [ -d ${path} ]; then
 	LD_LIBRARY_PATH=${path}:${LD_LIBRARY_PATH}
     fi
 done
-export LD_LIBRARY_PATH=$(_dedup_path ${LD_LIBRARY_PATH})
+export LD_LIBRARY_PATH=$(_dedup_path "${LD_LIBRARY_PATH}")
 
 ## Editor
 debug Editor
