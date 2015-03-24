@@ -44,7 +44,6 @@ for path in ${extra_bin}; do
     fi
 done
 export PATH=$(_dedup_path "${PATH}")
-echo $PATH
 for path in ${extra_lib}; do
     if [ -d ${path} ]; then
 	LD_LIBRARY_PATH=${path}:${LD_LIBRARY_PATH}
