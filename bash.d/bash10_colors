@@ -8,9 +8,10 @@ function _powerline_ps1 {
     local err=${?}
     local d=$(_repo_dir)
     if [ -n "${d}" ]; then
-        local br="$(_repo_info ${d})"
+        local r=$(_repo_type "${d}")
+        local br="$(_repo_info ${d} ${r})"
         export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="${br}" --mode=patched)"
-        export REPO=$(_repo_type ${d})
+        export REPO="${r}"
     else
         export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --mode=patched)"
     fi
@@ -20,9 +21,10 @@ function _powerline_ps1_compat {
     local err=${?}
     local d=$(_repo_dir)
     if [ -n "${d}" ]; then
-        local br="$(_repo_info ${d})"
+        local r=$(_repo_type "${d}")
+        local br="$(_repo_info ${d} ${r})"
         export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --branch="${br}" --mode=compatible)"
-        export REPO=$(_repo_type ${d})
+        export REPO="${r}"
     else
         export PS1="$(python ~/.home_env/powerline-bash.py --error=${err} --mode=compatible)"
     fi

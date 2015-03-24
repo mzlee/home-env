@@ -2,28 +2,41 @@
 
 function _repo_dir
 {
-    local d;
+    local d="${1}"
+    local r="${2}"
+    if [ -n "${d}" ] && [ -d "${d}/.${r}" ]; then
+        printf "${d}"
+        return
+    fi
+
     d=$PWD;
     while :; do
-        if [ -d "$d/.git" ]; then
+        if [ -d "${d}/.git" ]; then
             break;
-        elif [ -d "$d/.hg" ]; then
+        elif [ -d "${d}/.hg" ]; then
             break;
-        elif [ -d "$d/.svn" ]; then
+        elif [ -d "${d}/.svn" ]; then
             break;
         fi;
-	test "$d"  = / && return;
-        d=$(cd "$d/.." && echo "$PWD");
+	test "${d}"  = / && return;
+        d=$(cd "${d}/.." && echo "$PWD");
     done
-    printf $d
+    printf ${d}
 }
 
 function _repo_type
 {
+    local r="${2}"
+    if [ -n "${r}" ]; then
+        printf ${r}
+        return
+    fi
+
     local d=${1};
-    if [ -z ${d} ]; then
+    if [ -z "${d}" ]; then
 	d=$(_repo_dir)
     fi
+
 
     if [ -d "$d/.git" ]; then
         printf git
@@ -36,18 +49,23 @@ function _repo_type
 
 function _repo_info
 {
-    local d=${1} br
-    if [ -z ${d} ]; then
+    local d="${1}"
+    if [ -z "${d}" ]; then
 	d=$(_repo_dir)
     fi
-    local r=$(_repo_type ${d})
-    if [ "X$r" == "Xhg" ]; then
-	br=$(__hg_info ${d})
-    elif [ "X$r" == "Xgit" ]; then
-	br=$(__git_info ${d})
+    local r="${2}"
+    if [ -z "${r}" ]; then
+        r=$(_repo_type "${d}")
     fi
-    if [ -n "$br" ]; then
-	printf "($br)"
+
+    local br
+    if [ "X$r" == "Xhg" ]; then
+	br=$(__hg_info "${d}" "${r}")
+    elif [ "X$r" == "Xgit" ]; then
+	br=$(__git_info "${d}" "${r}")
+    fi
+    if [ -n ${br} ]; then
+	printf "(${br})"
     fi
 }
 
@@ -72,7 +90,7 @@ function _hg
 
 function r
 {
-    _${REPO} "${@}"
+    ${REPO} "${@}"
 }
 
 function repo_commit
@@ -216,11 +234,15 @@ function repo
 
 function __git_info
 {
-    local d=${1}
-    if [ -z ${d} ]; then
+    local d="${1}"
+    if [ -z "${d}" ]; then
 	d=$(_repo_dir)
     fi
-    if [ $(_repo_type ${d}) != "git" ]; then
+    local r="${2}"
+    if [ -z "${r}" ]; then
+        r=$(_repo_type "${d}")
+    fi
+    if [ "X${r}" != "Xgit" ]; then
 	return;
     fi
 
@@ -285,11 +307,15 @@ function __svn_commit
 
 function __hg_info
 {
-    local d=${1}
-    if [ -z ${d} ]; then
+    local d="${1}"
+    if [ -z "${d}" ]; then
 	d=$(_repo_dir)
     fi
-    if [ $(_repo_type ${d}) != "hg" ]; then
+    local r="${2}"
+    if [ -z "${r}" ]; then
+        r=$(_repo_type "${d}")
+    fi
+    if [ "X${r}" != "Xhg" ]; then
 	return;
     fi
 
