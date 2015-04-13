@@ -6,7 +6,15 @@ bm = bookmarks
 br = bookmarks
 rbm = !echo hg rebase -d master -s $1 && $HG rebase -d master -s $1
 rebase-all = !$HG bookmarks | awk '{if ("*" == $$1) bm = $$2; else bm = $$1; if (bm != "master") print bm}' | xargs -n1 $HG rbm
+hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log.age', date|age)} | {firstline(desc)} {if(currentbookmark, '({currentbookmark})')} [{label('log.author', author|person)}]\n" $@
 
 [extensions]
+color =
 hgk = !
 hgview = !
+
+[color]
+changeset.draft = yellow
+changeset.public = red
+log.age = green
+log.author = blue
