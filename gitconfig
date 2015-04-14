@@ -3,6 +3,8 @@
 	email = michael-lee@umich.edu
 [alias]
 	co = checkout
+	update = checkout
+	up = checkout
 	ci = commit
 	st = status -uno
 	ch = diff --name-status -r
@@ -12,10 +14,10 @@
 	amend = commit -a --amend
 	subpull = submodule foreach --recursive git pull origin master
 	stash-diff = stash show --pretty=raw
-	recent-hist = log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d%C(bold blue)[%an]%Creset' --since='14 days ago'
-	hist =      log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d%C(bold blue)[%an]%Creset'
+	recent-hist = log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d %C(bold blue)[%an]%Creset' --since='14 days ago'
+	hist =      log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d %C(bold blue)[%an]%Creset'
 	hist-stat = log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %C(bold blue)[%an]%Creset%C(yellow)%d%Creset%n%s' --stat
-	hist-all =  log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d%C(bold blue)[%an]%Creset' --all
+	hist-all =  log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d %C(bold blue)[%an]%Creset' --all
 	sl =  log --graph --date=short --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --since='30 days ago'
 	type = cat-file -t
 	dump = cat-file -p
