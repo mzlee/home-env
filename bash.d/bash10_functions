@@ -175,7 +175,11 @@ function papers
 
 function bell
 {
-    notify-send "FINISHED JOB on $HOSTNAME: $@"
+    if [ $PLATFORM == "darwin" ]; then
+	osascript -e "display notification \"on $HOSTNAME: $@\" with title \"FINISHED JOB\""
+    else
+	notify-send "FINISHED JOB on $HOSTNAME: $@"
+    fi
 }
 
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
