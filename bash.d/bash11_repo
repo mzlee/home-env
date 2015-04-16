@@ -349,7 +349,7 @@ function __hg_info
 	    fi
 	fi
     else
-	br=$(expr substr "$dirstate" 1 7)
+	br=${dirstate:0:8}
     fi
     local remote="$d/.hg/remotenames"
     if [[ -f "$remote" ]]; then
