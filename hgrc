@@ -9,7 +9,7 @@ ff = rebase -d master
 hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log.date', date|age)} | {firstline(desc)} {if(currentbookmark, '({label(\'log.bookmark\', currentbookmark)})')} [{label('log.user', person(author))}]\n" $@
 rbm = !echo hg rebase -d master -s $1 && $HG rebase -d master -s $1
 # rebase-all = !$HG bookmarks | awk '{if ("*" == $$1) bm = $$2; else bm = $$1; if (bm != "master" && bm != "stable") print bm}' | xargs -n1 $HG rbm
-rebase-all = -r draft() -d master
+rebase-all = rebase -r draft() -d master
 show = !$HG log -vp -r $([[ -n "$1" ]] && echo "$@" || echo ".")
 
 [extensions]
