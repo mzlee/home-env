@@ -19,6 +19,17 @@ KNOWN_MACHINES = {
     # "darvill" : 202,
 }
 
+SIGNALS_MAP = {
+    1: 'hup', 2: 'int', 3: 'quit', 4: 'ill',
+    5: 'trap', 6: 'abrt', 7: 'bus', 8: 'fpe',
+    9: 'kill', 10: 'usr1', 11: 'segv', 12: 'usr2',
+    13: 'pipe', 14: 'alrm', 15: 'term', 17: 'chld',
+    18: 'cont', 19: 'stop', 20: 'tstp', 21: 'ttin',
+    22: 'ttou', 23: 'urg', 24: 'xcpu', 25: 'xfsz',
+    26: 'vtalrm', 27: 'prof', 28: 'winch', 29: 'io',
+    30: 'pwr', 31: 'sys', 34: 'rtmin', 64: 'rtmax'
+}
+
 def Machine():
     uname = os.uname()
     bg = 232
@@ -334,10 +345,16 @@ def add_virtual_env_segment(powerline, cwd):
 def add_root_indicator(powerline, error):
     bg = Color.CMD_PASSED_BG
     fg = Color.CMD_PASSED_FG
-    if int(error) != 0:
+    err = int(error)
+    if err != 0:
         fg = Color.CMD_FAILED_FG
         bg = Color.CMD_FAILED_BG
     powerline.append(Segment(powerline, ' \\$ ', fg, bg))
+    if err > 128 and (err - 128) in SIGNALS_MAP:
+        powerline.append(Segment(
+            powerline, ' [%s] ' % SIGNALS_MAP[err - 128],
+            Color.PATH_FG,
+            bg))
 
 
 def get_valid_cwd():
