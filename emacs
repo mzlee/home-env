@@ -127,6 +127,10 @@
 ;;   (setq vc-handled-backends nil)
 ;;   (c-set-style "linux-tabs-only"))
 
+(defun objc-code-indent-setup ()
+  (setq indent-tabs-mode nil)
+  (setq objc-basic-offset 2))
+
 (defun java-code-indent-setup ()
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 2))
@@ -196,8 +200,16 @@
 ;; 		(c-qt-code-indent-setup)))))
 ;; (add-hook 'c-mode-hook 'c-user-code-indent-setup)
 ;; (add-hook 'c++-mode-hook 'c-user-code-indent-setup)
+(add-hook 'objc-mode-hook 'objc-code-indent-setup)
 (add-hook 'java-mode-hook 'java-code-indent-setup)
 ;; (add-hook 'python-mode-hook 'my-py-indent-setup)
+(add-hook 'python-mode-hook
+	  (lambda ()
+            (let ((filename (buffer-file-name)))
+              ;; Enable buck mode for the appropriate files
+              (when (and filename
+			 (string-match "/BUCK.*" filename))
+		(setq python-indent 2)))))
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 ;; (add-hook 'html-mode-hook (setq tab-width 4))
 ;; (add-hook 'tex-mode-hook (auto-fill-mode 1))
