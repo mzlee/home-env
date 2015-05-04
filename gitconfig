@@ -1,6 +1,6 @@
 [user]
 	name = Michael Lee
-	email = michael-lee@umich.edu
+	email = mzlee@umich.edu
 [alias]
 	co = checkout
 	update = checkout
@@ -25,6 +25,7 @@
 	w-add = !sh -c 'git diff -w --no-color "$@" | git apply --cached --ignore-whitespace' -
 [core]
 	excludesfile = ~/.gitignore
+	editor = emacs
 [color]
 	branch = auto
 	diff = auto
