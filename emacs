@@ -54,6 +54,7 @@
 ;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("Makefrag\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("Makefile\\." . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("\\.mk\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
 ;; (setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
@@ -63,8 +64,8 @@
 ;; (add-to-list 'auto-mode-alist '("\\.td" . tblgen-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-(add-to-list 'auto-mode-alist '("\\.m" . objc-mode))
-(add-to-list 'auto-mode-alist '("\\.mm" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-mode))
+(add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
 
 (add-to-list 'auto-mode-alist '("BUCK" . python-mode))
 
