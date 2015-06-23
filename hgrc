@@ -4,19 +4,17 @@ username = Michael Lee <mzlee@umich.edu>
 [alias]
 bm = bookmarks
 br = bookmarks
-coM = update master
 ff = rebase -d master
 hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log.date', date|age)} | {firstline(desc)} {if(currentbookmark, '({label(\'log.bookmark\', currentbookmark)})')} [{label('log.user', person(author))}]\n" $@
-rbm = !echo hg rebase -d master -s $1 && $HG rebase -d master -s $1
-# rebase-all = !$HG bookmarks | awk '{if ("*" == $$1) bm = $$2; else bm = $$1; if (bm != "master" && bm != "stable") print bm}' | xargs -n1 $HG rbm
 rebase-all = rebase -r draft() -d master
-review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "SHOW_DIFF {phabdiff}", "No differential revision")}\n'
+review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "{phabdiff}", "No differential revision")}\n'
 show = !$HG log -r $([[ -n "$1" ]] && echo "$@" || echo ".") $([[ -n "$2" ]] && echo "" || echo "-vp")
 
 [extensions]
 color =
 hgk = !
 hgview = !
+sparse =
 
 [color]
 changeset.draft = bold red
