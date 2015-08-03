@@ -4,7 +4,9 @@ username = Michael Lee <mzlee@umich.edu>
 [alias]
 bm = bookmarks
 br = bookmarks
-ff = rebase -d master
+fetch = pull
+ff = pull --rebase
+ff-all = !$HG pull && $HG rebase -r draft() -d master
 hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log.date', date|age)} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} [{label('log.user', person(author))}]\n" $@
 rebase-all = rebase -r draft() -d master
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "{phabdiff}", "No differential revision")}\n'
