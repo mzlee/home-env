@@ -12,7 +12,7 @@ rebase-all = rebase -r draft() -d master
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "{phabdiff}", "No differential revision")}\n'
 show = !$HG log -r $([[ -n "$1" ]] && echo "$@" || echo ".") $([[ -n "$2" ]] && echo "" || echo "-vp")
 _status = status
-st = !$HG _status $($HG root)
+st = !$HG _status $($HG root) $HG_ARGS
 
 [extensions]
 color =
