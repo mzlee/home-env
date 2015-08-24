@@ -352,7 +352,7 @@ function __hg_info
 	br=${dirstate:0:8}
     fi
     local remote="$d/.hg/remotenames"
-    if [[ -f "$remote" ]]; then
+    if [[ -e "$remote" ]]; then
 	local marks=$(grep --color=never "^$dirstate bookmarks" "$remote" | \
 			     cut -f 3 -d ' ' | tr '\n' '|' | head -c -1)
 	if [[ -n "$marks" ]]; then
