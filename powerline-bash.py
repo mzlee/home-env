@@ -75,8 +75,8 @@ class Powerline:
             'separator_thin': u'\u276F'
         },
         'patched': {
-            'separator': u'\u2B80',
-            'separator_thin': u'\u2B81'
+            'separator': u'\u25BA',
+            'separator_thin': u'\u25B8'
         }
     }
 
