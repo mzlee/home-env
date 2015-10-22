@@ -258,4 +258,11 @@
 (setq auto-save-file-name-transforms
 	        `((".*" ,user-temporary-file-directory t)))
 
+;; mercurial mode is buggy, especially when emacs is used as a merge
+;; tool (deadlock), so we disable it.  we manually define vc-hg-root
+;; because we need it for hg-grep.
+(delete 'Hg vc-handled-backends)
+(defun vc-hg-root (file)
+  (vc-find-root file ".hg"))
+
 ;;; emacs ends here
