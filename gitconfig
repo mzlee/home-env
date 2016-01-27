@@ -25,6 +25,8 @@
 	type = cat-file -t
 	dump = cat-file -p
 	flash = !git stash && git pull --rebase ${@} && git stash pop && echo "Flashed "
+	shelve = stash
+	unshelve = stash pop
 	w-add = !sh -c 'git diff -w --no-color "$@" | git apply --cached --ignore-whitespace' -
 [core]
 	excludesfile = ~/.gitignore
