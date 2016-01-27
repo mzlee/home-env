@@ -68,6 +68,10 @@
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
 
 (add-to-list 'auto-mode-alist '("BUCK" . python-mode))
+(add-to-list 'auto-mode-alist '("BUILD_DEFS" . python-mode))
+(add-to-list 'auto-mode-alist '("DEFS" . python-mode))
+(add-to-list 'auto-mode-alist '("TARGETS" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.tw" . python-mode))
 
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
