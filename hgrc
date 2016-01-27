@@ -5,14 +5,16 @@ username = Michael Lee <mzlee@umich.edu>
 bm = bookmarks
 br = bookmarks
 fetch = pull
-ff = pull --rebase
-ffo = pull --rebase -t internal:other
+ff = !$HG pull && $HG rebase -d master
+ffo = !$HG pull && $HG rebase -d master -t internal:other
 ff-all = !$HG pull && $HG rebase -s '(::bookmark() and draft()) - master::' -d master
 hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log.date', date|age)} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} [{label('log.user', person(author))}]\n" $@
+last-amend = diff -r 'precursors(.)' -r . --hidden
 rebase-all = rebase -s '(::bookmark() and draft()) - master::' -d master
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "SHOW_DIFF {phabdiff}", "No differential revision")}\n'
 show = !$HG log -r $([[ -n "$1" ]] && echo "$@" || echo ".") $([[ -n "$2" ]] && echo "" || echo "-vp")
 st = status re:
+stash = shelve
 
 [extensions]
 color =
