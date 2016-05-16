@@ -11,12 +11,8 @@ def warn(msg):
     print '[powerline-bash] ', msg
 
 KNOWN_MACHINES = {
-    "chopin"  : 46,
-    # "dvorak"  : 26,
-    # "elgar"   : 94,
-    # "roberts" : 160,
-    # "reid"    : 40,
-    # "darvill" : 202,
+    "mzlee-mbp.local" : 232,
+    "mzlee-pro" : 244,
 }
 
 SIGNALS_MAP = {
@@ -33,13 +29,10 @@ SIGNALS_MAP = {
 def Machine():
     uname = os.uname()
     bg = 232
-    if uname[0] == "Darwin":
-        bg = 232
-    elif uname[0] == "Linux":
-        if uname[1] in KNOWN_MACHINES:
-            bg = KNOWN_MACHINES[uname[1]]
-        else:
-            bg = hash(uname[1]) & 0xff
+    if uname[1] in KNOWN_MACHINES:
+        bg = KNOWN_MACHINES[uname[1]]
+    else:
+        bg = hash(uname[1]) & 0xff
     return uname, bg
 
 class Color:
