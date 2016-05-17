@@ -13,7 +13,7 @@
 	bm = branch
 	br = branch
 	br-show = branch -av
-	amend = commit -a --amend
+	amend = commit -a --amend --no-edit
 	subpull = submodule foreach --recursive git pull origin master
 	stash-diff = stash show --pretty=raw
 	recent-hist = log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d %C(bold blue)[%an]%Creset' --since='14 days ago'
