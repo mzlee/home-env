@@ -1,6 +1,9 @@
 #!/bin/bash
 export PROFILE="bashrc"
 
+# Add to default path
+export PATH=/usr/local/bin:$PATH
+
 function profile_append {
     export PROFILE="$PROFILE:$1"
 }
@@ -16,7 +19,7 @@ function debug {
 [ -z "$PS1" ] && return
 
 ## Grab-all for bash files
-BASH_DIR=~/.bash.d
+BASH_DIR=$HOME/.bash.d
 if [ -d $BASH_DIR ]; then
     for file in $(ls $BASH_DIR); do
 	profile_append $file
