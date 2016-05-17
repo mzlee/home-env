@@ -11,6 +11,7 @@ def warn(msg):
     print '[powerline-bash] ', msg
 
 KNOWN_MACHINES = {
+    "mzlee-air.local" : 232,
     "mzlee-mbp.local" : 232,
     "mzlee-pro" : 244,
 }
