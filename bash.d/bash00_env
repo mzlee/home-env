@@ -51,7 +51,7 @@ for path in ${extra_lib}; do
 done
 export LD_LIBRARY_PATH=$(_dedup_path "${LD_LIBRARY_PATH}")
 
-export MANPATH=$(_dedup_path "/usr/local/opt/coreutils/libexec/gnuman:$MANPATH")
+export MANPATH=$(_dedup_path "/usr/local/opt/coreutils/libexec/gnuman:/opt/facebook/share/man:/usr/local/share/man:$MANPATH")
 
 ## Editor
 debug Editor
