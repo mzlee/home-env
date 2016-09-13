@@ -4,6 +4,7 @@ username = Michael Lee <mzlee@umich.edu>
 [alias]
 bm = bookmarks
 br = bookmarks
+color-log = log --color yes
 fetch = pull
 ff = pull --rebase -d master
 ffo = pull --rebase -t internal:other -d master
@@ -13,8 +14,9 @@ hist = !$HG log --template "{label('changeset.{phase}', node|short)} {label('log
 last-amend = diff -r 'precursors(.)' -r . --hidden
 rebase-all = rebase -s '(::bookmark() and draft()) - master::' -d master
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "SHOW_DIFF {phabdiff}", "No differential revision")}\n'
-show = !$HG log -r $([[ -n "$1" ]] && echo "$@" || echo ".") $([[ -n "$2" ]] && echo "" || echo "-vp")
+show = !$HG color-log -r $([[ -n "$2" ]] && echo "$@" || ([[ -n "$1" ]] && echo "$1 -vp" || echo ". -vp"))
 st = status re:
+stat = !$HG color-log --stat -r "$([[ -n "$1" ]] && echo "$1" || echo ".")"
 stash = shelve
 
 [extensions]
