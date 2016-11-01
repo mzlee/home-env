@@ -1,4 +1,8 @@
 # .bash_functions
+function psef {
+    ps -ef | sed -n -e 1p -e /$1/p | grep -v "$UID *[0-9]* *$$" | grep $1
+}
+
 function choice {
     file=${1}
     lc=$(wc -l < $file)
