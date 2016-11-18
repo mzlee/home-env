@@ -1,0 +1,18 @@
+debug manpath
+
+extra_man="/usr/local/opt/gnu-tar/libexec/gnuman /usr/local/opt/gnu-sed/libexec/gnuman /usr/local/opt/coreutils/libexec/gnuman /opt/facebook/share/man /usr/local/share/man"
+for path in $(echo $PATH | tr ':' ' '); do
+    if [[ ! -d ${path} ]]; then
+	continue
+    fi
+    manpath="${path%bin}man"
+    if [[ ! -d ${manpath} ]]; then
+	if [[ -d "$(dirname ${manpath})/share" ]]; then
+	    manpath=$(find $(dirname ${manpath})/share -name $(basename ${manpath}) -type d)
+	fi
+    fi
+    if [[ -d ${manpath} ]]; then
+	MANPATH=${manpath}:${MANPATH}
+    fi
+done
+export MANPATH=$(_dedup_path "${MANPATH}")
