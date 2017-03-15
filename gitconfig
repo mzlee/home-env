@@ -10,6 +10,7 @@
 	ch = diff --name-status -r
 	ff = pull --ff-only
 	fff = !sh -c 'echo -n "Are you sure [Y/n]? " && read ans && [[ "$ans" != "n" ]] && ( git checkout . && git clean -f -d . && git pull --ff-only ) || echo Ok'
+	branches = !git branch | awk '{print $NF}'
 	bm = branch
 	br = branch
 	br-show = branch -av
