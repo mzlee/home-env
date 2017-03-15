@@ -86,7 +86,7 @@
 ;; (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 
 ;; (setq c-basic-offset 4)
-;; (setq python-basic-offset 4)
+(setq python-basic-offset 4)
 ;; (setq ml-basic-offset 2)
 
 (global-set-key [?\M-1] 'goto-line)
@@ -214,7 +214,7 @@
               ;; Enable buck mode for the appropriate files
               (when (and filename
 			 (string-match "/BUCK.*" filename))
-		(setq python-indent 2)))))
+		(setq python-indent 4)))))
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 ;; (add-hook 'html-mode-hook (setq tab-width 4))
 ;; (add-hook 'tex-mode-hook (auto-fill-mode 1))
