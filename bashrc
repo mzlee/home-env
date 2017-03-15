@@ -17,6 +17,7 @@ function debug {
 
 ## Check current platform and state
 [ -z "$PS1" ] && return
+[ "$TERM" = "nuclide" ] && return
 
 ## Grab-all for bash files
 BASH_DIR=$HOME/.bash.d
