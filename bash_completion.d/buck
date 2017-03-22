@@ -11,6 +11,8 @@ _buck_completion() {
                                 targets test uninstall verify-caches' -- "$cur") )
     elif [[ "$prev" == "@" ]]; then
       COMPREPLY=( $(compgen -P '@' -W "$(find "$cur"* -xtype f 2> /dev/null)" -- "$cur") )
+    elif [[ "${cur:0:1}" == "@" ]]; then
+      COMPREPLY=( $(compgen -P '@' -W "$(find "${cur:1}"* -type f 2> /dev/null) $(find "${cur:1}"* -type l 2> /dev/null)" -- "${cur:1}") )
     elif [[ "$cur" == ":" || "$prev" == ":" ]]; then
       if [[ -z "$2" ]] ; then
         local delta=1
