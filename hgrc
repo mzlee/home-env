@@ -12,6 +12,7 @@ ff-all = !$HG pull && $HG rebase -s '(::bookmark() and draft()) - master::' -d m
 fstat = status -n --change .
 hist = !$HG log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" $@
 last-amend = diff -r 'precursors(.)' -r . --hidden
+ls = sl
 rebase-all = rebase -s '(::bookmark() and draft()) - master::' -d master
 rebase-me = rebase -t ':merge-local'
 rebase-you = rebase -t ':merge-other'
