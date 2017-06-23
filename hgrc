@@ -3,6 +3,7 @@ username = Michael Lee <mzlee@umich.edu>
 
 [alias]
 bm = bookmarks
+bmD = !$HG strip $@ && $HG bookmarks -d $@
 br = bookmarks
 color-log = log --color yes
 fetch = pull
