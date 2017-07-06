@@ -3,7 +3,7 @@ username = Michael Lee <mzlee@umich.edu>
 
 [alias]
 bm = bookmarks
-bmD = !$HG strip $@ && $HG bookmarks -d $@
+bmD = !$HG strip "$@" && $HG bookmarks -d "$@"
 br = bookmarks
 color-log = log --color yes
 fetch = pull
@@ -11,7 +11,7 @@ ff = pull --rebase -d master
 ffo = pull --rebase -t internal:other -d master
 ff-all = !$HG pull && $HG rebase -s '(::bookmark() and draft()) - master::' -d master
 fstat = status -n --change .
-hist = !$HG log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" $@
+hist = !$HG log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" "$@"
 last-amend = diff -r 'precursors(.)' -r . --hidden
 ls = sl
 rebase-all = rebase -s '(::bookmark() and draft()) - master::' -d master
