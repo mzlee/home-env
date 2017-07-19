@@ -1,5 +1,5 @@
 [ui]
-username = Michael Lee <mzlee@umich.edu>
+username = Michael Lee <mzlee@fb.com>
 
 [alias]
 bm = bookmarks
@@ -23,7 +23,7 @@ resolve-you = !$HG resolve -t ':other' --all && $HG rebase --continue
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "SHOW_DIFF {phabdiff}", "No differential revision")}\n'
 show = !$HG color-log -r $([[ -n "$2" ]] && echo "$@" || ([[ -n "$1" ]] && echo "$1 -vp" || echo ". -vp"))
 slf = sl --pager always -T'{slf}'
-sp-add = sparse --force -I
+sp-add = sparse --force -I $@
 st = status re:
 stat = !$HG color-log --stat -r "$([[ -n "$1" ]] && echo "$1" || echo ".")"
 stash = shelve
