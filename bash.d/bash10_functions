@@ -186,6 +186,13 @@ function bell
     fi
 }
 
+function tess
+{
+    temp_file="$(mktemp)"
+    cat > "$temp_file"
+    tmux split-window -h "cat $temp_file | less; rm $temp_file"
+}
+
 ## Grabbed from the internetz - http://brettterpstra.com/fk-redux/
 #find and list processes matching a case-insensitive partial-match string
 # Mostly for OSX
