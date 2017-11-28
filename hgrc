@@ -14,6 +14,7 @@ fstat = status -n --change .
 hist = !$HG log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" "$@"
 last-amend = diff -r 'precursors(.)' -r . --hidden
 ls = sl
+pullr = !$HG rebase -d . -s "$1" && $HG update "$1"
 rebase-all = rebase -s '(::bookmark() and draft()) - master::' -d master
 rebase-me = rebase -t ':merge-local'
 rebase-you = rebase -t ':merge-other'
@@ -37,7 +38,6 @@ slf = '{sl}{files%"- {file}\n"}\n'
 color =
 hgk = !
 hgview = !
-sparse =
 
 [color]
 changeset.draft = bold red
