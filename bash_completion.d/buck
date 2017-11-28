@@ -32,3 +32,4 @@ _buck_completion() {
 }
 
 complete -o dirnames -F _buck_completion buck
+complete -o dirnames -F _buck_completion buck-beta
