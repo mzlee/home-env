@@ -19,6 +19,7 @@
 	subpull = submodule foreach --recursive git pull origin master
 	stash-diff = stash show --pretty=raw
 	recent-hist = log --graph --date=short --pretty='%Cred%h %Cgreen%ar%Creset | %s%C(yellow)%d %C(bold blue)[%an]%Creset' --since='14 days ago'
+	resolve-rebase = rebase --continue
 	hist =      log --graph --date=short --pretty='%C(red)%>(8)%h %C(green)%>(12)%ar%C(reset) | %s%C(yellow)%d %C(bold blue)[%an]%Creset'
 	hist-stat = log --graph --date=short --pretty='%C(red)%>(8)%h %C(green)%>(12)%ar%C(reset) | %C(bold blue)[%an]%Creset%C(yellow)%d%Creset%n%s' --stat
 	hist-all =  log --graph --date=short --pretty='%C(red)%>(8)%h %C(green)%>(12)%ar%C(reset) | %s%C(yellow)%d %C(bold blue)[%an]%Creset' --all
