@@ -2,6 +2,6 @@
 
 function cleanup {
     # Cleanup
-    local bookmark=$(hg bm | grep '\*' | cut -d' ' -f2)
+    local bookmark=$(hg bm | grep '\*' | cut -d'*' -f2 | cut -d' ' -f2)
     _cleanup && hg ff-all && [[ -n "$bookmark" ]] && hg co "$bookmark"
 }
