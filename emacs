@@ -71,6 +71,7 @@
 (add-to-list 'auto-mode-alist '("BUILD_DEFS" . python-mode))
 (add-to-list 'auto-mode-alist '("DEFS" . python-mode))
 (add-to-list 'auto-mode-alist '("TARGETS" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.bzl" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.tw" . python-mode))
 
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
