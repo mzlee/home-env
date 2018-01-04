@@ -2,6 +2,7 @@
 
 # Re-source bashrc
 alias sourceb='source ~/.bashrc'
+alias sb='source ~/.bashrc'
 
 # ls aliases
 alias la='ls -AF'
