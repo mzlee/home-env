@@ -39,6 +39,9 @@ color =
 hgk = !
 hgview = !
 
+[experimental]
+worddiff = true
+
 [color]
 changeset.draft = bold red
 changeset.public = red
