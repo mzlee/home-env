@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+from __future__ import print_function
 
 import os
 import subprocess
@@ -8,7 +10,7 @@ import re
 
 
 def warn(msg):
-    print '[powerline-bash] ', msg
+    print('[powerline-bash] ', msg)
 
 KNOWN_MACHINES = {
     "mzlee-air.local" : 232,
@@ -138,7 +140,6 @@ def add_cwd_segment(powerline, cwd, maxdepth, cwd_only=False):
     #powerline.append(' \\w ', 15, 237)
     home = os.getenv('HOME')
     cwd = cwd or os.getenv('PWD')
-    cwd = cwd.decode('utf-8')
 
     if cwd.find(home) == 0:
         cwd = cwd.replace(home, '~', 1)
@@ -407,6 +408,6 @@ if __name__ == '__main__':
     add_lw_repo_segment(p, args.branch)
     # add_repo_segment(p, cwd)
     add_root_indicator(p, args.error)
-    sys.stdout.write(p.draw())
+    sys.stdout.buffer.write(p.draw())
 
 # vim: set expandtab:
