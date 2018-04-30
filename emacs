@@ -15,6 +15,13 @@
 
 ;; When in text (or related mode) break the lines at 80 chars
 ; (setq text-mode-hook 'turn-on-auto-fill)
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq fill-column 80)
 (setq line-number-mode t)
 (setq column-number-mode t)
