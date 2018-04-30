@@ -10,7 +10,7 @@ import re
 
 
 def warn(msg):
-    print('[powerline-bash] ', msg)
+    print('[powerline-bash]', msg)
 
 KNOWN_MACHINES = {
     "mzlee-air.local" : 232,
@@ -361,7 +361,6 @@ def get_valid_cwd():
     """
     try:
         cwd = os.getenv('PWD')  # This is where the OS thinks we are
-        # cwd = os.getcwd()
     except:
         cwd = os.getenv('PWD')  # This is where the OS thinks we are
         parts = cwd.split(os.sep)
