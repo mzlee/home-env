@@ -70,27 +70,27 @@ function _repo_info
 }
 
 
-function _git
+function _rgit
 {
-    if [ "X$REPO" == "Xgit" ]; then
-        ${REPO} "${@}"
-    elif [ "X$REPO" == "Xhg" ]; then
-        ${REPO} 'Did you mean "hg"?'
+    if [[ -z "$REPO" ]]; then
+	/usr/local/bin/git "$@"
+    else
+        "$REPO" "$@"
     fi
 }
 
-function _hg
+function _rhg
 {
-    if [ "X$REPO" == "Xhg" ]; then
-        ${REPO} "${@}"
-    elif [ "X$REPO" == "Xgit" ]; then
-        ${REPO} 'Did you mean "git"?'
+    if [[ -z "$REPO" ]]; then
+	/usr/local/bin/hg "$@"
+    else
+        "$REPO" "$@"
     fi
 }
 
 function r
 {
-    ${REPO} "${@}"
+    "$REPO" "$@"
 }
 
 function repo_commit
