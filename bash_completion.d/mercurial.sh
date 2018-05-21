@@ -185,6 +185,10 @@ _hg_fix_wordlist()
 
 _hg()
 {
+    if [[ "$REPO" == "git" ]]; then
+        return 0
+    fi
+
     local cur prev cmd cmd_index opts i aliashg
     # global options that receive an argument
     local global_args='--cwd|-R|--repository'
