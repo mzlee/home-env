@@ -484,6 +484,16 @@ _hg_cmd_strip()
     _hg_labels
 }
 
+_hg_cmd_hide()
+{
+    if [[ "$prev" = @(-B|--bookmark) ]]; then
+        _hg_bookmarks
+        return
+    fi
+    _hg_bookmarks
+    _hg_hashes
+}
+
 _hg_cmd_qcommit()
 {
     local root=$(_hg_cmd root)
@@ -718,6 +728,7 @@ githelp
 graft
 heads
 help
+hide
 histedit
 histgrep
 history
