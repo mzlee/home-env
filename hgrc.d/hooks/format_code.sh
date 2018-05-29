@@ -17,23 +17,24 @@ function format_file {
     if [[ -z "$TOOL" ]]; then
 	return 0
     fi
-    background "$1" -i "$2"
+    shift
+    background "$TOOL" "$@"
 }
 
 function cpp_format {
-    format_file clang-format $1
+    format_file clang-format -i $1
 }
 
 function hack_format {
-    format_file hackfmt $1
+    format_file hackfmt -i $1
 }
 
 function python_format {
-    format_file pyfmt $1
+    format_file pyfmt -i $1
 }
 
 function buck_format {
-    format_file buildifier $1
+    format_file buildifier -i $1
 }
 
 function format_all_code {
