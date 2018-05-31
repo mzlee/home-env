@@ -50,4 +50,5 @@ log.bookmark = yellow
 log.user = blue
 
 [hooks]
-precommit.format_code = if [[ -e "$HOME/hgrc.d/hooks/format_code.sh" ]]; then $HOME/hgrc.d/hooks/format_code.sh ; fi
+pre-amend.format_code = if [[ -e "$HOME/hgrc.d/hooks/format_code.sh" ]]; then $HOME/hgrc.d/hooks/format_code.sh ; fi
+pre-commit.format_code = if [[ -e "$HOME/hgrc.d/hooks/format_code.sh" ]]; then $HOME/hgrc.d/hooks/format_code.sh ; fi
