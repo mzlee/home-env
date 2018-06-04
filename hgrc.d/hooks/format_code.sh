@@ -30,7 +30,8 @@ function hack_format {
 }
 
 function python_format {
-    format_file pyfmt -i $1
+    # https://github.com/ambv/black
+    format_file black $1
 }
 
 function buck_format {
