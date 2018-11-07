@@ -53,6 +53,8 @@
 	added = yellow
 	changed = green
 	untracked = cyan
+[help]
+	autocorrect = 1
 [merge]
 	conflictstyle = diff3
 [push]
