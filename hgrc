@@ -11,7 +11,7 @@ ff = pull --rebase -d master
 ffo = pull --rebase -t internal:other -d master
 ff-all = !$HG pull && $HG rebase -r 'draft()' -d 'first(_destrestack(SRC) + master)'
 fstat = status -n --change .
-hist = !$HG log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" "$@"
+hist = log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n" "$@"
 last-amend = diff -r 'precursors(.)' -r . --hidden
 ls = sl
 pullr = !$HG rebase -d . -s "$1" && $HG update "$1"
@@ -22,7 +22,7 @@ resolve-me = !$HG resolve -t ':local' --all && $HG rebase --continue
 resolve-rebase = !$HG resolve -m && $HG rebase --continue
 resolve-you = !$HG resolve -t ':other' --all && $HG rebase --continue
 review = !$HG log -r "$([[ -n "$1" ]] && echo "$1" || echo ".")" -T '{if(phabdiff, "SHOW_DIFF {phabdiff}", "No differential revision")}\n'
-show = !$HG color-log -r $([[ -n "$2" ]] && echo "$@" || ([[ -n "$1" ]] && echo "$1 -vp" || echo ". -vp"))
+show = !$HG log -r "$(var=$1; [[ "x$var" = "x" ]] && echo "." || echo "$var")" -vp
 slb = sl --rev 'children(public()) & draft() or .'
 slbot = sl --rev 'children(public()) & draft() or .'
 slf = sl --pager always -T'{slf}'
