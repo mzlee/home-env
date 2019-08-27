@@ -57,7 +57,6 @@ export EDITOR='emacs -nw'
 
 ## Python
 debug Python
-export PYTHONPATH="$HOME/lib/python2.6/site-packages"
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
 ## Platform
