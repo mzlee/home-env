@@ -20,7 +20,7 @@ case `uname -s` in
 	platform='unknown'
 	;;
 esac
-export PLATFORM="$platform"
+export OS_PLATFORM="$platform"
 
 ## Path
 function _dedup_path {
@@ -61,11 +61,11 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
 ## Platform
 debug Platform
-if [ $PLATFORM = darwin ]; then
+if [ $OS_PLATFORM = darwin ]; then
     export CLICOLOR=1
     export LSCOLORS=ExFxCxDxBxegedabagacad
     test -r /sw/bin/init.sh && . /sw/bin/init.sh
-elif [ $PLATFORM = linux ]; then
+elif [ $OS_PLATFORM = linux ]; then
     export PRINTER='lw601'
     export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 fi
@@ -79,7 +79,7 @@ shopt -s histappend
 shopt -s checkwinsize
 
 # Set the locale
-if [ ${PLATFORM} == 'linux' ]; then
+if [ $OS_PLATFORM == 'linux' ]; then
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US.UTF-8
     export TZ="America/New_York"

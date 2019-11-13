@@ -6,7 +6,7 @@ if [[ -z "$agent_pid" ]]; then
     eval "$(ssh-agent)"
 else
     agent_sock="$(find /tmp/ssh-* -type s -iname "agent.*" 2> /dev/null)"
-    if [[ ( -z ${agent_sock} ) && ( ${PLATFORM} = "darwin" ) ]]; then
+    if [[ ( -z "$agent_sock" ) && ( "$OS_PLATFORM" = "darwin" ) ]]; then
 	agent_sock="$(find /var/folders/*/*/*/ssh-* -type s -iname "agent.*" 2> /dev/null)"
     fi
     read -a agent_sock <<< "${agent_sock}"

@@ -105,7 +105,7 @@ function _cp {
         i=$(( ${i} + 1 ))
     done
 
-    if [ $PLATFORM = linux ]; then
+    if [ $OS_PLATFORM = linux ]; then
         if [ $progress = 0 ]; then
             ${OLD_CP} ${args[@]}
         else
@@ -179,7 +179,7 @@ function papers
 
 function bell
 {
-    if [ $PLATFORM == "darwin" ]; then
+    if [ $OS_PLATFORM == "darwin" ]; then
 	osascript -e "display notification \"on $HOSTNAME: $@\" with title \"FINISHED JOB\""
     else
 	notify-send "FINISHED JOB on $HOSTNAME: $@"

@@ -19,7 +19,7 @@ alias emasc='emacs -nw'
 alias emac='emacs -nw'
 
 # backup aliases
-if [ "${PLATFORM}" = "linux" ]; then
+if [ "$OS_PLATFORM" = "linux" ]; then
     alias cp='cp --backup=numbered'
     alias ln='ln --backup=numbered'
     alias mv='mv -f --backup=numbered'
@@ -45,7 +45,7 @@ alias keylock='ssh-add -x'
 alias keyunlock='ssh-add -X'
 
 alias less='less -R'
-if [ $PLATFORM = linux ]; then
+if [ "$OS_PLATFORM" = linux ]; then
    alias open='xdg-open'
 fi
 
@@ -77,7 +77,7 @@ alias egrep='egrep --color=auto'
 # alias hput='fs -put'
 # alias hget='fs -get'
 
-if [ $PLATFORM = "darwin" ]; then
+if [ "$OS_PLATFORM" = "darwin" ]; then
     alias sublime="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 fi
 
