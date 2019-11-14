@@ -29,7 +29,7 @@ if [ -d $BASH_DIR ]; then
 fi
 
 ## Happens after everything is setup
-if [ $PLATFORM = linux ]; then
+if [ $OS_PLATFORM = linux ]; then
     true
 fi
 
