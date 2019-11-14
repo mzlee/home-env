@@ -80,6 +80,8 @@
 (add-to-list 'auto-mode-alist '("TARGETS" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.bzl" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.tw" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.java" . java-mode))
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
 
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
