@@ -13,3 +13,6 @@
 [submodule "tramp"]
 	path = tramp
 	url = git://git.savannah.gnu.org/tramp.git
+[submodule "emacs.d/site-lisp/rust-mode"]
+	path = emacs.d/site-lisp/rust-mode
+	url = https://github.com/rust-lang/rust-mode.git
