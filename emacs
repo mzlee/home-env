@@ -29,6 +29,7 @@
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/logcat-mode")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/rust-mode")
 ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/org")
 ;; (add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp")
@@ -57,6 +58,8 @@
    "Major mode for editing Markdown files" t)
 
 ;; Add auto modes
+(autoload 'rust-mode "rust-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.rs" . rust-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("Makefrag\\." . makefile-gmake-mode))
