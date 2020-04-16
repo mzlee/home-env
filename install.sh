@@ -1,7 +1,7 @@
 #!/bin/sh
 
 HOME_ENV=`pwd`
-DEFAULT_FILES="bash.d  bashrc bash_logout  emacs  gitconfig  gitignore hgrc profile pythonrc.py tmux.conf Xmodmap"
+DEFAULT_FILES="bash.d  bashrc bash_completion bash_completion.d bash_logout  emacs  emacs.d gitconfig  gitignore hgrc profile pythonrc.py tmux.conf Xmodmap"
 FILES=${@:-${DEFAULT_FILES}}
 
 for FILE in ${FILES}
