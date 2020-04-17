@@ -28,18 +28,13 @@
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/logcat-mode")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/rust-mode")
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/org")
-;; (add-to-list 'load-path "~/.home_env/org-mode/contrib/lisp")
 ;; (add-to-list 'load-path "/usr/share/emacs/site-lisp")
 ;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
 ;; (when (not (version< emacs-version "24.1"))
 ;;  (load-file "~/.emacs.d/prelude/init.el"))
 
-;; (require 'org-install)
-;; (require 'org-velocity)
 ;; (require 'ob-python)
 ;; (require 'ob-ruby)
 ;; (require 'yaml-mode)
@@ -48,7 +43,6 @@
 ;; (require 'tuareg)
 ;; (require 'tblgen)
 ;; (require 'camldebug)
-(require 'logcat)
 
 ;; Add modes
 ;; (setq org-velocity-bucket (expand-file-name "bucket.org" org-directory))
@@ -82,6 +76,7 @@
 (add-to-list 'auto-mode-alist '("DEFS" . python-mode))
 (add-to-list 'auto-mode-alist '("TARGETS" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.bzl" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.td" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.tw" . python-mode))
 (add-to-list 'auto-mode-alist '("\\.java" . java-mode))
 (add-to-list 'auto-mode-alist '("COMMIT_EDITMSG" . text-mode))
