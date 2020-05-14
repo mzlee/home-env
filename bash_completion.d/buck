@@ -56,6 +56,9 @@ _find_dir_matches() {
     local end="${p#$stem}"
     ret=0
     echo "$prefix$stem$end"/
+    if [[ -f "$prefix$stem$end"/BUCK || -f "$prefix$stem$end"/TARGETS ]]; then
+	echo "$prefix$stem$end"
+    fi
   done
 
   return $ret
