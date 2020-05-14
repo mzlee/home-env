@@ -85,9 +85,12 @@ if [ $OS_PLATFORM == 'linux' ]; then
     export TZ="America/New_York"
 fi
 
-if [ ${TERM} != screen ]
-then
+if [ "$TERM" != screen ]; then
     [ -f ${HOME}/.Xmodmap ] && xmodmap ${HOME}/.Xmodmap 2> /dev/null
+fi
+
+if [[ "$TERM" == screen ]]; then
+    export TERM=screen-256color
 fi
 
 ## Test a couple of different standard locations
