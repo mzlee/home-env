@@ -1,0 +1,15 @@
+# .bash_img_functions
+
+img_max_size() {
+    sips -g pixelWidth -g pixelHeight "$1" \
+	| grep pixel \
+	| awk 'BEGIN {m = 0} {if (m < $2) { m = $2 }} END {print m}'
+}
+
+img_half_size() {
+    sips -Z "$(echo "$(img_max_size "$1") / 2" | bc)" "$1"
+}
+
+img_double_size() {
+    sips -Z "$(echo "$(img_max_size "$1") * 2" | bc)" "$1"
+}
