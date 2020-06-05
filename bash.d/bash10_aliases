@@ -88,5 +88,8 @@ alias now='date +%T'
 alias git=_rgit
 alias hg=_rhg
 
+## More source control aliases
+alias hgs='_rhg status'
+
 ## Warning: Silly things
 alias turbo_mode="ps -x -o %mem,pid,command=CMD |grep 'Google Chrome Helper' | sed -e 's/^ *//;s/  */ /g' | sort -n | tail -n 10  | cut -f 2 -d ' ' | xargs -n 1 kill"
