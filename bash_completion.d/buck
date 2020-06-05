@@ -6,10 +6,13 @@ _resolve_cell() {
     local root=$(hg root)
     local cell="${tdir%//*}"
     if [[ "$cell" == "fbsource" ]]; then
-      tdir="$root"/"${tdir#*//*}"
+      tdir="$root"
     else
-      tdir="$root"/"$cell"/"${tdir#*//*}"
+      local cell_path="$(grep "$cell = " "$root/.buckconfig" | head -n1 | awk '{print $3}')"
+      tdir="$root"/"$cell_path"
     fi
+  else
+    tdir="./"
   fi
   echo "$tdir"
 }
@@ -19,18 +22,19 @@ _find_file_matches() {
   local prefix="$2"
   local ret=1
 
-  if [[ "$cur" == *"/"* ]]; then
-    local stem="${cur%/*}"/
+  if [[ "$cur" == *"//"* ]]; then
+      local cell="${cur%//*}"//
   else
-    local stem=""
+      local cell=""
   fi
-  local path="$(_resolve_cell "$cur")"
+  local cell_path="$(_resolve_cell "$cell")"
+  local path="$cell_path"/"${cur#*//}"
 
   local paths="$(find "$path"* -maxdepth 1 -type f -o -type l 2> /dev/null)"
   for p in $paths; do
-    local end="${p#$stem}"
+    local end="${p#$cell_path/}"
     ret=0
-    echo "$prefix$stem$end"
+    echo "$prefix$cell$end"
   done
 
   return $ret
@@ -41,12 +45,13 @@ _find_dir_matches() {
   local prefix="$2"
   local ret=1
 
-  if [[ "$cur" == *"/"* ]]; then
-    local stem="${cur%/*}"/
+  if [[ "$cur" == *"//"* ]]; then
+      local cell="${cur%//*}"//
   else
-    local stem=""
+      local cell=""
   fi
-  local path="$(_resolve_cell "$cur")"
+  local cell_path="$(_resolve_cell "$cell")"
+  local path="$cell_path"/"${cur#*//}"
 
   local paths=( $(find "$path"* -maxdepth 0 -type d 2> /dev/null) )
   if [[ "${#paths[@]}" == 1 ]]; then
@@ -55,9 +60,9 @@ _find_dir_matches() {
   for p in ${paths[@]}; do
     local end="${p#$cell_path/}"
     ret=0
-    echo "$prefix$stem$end"/
-    if [[ -f "$prefix$stem$end"/BUCK || -f "$prefix$stem$end"/TARGETS ]]; then
-	echo "$prefix$stem$end"
+    echo "$prefix$cell$end"/
+    if [[ -f "$p"/BUCK || -f "$p"/TARGETS ]]; then
+        echo "$prefix$cell$end"
     fi
   done
 
@@ -84,7 +89,8 @@ _buck_completion() {
         else
           local delta=2
         fi
-        local tdir="$(_resolve_cell ${COMP_WORDS[$((COMP_CWORD - $delta))]})"
+        local cur="${COMP_WORDS[$((COMP_CWORD - $delta))]}"
+        local tdir="$(_resolve_cell "$cur")"/"${cur#*//}"
         if [[ -f "$tdir"/BUCK ]] ; then
           COMPREPLY=($(sed -n "s/ *name *= *['\"]\($2[a-zA-Z0-9_-]*\)['\"].*/\1/gp" "$tdir/BUCK"))
         elif [[ -f "$tdir"/TARGETS ]] ; then
