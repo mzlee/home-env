@@ -1,10 +1,10 @@
 #!/bin/bash
 
 _resolve_cell() {
-  tdir="${1#//*}"
+  local tdir="${1#//*}"
   if [[ "$tdir" == *"//"* ]]; then
-    root=$(hg root)
-    cell="${tdir%//*}"
+    local root=$(hg root)
+    local cell="${tdir%//*}"
     if [[ "$cell" == "fbsource" ]]; then
       tdir="$root"/"${tdir#*//*}"
     else
@@ -15,18 +15,18 @@ _resolve_cell() {
 }
 
 _find_file_matches() {
-  cur="$1"
-  prefix="$2"
-  ret=1
+  local cur="$1"
+  local prefix="$2"
+  local ret=1
 
   if [[ "$cur" == *"/"* ]]; then
     local stem="${cur%/*}"/
   else
     local stem=""
   fi
-  path="$(_resolve_cell "$cur")"
+  local path="$(_resolve_cell "$cur")"
 
-  paths="$(find "$path"* -maxdepth 1 -type f -o -type l 2> /dev/null)"
+  local paths="$(find "$path"* -maxdepth 1 -type f -o -type l 2> /dev/null)"
   for p in $paths; do
     local end="${p#$stem}"
     ret=0
@@ -37,23 +37,23 @@ _find_file_matches() {
 }
 
 _find_dir_matches() {
-  cur="$1"
-  prefix="$2"
-  ret=1
+  local cur="$1"
+  local prefix="$2"
+  local ret=1
 
   if [[ "$cur" == *"/"* ]]; then
     local stem="${cur%/*}"/
   else
     local stem=""
   fi
-  path="$(_resolve_cell "$cur")"
+  local path="$(_resolve_cell "$cur")"
 
-  paths=( $(find "$path"* -maxdepth 0 -type d 2> /dev/null) )
+  local paths=( $(find "$path"* -maxdepth 0 -type d 2> /dev/null) )
   if [[ "${#paths[@]}" == 1 ]]; then
     paths=( $(find "$path"* -maxdepth 1 -type d 2> /dev/null) )
   fi
   for p in ${paths[@]}; do
-    local end="${p#$stem}"
+    local end="${p#$cell_path/}"
     ret=0
     echo "$prefix$stem$end"/
     if [[ -f "$prefix$stem$end"/BUCK || -f "$prefix$stem$end"/TARGETS ]]; then
