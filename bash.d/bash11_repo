@@ -305,6 +305,18 @@ function __svn_commit
     svn ci ${OBJ} -m "[${OBJ}] ${message}"
 }
 
+function __hg_sharedpath
+{
+    local root="$1"
+    local path="$2"
+
+    if [[ -f "$root/.hg/sharedpath" ]]; then
+	echo $(command cat "$root/.hg/sharedpath")/"$path"
+    else
+	echo "$root/.hg/$path"
+    fi
+}
+
 function __hg_info
 {
     local d="${1}"
@@ -351,16 +363,32 @@ function __hg_info
     else
 	br=${dirstate:0:8}
     fi
-    local remote="$d/.hg/remotenames"
-    if [[ -e "$remote" ]]; then
-	local marks=$(grep --color=never "^$dirstate bookmarks" "$remote" | \
-			     cut -f 3 -d ' ' | tr '\n' '|' | head -c -1)
+    local commitcloud
+    commitcloud="$(__hg_sharedpath "$d" store/commitcloudrc)"
+    if [[ -f "$commitcloud" ]]; then
+	local marks=$(grep --color=never "^current_workspace" "$commitcloud" \
+			  | cut -f 2 -d '=' \
+			  | cut -f 3- -d'/' \
+			  | tr '\n' '|' \
+			  | head -c -1)
+	if [[ -n "$marks" && "$marks" != "default" ]]; then
+	    br="$br|{$marks}"
+	fi
+    fi
+    local remote
+    remote="$(__hg_sharedpath "$d" store/remotenames)"
+    if [[ -f "$remote" ]]; then
+	local marks=$(grep --color=never "^$dirstate bookmarks" "$remote" \
+			  | cut -f 3 -d ' ' \
+			  | cut -f 2- -d '/' \
+			  | head -n 1 \
+			  | head -c -1)
 	if [[ -n "$marks" ]]; then
 	    br="$br|$marks"
 	fi
     fi
-    local branch
-    if [[ -f $d/.hg/branch ]]; then
+    if [[ -f "$d"/.hg/branch ]]; then
+	local branch
 	branch=$(cat $d/.hg/branch)
 	if [[ $branch != "default" ]]; then
 	    br="$br|$branch"
