@@ -73,6 +73,18 @@ _hg_cmd()
     HGPLAIN=1 "$hg" "$@" 2>/dev/null
 }
 
+__hg_maybe_sharedpath()
+{
+    local root="$1"
+    local path="$2"
+
+    if [[ -f "$root/.hg/sharedpath" ]]; then
+	echo $(command cat "$root/.hg/sharedpath")/"$path"
+    else
+	echo "$root/.hg/$path"
+    fi
+}
+
 _hg_commands()
 {
     local commands
@@ -121,13 +133,14 @@ _hg_bookmarks()
 _hg_remotebookmarks()
 {
     local root=$(_find_root)
-    if [[ -n "$root" && -e "$root/.hg/remotenames" ]]; then
+    if [[ -n "$root" && -e "$(__hg_maybe_sharedpath "$root" store/remotenames)" ]]; then
+	local remotenames="$(__hg_maybe_sharedpath "$root" store/remotenames)"
         local IFS=$'\n'
         # Raw remotes first
-        local bookmarks=$(awk '$2 == "bookmarks" {print substr($0,52)}' "$root/.hg/remotenames")
+        local bookmarks=$(awk '$2 == "bookmarks" {print substr($0,52)}' "$remotenames")
         COMPREPLY=(${COMPREPLY[@]:-} $(compgen -W '$bookmarks' -- "$cur"))
         # Hoisted second
-        local bookmarks=$(awk  '/bookmarks remote\// {print substr($0,59)}' "$root/.hg/remotenames")
+        local bookmarks=$(awk  '/bookmarks remote\// {print substr($0,59)}' "$remotenames")
         COMPREPLY=(${COMPREPLY[@]:-} $(compgen -W '$bookmarks' -- "$cur"))
     fi
 }
