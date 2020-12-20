@@ -2,17 +2,15 @@
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Bash Completion (don't remove me...)
-if [ -f /etc/bash_completion ] && ! shopt -oq posix
-then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     source /etc/bash_completion
 fi
 
-# source user completion file
-[[ $BASH_COMPLETION != ~/.bash_completion && -r ~/.bash_completion ]] \
-    && . ~/.bash_completion
+if [ -f /usr/local/etc/bash_completion ] && ! shopt -oq posix; then
+    source /usr/local/etc/bash_completion
+fi
 
-if [ "$OS_PLATFORM" = "darwin" ]; then
-    if [ -f $(brew --prefix)/etc/bash_completion ]; then
-	source $(brew --prefix)/etc/bash_completion
-    fi
+# source user completion file
+if [ -f "$HOME"/.bash_completion ] && ! shopt -oq posix; then
+    source "$HOME"/.bash_completion
 fi
