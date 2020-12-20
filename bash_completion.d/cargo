@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CMD="b bench build c check clean clippy
+doc fetch fix fmt generate-lockfile
+git-checkout init install locate-project
+login metadata new owner package pkgid
+publish r read-manifest run rustc rustdoc
+search t test tree uninstall update
+vendor verify-project versionyank"
+
+_cargo_completion() {
+  if [[ "${BASH_VERSION:0:1}" -gt "3" ]] ; then
+    local prev="${COMP_WORDS[$((COMP_CWORD - 1))]}"
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    if [[ "$prev" == "cargo" ]]; then
+      COMPREPLY=( $(compgen -W "$CMD" -- "$cur") )
+    fi
+  fi
+}
+
+complete -o dirnames -F _cargo_completion cargo
