@@ -45,5 +45,3 @@ fi
 if [[ "$OS_PLATFORM" = linux ]]; then
     true
 fi
-
-[ -f "/Users/mzlee/.ghcup/env" ] && source "/Users/mzlee/.ghcup/env" # ghcup-env
