@@ -28,22 +28,22 @@ if [[ -f /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Setting up GHC env
+# Setting up ghcup env
 if [[ -f "$HOME/.ghcup/env" ]]; then
-    source "$HOME/.cargo/env"
+    source "$HOME/.ghcup/env"
 fi
 
 ## Grab-all for bash files
-BASH_DIR="$HOME"/.bash.d
-if [ -d "$BASH_DIR" ]; then
-    for file in $(ls $BASH_DIR); do
-	profile_append $file
-	source "$BASH_DIR/$file"
+if [[ -d "$HOME"/.bash.d ]]; then
+    for file in "$HOME"/.bash.d/*; do
+	profile_append "$file"
+	source "$file"
     done
 fi
 
 ## Happens after everything is setup
-if [ "$OS_PLATFORM" = linux ]; then
+if [[ "$OS_PLATFORM" = linux ]]; then
     true
 fi
+
 [ -f "/Users/mzlee/.ghcup/env" ] && source "/Users/mzlee/.ghcup/env" # ghcup-env
