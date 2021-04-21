@@ -2,7 +2,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    source /etc/bashrc
 fi
 
 debug Platform
@@ -35,21 +35,25 @@ if ($0 && !path_arr[$0]) {
   path_arr[$0]=1
 }} END {print path}'
 }
+
 debug Path
+
 extra_bin="/opt/google/chrome /usr/local/opt/gnu-tar/libexec/gnubin /usr/local/opt/gnu-sed/libexec/gnubin /usr/local/opt/coreutils/libexec/gnubin /usr/local/sbin /usr/local/bin ${HOME}/bin ${HOME}/.cargo/bin"
 extra_lib="/usr/local/lib /usr/lib ${HOME}/lib"
+
 for path in ${extra_bin}; do
-    if [ -d ${path} ]; then
-	PATH=${path}:${PATH}
+    if [ -d "$path" ]; then
+	PATH="$path:$PATH"
     fi
 done
-export PATH=$(_dedup_path "${PATH}")
+export PATH=$(_dedup_path "$PATH")
+
 for path in ${extra_lib}; do
-    if [ -d ${path} ]; then
-	LD_LIBRARY_PATH=${path}:${LD_LIBRARY_PATH}
+    if [ -d "$path" ]; then
+	LD_LIBRARY_PATH="$path:$LD_LIBRARY_PATH"
     fi
 done
-export LD_LIBRARY_PATH=$(_dedup_path "${LD_LIBRARY_PATH}")
+export LD_LIBRARY_PATH=$(_dedup_path "$LD_LIBRARY_PATH")
 
 ## Editor
 debug Editor

@@ -6,42 +6,14 @@
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-#umask 022
+umask 022
 
-# !! DO NOT REMOVE THIS BLOCK !!
-if [ -f /lusr/lib/misc/path.sh ]; then
-	. /lusr/lib/misc/path.sh
-fi
-# !! DO NOT REMOVE THIS BLOCK !!
+# Setting up Rust env
+source "$HOME/.cargo/env"
 
-FQDN=$(hostname -f)
-case "$FQDN" in
-    *.csres.utexas.edu)
-	PUBLIC_MACHINE=0
-	;;
-    mzlee-*)
-	PUBLIC_MACHINE=0
-	;;
-    wireless-*)
-	PUBLIC_MACHINE=0
-	;;
-    chopin)
-	PUBLIC_MACHINE=0
-	;;
-    *.cs.utexas.edu)
-	PUBLIC_MACHINE=1
-	;;
-    *)
-        PUBLIC_MACHINE=0
-        ;;
-esac
-
-export FQDN
-
-if [ $PUBLIC_MACHINE -eq 1 ]; then
-    umask 077
-else
-    umask 022
+# Setting up Homebrew env
+if [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # if running bash
