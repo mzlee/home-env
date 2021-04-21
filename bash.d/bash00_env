@@ -1,7 +1,7 @@
 # .bash_env
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
+if [[ -f /etc/bashrc ]]; then
     source /etc/bashrc
 fi
 
@@ -37,19 +37,18 @@ if ($0 && !path_arr[$0]) {
 }
 
 debug Path
-
-extra_bin="/opt/google/chrome /usr/local/opt/gnu-tar/libexec/gnubin /usr/local/opt/gnu-sed/libexec/gnubin /usr/local/opt/coreutils/libexec/gnubin /usr/local/sbin /usr/local/bin ${HOME}/bin ${HOME}/.cargo/bin"
-extra_lib="/usr/local/lib /usr/lib ${HOME}/lib"
+extra_bin="/opt/google/chrome /usr/local/opt/gnu-tar/libexec/gnubin /usr/local/opt/gnu-sed/libexec/gnubin /usr/local/opt/coreutils/libexec/gnubin /usr/local/sbin /usr/local/bin $HOME/bin $HOME/.cargo/bin"
+extra_lib="/usr/local/lib /usr/lib $HOME/lib"
 
 for path in ${extra_bin}; do
-    if [ -d "$path" ]; then
+    if [[ -d "$path" ]]; then
 	PATH="$path:$PATH"
     fi
 done
 export PATH=$(_dedup_path "$PATH")
 
 for path in ${extra_lib}; do
-    if [ -d "$path" ]; then
+    if [[ -d "$path" ]]; then
 	LD_LIBRARY_PATH="$path:$LD_LIBRARY_PATH"
     fi
 done
@@ -65,12 +64,11 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
 ## Platform
 debug Platform
-if [ $OS_PLATFORM = darwin ]; then
+if [[ "$OS_PLATFORM" = darwin ]]; then
     export CLICOLOR=1
     export LSCOLORS=ExFxCxDxBxegedabagacad
     test -r /sw/bin/init.sh && . /sw/bin/init.sh
-elif [ $OS_PLATFORM = linux ]; then
-    export PRINTER='lw601'
+elif [[ "$OS_PLATFORM" = linux ]]; then
     export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 fi
 
@@ -83,36 +81,21 @@ shopt -s histappend
 shopt -s checkwinsize
 
 # Set the locale
-if [ $OS_PLATFORM == 'linux' ]; then
+if [[ "$OS_PLATFORM" == 'linux' ]]; then
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US.UTF-8
     export TZ="America/New_York"
 fi
 
-if [ "$TERM" != screen ]; then
+if [[ "$TERM" != screen ]]; then
     [ -f ${HOME}/.Xmodmap ] && xmodmap ${HOME}/.Xmodmap 2> /dev/null
-fi
-
-if [[ "$TERM" == screen ]]; then
+elif [[ "$TERM" == screen ]]; then
     export TERM=screen-256color
 fi
 
 ## Test a couple of different standard locations
-if [ -d "${HOME}/Documents/research/notes" ]; then
+if [[ -d "${HOME}/Documents/research/notes" ]]; then
     export NOTES_DIR="${HOME}/Documents/research/notes"
 fi
 
-#if [ `id -u` != 0 ]; then
-#  export VIRTUALENV_USE_DISTRIBUTE="1"
-#  export WORKON_HOME="$HOME/.virtualenvs"
-#  . /usr/local/bin/virtualenvwrapper.sh
-#  export PIP_VIRTUALENV_BASE="$WORKON_HOME"
-#  export PIP_RESPECT_VIRTUALENV="true"
-#fi
-
 debug Done
-
-# export HADOOP_HOME=/var/local/airavat/hadoop
-# export HADOOP_CONF_DIR=/var/local/airavat/hadoop/conf
-# export JAVA_HOME=/usr/lib/jvm/j2sdk-image
-# export PATH=$PATH:$HADOOP_HOME/bin
