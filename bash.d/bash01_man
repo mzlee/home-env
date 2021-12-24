@@ -1,4 +1,4 @@
-debug manpath
+_debug manpath
 
 extra_man="/usr/local/opt/gnu-tar/libexec/gnuman /usr/local/opt/gnu-sed/libexec/gnuman /usr/local/opt/coreutils/libexec/gnuman /opt/facebook/share/man /usr/local/share/man"
 for path in $(echo $PATH | tr ':' ' ' | xargs -n1 dirname) ${extra_man}; do

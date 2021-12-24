@@ -5,13 +5,13 @@ export PROFILE="bashrc"
 [ -z "$PS1" ] && return
 [ "$TERM" = "nuclide" ] && return
 
-function profile_append {
+function _profile_append {
     export PROFILE="$PROFILE:$1"
 }
 
-function debug {
+function _debug {
     if [[ -n "$DEBUG" ]]; then
-	echo "$@"
+        echo "$@"
     fi
 }
 
@@ -36,8 +36,8 @@ fi
 ## Grab-all for bash files
 if [[ -d "$HOME"/.bash.d ]]; then
     for file in "$HOME"/.bash.d/*; do
-	profile_append "$file"
-	source "$file"
+        _profile_append "$file"
+        source "$file"
     done
 fi
 

@@ -5,7 +5,7 @@ if [[ -f /etc/bashrc ]]; then
     source /etc/bashrc
 fi
 
-debug Platform
+_debug Platform
 case `uname -s` in
     Linux)
 	platform='linux'
@@ -36,7 +36,7 @@ if ($0 && !path_arr[$0]) {
 }} END {print path}'
 }
 
-debug Path
+_debug Path
 extra_bin="/opt/google/chrome /usr/local/opt/gnu-tar/libexec/gnubin /usr/local/opt/gnu-sed/libexec/gnubin /usr/local/opt/coreutils/libexec/gnubin /usr/local/sbin /usr/local/bin $HOME/bin $HOME/.cargo/bin"
 extra_lib="/usr/local/lib /usr/lib $HOME/lib"
 
@@ -55,15 +55,15 @@ done
 export LD_LIBRARY_PATH=$(_dedup_path "$LD_LIBRARY_PATH")
 
 ## Editor
-debug Editor
+_debug Editor
 export EDITOR='emacs -nw'
 
 ## Python
-debug Python
+_debug Python
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 
 ## Platform
-debug Platform
+_debug Platform
 if [[ "$OS_PLATFORM" = darwin ]]; then
     export CLICOLOR=1
     export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -72,7 +72,7 @@ elif [[ "$OS_PLATFORM" = linux ]]; then
     export LS_COLORS="di=94:fi=0:ln=46:pi=32:so=32:bd=32:cd=32:or=41:mi=5:ex=32:*.rpm=90"
 fi
 
-debug History
+_debug History
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -98,4 +98,4 @@ if [[ -d "${HOME}/Documents/research/notes" ]]; then
     export NOTES_DIR="${HOME}/Documents/research/notes"
 fi
 
-debug Done
+_debug Done
