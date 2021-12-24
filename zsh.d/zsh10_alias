@@ -1,0 +1,14 @@
+# .zsh_alias
+
+alias cdr=cd .
+alias sourcez="source $HOME/.zshrc"
+
+# ls aliases
+alias la='ls -AF'
+alias ll='ls -l'
+alias l='ls -AlF'
+
+# emacs aliases
+alias emacs='emacs -nw'
+alias emasc='emacs -nw'
+alias emac='emacs -nw'
