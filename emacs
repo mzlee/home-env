@@ -61,6 +61,7 @@
 (add-to-list 'auto-mode-alist '("\\.mk\\." . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bash" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("zsh" . shell-script-mode))
 ;; (setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
 ;; (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 ;; (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
