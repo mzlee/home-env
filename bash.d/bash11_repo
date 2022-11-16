@@ -17,6 +17,8 @@ function _repo_dir
             break;
         elif [ -d "${d}/.svn" ]; then
             break;
+        elif [ -d "${d}/.sl" ]; then
+            break;
         fi;
 	test "${d}"  = / && return;
         d=$(cd "${d}/.." && echo "$PWD");
@@ -44,6 +46,8 @@ function _repo_type
         printf hg
     elif [ -d "$d/.svn" ]; then
         printf svn
+    elif [ -d "$d/.sl" ]; then
+        printf sl
     fi
 }
 
@@ -83,6 +87,15 @@ function _rhg
 {
     if [[ -z "$REPO" ]]; then
 	/usr/local/bin/hg "$@"
+    else
+        "$REPO" "$@"
+    fi
+}
+
+function _rsl
+{
+    if [[ -z "$REPO" ]]; then
+	/opt/homebrew/bin/sl "$@"
     else
         "$REPO" "$@"
     fi
