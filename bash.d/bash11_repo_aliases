@@ -1,8 +1,8 @@
 # More bash aliases (these depend on repo)
 
-alias git=_rgit
-alias hg=_rhg
-alias sl=_rsl
+alias git=rgit
+alias hg=rhg
+alias sl=rsl
 
 ## More source control aliases
 alias hgs='_rhg status'

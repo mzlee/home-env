@@ -76,8 +76,13 @@ function _repo_info
 
 function _rgit
 {
+    /usr/local/bin/git "$@"
+}
+
+function rgit
+{
     if [[ -z "$REPO" ]]; then
-	/usr/local/bin/git "$@"
+	_rgit "$@"
     else
         "$REPO" "$@"
     fi
@@ -85,8 +90,13 @@ function _rgit
 
 function _rhg
 {
+    /usr/local/bin/hg "$@"
+}
+
+function rhg
+{
     if [[ -z "$REPO" ]]; then
-	/usr/local/bin/hg "$@"
+	_rhg "$@"
     else
         "$REPO" "$@"
     fi
@@ -94,8 +104,13 @@ function _rhg
 
 function _rsl
 {
+    /opt/homebrew/bin/sl "$@"
+}
+
+function rsl
+{
     if [[ -z "$REPO" ]]; then
-	/opt/homebrew/bin/sl "$@"
+	_rsl "$@"
     else
         "$REPO" "$@"
     fi
