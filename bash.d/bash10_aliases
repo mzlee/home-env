@@ -10,6 +10,7 @@ alias ll='ls -l'
 alias l='ls -AlF'
 
 # typos
+# alias sl='ls' # Replaced by sapling
 alias dc='cd'
 
 # emacs aliases
