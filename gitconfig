@@ -32,6 +32,7 @@
 	shelve = stash
 	unshelve = stash pop
 	w-add = !sh -c 'git diff -w --no-color "$@" | git apply --cached --ignore-whitespace' -
+	alias = config --get-regexp '^alias\\.'
 [core]
 	excludesfile = ~/.gitignore
 	editor = emacs
