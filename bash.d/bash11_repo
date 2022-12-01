@@ -1,29 +1,31 @@
+#!/usr/bin/env bash
+
 # .bash_functions repo submodule
 
-function _repo_dir
-{
-    local d="${1}"
-    local r="${2}"
-    if [ -n "${d}" ] && [ -d "${d}/.${r}" ]; then
-        printf "${d}"
+function _repo_dir {
+    local d="$1"
+    local r="$2"
+    if [ -n "$d" ] && [ -d "$d"/."$r" ]; then
+        printf '%s' "$d"
         return
     fi
 
-    d=$PWD;
-    while :; do
-        if [ -d "${d}/.git" ]; then
-            break;
-        elif [ -d "${d}/.hg" ]; then
-            break;
-        elif [ -d "${d}/.svn" ]; then
-            break;
-        elif [ -d "${d}/.sl" ]; then
-            break;
-        fi;
-	test "${d}"  = / && return;
-        d=$(cd "${d}/.." && echo "$PWD");
+    d="$PWD"
+    while [[ "$d" != "/" ]]; do
+	if [[ -d "$d"/.git ]]; then
+	    break
+	elif [[ -d "$d"/.hg ]]; then
+	    break
+	elif [[ -d "$d"/.svn ]]; then
+	    break
+	elif [[ -d "$d"/.sl ]]; then
+	    break
+	fi
+	d=$(dirname "$d")
     done
-    printf ${d}
+    if [[ "$d" != "/" ]]; then
+	printf '%s' "$d"
+    fi
 }
 
 function _repo_type
@@ -72,7 +74,6 @@ function _repo_info
 	printf "(${br})"
     fi
 }
-
 
 function _rgit
 {
