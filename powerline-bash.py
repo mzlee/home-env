@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
-
+from datetime import datetime
 import os
 import subprocess
 import sys
@@ -198,6 +197,29 @@ def add_hg_segment(powerline, cwd):
         branch += (' ' + extra if extra != '' else '')
     powerline.append(Segment(powerline, ' %s ' % branch, fg, bg))
     return True
+
+
+def add_current_time_segment(powerline):
+    now = datetime.now()
+    powerline.append(
+        Segment(
+            powerline,
+            " %s " % now.strftime("%D"),
+            Color.PATH_BG,
+            Color.HOST_PATH_BG ^ 32,
+            ":",
+        )
+    )
+    powerline.append(
+        Segment(
+            powerline,
+            " %s " % now.strftime("%H:%M:%S"),
+            Color.PATH_FG,
+            Color.HOST_PATH_BG ^ 32,
+        )
+    )
+    return True
+
 
 def get_git_version():
     output = os.getenv("GIT_VERSION")
@@ -398,6 +420,7 @@ if __name__ == '__main__':
 
     p = Powerline(mode=args.mode, shell=args.shell)
     cwd = get_valid_cwd()
+    add_current_time_segment(p)
     if Color.HOST_NAME[0] == "Linux":
         add_host_segment(p, Color.HOST_NAME[1])
     add_virtual_env_segment(p, cwd)
