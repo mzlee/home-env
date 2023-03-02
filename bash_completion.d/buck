@@ -61,7 +61,7 @@ _find_dir_matches() {
     local end="${p#$cell_path/}"
     ret=0
     echo "$prefix$cell$end"/
-    if [[ -f "$p"/BUCK || -f "$p"/TARGETS ]]; then
+    if [[ -f "$p"/BUCK || -f "$p"/TARGETS || -f "$b"/BUCK.v2 || -f "$b"/TARGETS.v2 ]]; then
         echo "$prefix$cell$end"
     fi
   done
@@ -91,10 +91,18 @@ _buck_completion() {
         fi
         local cur="${COMP_WORDS[$((COMP_CWORD - $delta))]}"
         local tdir="$(_resolve_cell "$cur")"/"${cur#*//}"
+        build_file=
         if [[ -f "$tdir"/BUCK ]] ; then
-          COMPREPLY=($(sed -n "s/ *name *= *['\"]\($2[a-zA-Z0-9_-]*\)['\"].*/\1/gp" "$tdir/BUCK"))
-        elif [[ -f "$tdir"/TARGETS ]] ; then
-          COMPREPLY=($(sed -n "s/ *name *= *['\"]\($2[a-zA-Z0-9_-]*\)['\"].*/\1/gp" "$tdir/TARGETS"))
+            build_file="$tdir"/BUCK
+        elif [[ -f "$tdir"/TARGETS ]]; then
+            build_file="$tdir"/TARGETS
+        elif [[ -f "$tdir"/BUCK.v2 ]]; then
+            build_file="$tdir"/BUCK.v2
+        elif [[ -f "$tdir"/TARGETS.v2 ]]; then
+            build_file="$tdir"/TARGETS.v2
+        fi
+        if [[ -n "$build_file" ]]; then
+            COMPREPLY=($(sed -n "s/ *name *= *['\"]\($2[a-zA-Z0-9_-]*\)['\"].*/\1/gp" "$build_file"))
         fi
       else
           COMPREPLY=( $(_find_dir_matches "$cur" "") )
