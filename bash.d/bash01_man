@@ -7,7 +7,7 @@ for path in $(echo $PATH | tr ':' ' ' | xargs -n1 dirname) ${extra_man}; do
 	continue
     fi
     if [[ -d "${path}" ]]; then
-	for manpath in $(find "${path}" -name 'man' -type d) $(find "${path}" -name 'gnuman' -type d); do
+	for manpath in $(find "${path}" -name 'man' -type d 2> /dev/null) $(find "${path}" -name 'gnuman' -type d 2> /dev/null); do
 	    MANPATH=${manpath}:${MANPATH}
 	done
     fi
