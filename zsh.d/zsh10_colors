@@ -1,0 +1,8 @@
+# zsh colors and PROMPT
+
+autoload -U colors && colors
+
+# Set up prompt
+PROMPT="%{$fg_bold[yellow]%}%D{%H:%M:%S}%{$reset_color%}"
+PROMPT+=" %(?:%{$fg_bold[green]%}%2m:%{$fg_bold[red]%}%2m)%{$reset_color%}"
+PROMPT+=" %{$fg[cyan]%}%~%{$reset_color%}$ "
