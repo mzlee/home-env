@@ -9,6 +9,6 @@ alias ll='ls -l'
 alias l='ls -AlF'
 
 # emacs aliases
-alias emacs='emacs -nw'
-alias emasc='emacs -nw'
-alias emac='emacs -nw'
+alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+alias emasc='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+alias emac='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
