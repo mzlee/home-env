@@ -1,0 +1,7 @@
+# Helper functions
+
+hashcwd() {
+    if [[ -n "$1" ]]; then
+	hash -d "$1"="$PWD"
+    fi
+}
