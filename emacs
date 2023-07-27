@@ -25,6 +25,8 @@
 (setq fill-column 80)
 (setq line-number-mode t)
 (setq column-number-mode t)
+;; Always assume my background is dark
+(setq frame-background-mode 'dark)
 
 ;; Add installed modules
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
