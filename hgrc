@@ -1,22 +1,32 @@
 [ui]
 username = Michael Lee <mzlee@fb.com>
 
+[revsetalias]
+work = master
+
 [alias]
 bm = bookmarks
 bmD = !$HG strip "$@" && $HG bookmarks -d "$@"
 br = bookmarks
 color-log = log --color yes
 fetch = pull
-ff = pull --rebase -d master
-ffo = pull --rebase -t internal:other -d master
+ff = pull --rebase -d work
+ffm = pull --rebase -d master
+ffm-all = rebase -r 'draft()' -d "first(_destrestack(SRC) + master)"
 ff-all = !$HG pull && $HG rebase -r 'draft()' -d "first(_destrestack(SRC) + work)"
+ffo = pull --rebase -t internal:other -d work
+ffom = pull --rebase -t internal:other -d master
+ffs = pull --rebase -d stable
+ff-all = rebase -r 'draft()' -d 'first(_destrestack(SRC) + work)'
 fstat = status -n --change .
 hist = log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n"
 i = log -r . -T '{node}' --hidden
 last-amend = diff -r 'precursors(.)' -r . --hidden
 ls = sl
 pullr = !$HG rebase -d . -s "$1" && $HG update "$1"
-rebase-all = rebase -r 'draft()' -d "first(_destrestack(SRC) + master)"
+purgea = purge --all
+rebase-all = rebase -r 'draft()' -d "first(_destrestack(SRC) + work)"
+rebase-here = rebase -r 'draft()' -d "."
 rebase-me = rebase -t ':merge-local'
 rebase-you = rebase -t ':merge-other'
 resolve-me = !$HG resolve -t ':local' --all && $HG rebase --continue
@@ -28,6 +38,8 @@ slbot = sl --rev 'children(public()) & draft() or .'
 slf = sl --pager always -T'{slf}'
 slt = sl --rev 'head() & draft() or .'
 sltop = sl --rev 'head() & draft() or .'
+slup = !$HG smartlog -T ':{node|short}: {pad(phabdiff, 9)} | {firstline(desc)} | {authorinfo} | {phabstatus}' | grep "$USER" | /usr/bin/fzf --delimiter ':' --ansi --bind='enter:become(hg checkout {2})'
+sslup = !/usr/local/bin/hg-ssl-up
 st = status re:
 stat = !$HG color-log --stat -r "$([[ -n "$1" ]] && echo "$1" || echo ".")"
 stash = shelve
