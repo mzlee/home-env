@@ -397,9 +397,7 @@ function __hg_info
     if [[ -f "$commitcloud" ]]; then
 	local marks=$(grep --color=never "^current_workspace" "$commitcloud" \
 			  | cut -f 2 -d '=' \
-			  | cut -f 3- -d'/' \
-			  | tr '\n' '|' \
-			  | head -c -1)
+			  | cut -f 3- -d'/')
 	if [[ -n "$marks" && "$marks" != "default" ]]; then
 	    br="$br|{$marks}"
 	fi
@@ -410,8 +408,7 @@ function __hg_info
 	local marks=$(grep --color=never "^$dirstate bookmarks" "$remote" \
 			  | cut -f 3 -d ' ' \
 			  | cut -f 2- -d '/' \
-			  | head -n 1 \
-			  | head -c -1)
+			  | head -n 1)
 	if [[ -n "$marks" ]]; then
 	    br="$br|$marks"
 	fi
