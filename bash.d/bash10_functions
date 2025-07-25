@@ -218,7 +218,7 @@ function tess
 ## More functions for tmux
 
 function split_cc_command_from_buffer {
-    tmux show-buffer | tr ' ' '\n' | tr -d "'"
+    tmux show-buffer | tr ' ' '\n' | tr -d "'" | tr -d '"'
 }
 
 function exec_cc_command_from_file {
