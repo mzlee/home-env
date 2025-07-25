@@ -9,7 +9,7 @@ color-log = log --color yes
 fetch = pull
 ff = pull --rebase -d master
 ffo = pull --rebase -t internal:other -d master
-ff-all = !$HG pull && $HG rebase -r 'draft()' -d "first(_destrestack(SRC) + master)"
+ff-all = !$HG pull && $HG rebase -r 'draft()' -d "first(_destrestack(SRC) + work)"
 fstat = status -n --change .
 hist = log --template "{revinfo} | {firstline(desc)} {if(currentbookmark, '({label("'"log.bookmark"'", currentbookmark)})')} {authorinfo}\n"
 i = log -r . -T '{node}' --hidden
@@ -31,6 +31,9 @@ sltop = sl --rev 'head() & draft() or .'
 st = status re:
 stat = !$HG color-log --stat -r "$([[ -n "$1" ]] && echo "$1" || echo ".")"
 stash = shelve
+
+[revsetalias]
+work = master
 
 [templatealias]
 authorinfo = "[{label('log.user', person(author))}] [{label('log.user', emailuser(author))}]"
