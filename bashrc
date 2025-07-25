@@ -1,4 +1,5 @@
-#!/bin/bash
+[[ $- != *i* ]] && return
+source /etc/bashrc
 export PROFILE="bashrc"
 
 ## Check current platform and state
