@@ -5,3 +5,9 @@ function cleanup {
     local bookmark=$(hg bm | grep '\*' | cut -d'*' -f2 | cut -d' ' -f2)
     _cleanup && hg ff-all && [[ -n "$bookmark" ]] && hg co "$bookmark" || hg co master
 }
+
+function fzf_sl {
+    hg smartlog -T ':{node|short}: {pad(phabdiff, 9)} | {firstline(desc)} | {authorinfo} | {phabstatus}' \
+        | grep "$USER" \
+        | /usr/bin/fzf --delimiter ':' --ansi --bind='enter:become(hg checkout {2})' --preview 'echo hg checkout {2}' --preview-window='bottom,1,border-none'
+}
