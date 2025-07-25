@@ -7,3 +7,13 @@ fi
 if [[ -d "$HOME/bin" && "$PATH" != *$HOME/bin* ]]; then
     export PATH="$HOME/bin:$PATH"
 fi
+
+if [[ -d "$HOME/homebrew/bin" && "$PATH" != *$HOME/homebrew/bin* ]]; then
+    export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
+fi
+
+
+autoload -U select-word-style
+select-word-style bash
+
+export EDITOR=emacs

@@ -1,6 +1,6 @@
 # .zsh_alias
 
-alias cdr=cd .
+alias cdr="cd ."
 alias sourcez="source $HOME/.zshrc"
 
 # ls aliases
@@ -14,7 +14,7 @@ alias emasc='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
 alias emac='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
 
 # VPN Aliases
-alias vpnstatus='/opt/cisco/anyconnect/bin/vpn state'
+alias vpnstatus='/opt/cisco/secureclient/bin/vpn state'
 alias vpnkill='echo for the love of god; sudo pkill -f vpn'
-alias vpnoff='/opt/cisco/anyconnect/bin/vpn disconnect'
-alias vpnon='/opt/cisco/anyconnect/bin/vpn connect "Americas East - SSL"'
+alias vpnoff='/opt/cisco/secureclient/bin/vpn disconnect'
+alias vpnon='/opt/cisco/secureclient/bin/vpn connect "Americas East - SSL"'
