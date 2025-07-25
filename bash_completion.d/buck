@@ -1,14 +1,18 @@
 #!/bin/bash
+# MIT License
 
 _resolve_cell() {
-  local tdir="${1#//*}"
+    local tdir="${1#//*}"
+    local root
+    local cell
+    local cell_path
   if [[ "$tdir" == *"//"* ]]; then
-    local root=$(hg root)
-    local cell="${tdir%//*}"
+    root="$(hg root)"
+    cell="${tdir%//*}"
     if [[ "$cell" == "fbsource" ]]; then
       tdir="$root"
     else
-      local cell_path="$(grep "$cell = " "$root/.buckconfig" | head -n1 | awk '{print $3}')"
+      cell_path="$(grep "$cell = " "$root/.buckconfig" | head -n1 | awk '{print $3}')"
       tdir="$root"/"$cell_path"
     fi
   else
@@ -21,18 +25,20 @@ _find_file_matches() {
   local cur="$1"
   local prefix="$2"
   local ret=1
+  local cell=""
+  local cell_path
+  local path
+  local paths
 
   if [[ "$cur" == *"//"* ]]; then
-      local cell="${cur%//*}"//
-  else
-      local cell=""
+      cell="${cur%//*}"//
   fi
-  local cell_path="$(_resolve_cell "$cell")"
-  local path="$cell_path"/"${cur#*//}"
+  cell_path="$(_resolve_cell "$cell")"
+  path="$cell_path"/"${cur#*//}"
 
-  local paths="$(find "$path"* -maxdepth 1 -type f -o -type l 2> /dev/null)"
+  paths="$(find "$path"* -maxdepth 1 -type f -o -type l 2> /dev/null; find "$path"* -mindepth 1 -maxdepth 1 -type d)"
   for p in $paths; do
-    local end="${p#$cell_path/}"
+    local end="${p#"$cell_path/"}"
     ret=0
     echo "$prefix$cell$end"
   done
@@ -44,24 +50,26 @@ _find_dir_matches() {
   local cur="$1"
   local prefix="$2"
   local ret=1
+  local cell=""
+  local cell_path
+  local path
+  local paths
 
   if [[ "$cur" == *"//"* ]]; then
-      local cell="${cur%//*}"//
-  else
-      local cell=""
+      cell="${cur%//*}"//
   fi
-  local cell_path="$(_resolve_cell "$cell")"
-  local path="$cell_path"/"${cur#*//}"
+  cell_path="$(_resolve_cell "$cell")"
+  path="$cell_path"/"${cur#*//}"
 
-  local paths=( $(find "$path"* -maxdepth 0 -type d 2> /dev/null) )
+  mapfile -t paths < <(find "$path"* -maxdepth 0 -type d 2> /dev/null)
   if [[ "${#paths[@]}" == 1 ]]; then
-    paths=( $(find "$path"* -maxdepth 1 -type d 2> /dev/null) )
+    mapfile -t paths < <(find "$path"* -maxdepth 1 -type d 2> /dev/null)
   fi
-  for p in ${paths[@]}; do
-    local end="${p#$cell_path/}"
+  for p in "${paths[@]}"; do
+    local end="${p#"$cell_path/"}"
     ret=0
     echo "$prefix$cell$end"/
-    if [[ -f "$p"/BUCK || -f "$p"/TARGETS || -f "$b"/BUCK.v2 || -f "$b"/TARGETS.v2 ]]; then
+    if [[ "$(_resolve_build_file "$p")" != "" ]]; then
         echo "$prefix$cell$end"
     fi
   done
@@ -69,47 +77,55 @@ _find_dir_matches() {
   return $ret
 }
 
+_resolve_build_file() {
+  local tdir="$1"
+  for buildfilename in BUCK.v2 BUCK TARGETS.v2 TARGETS; do
+      if [[ -f "$tdir"/"$buildfilename" ]]; then
+          echo "$tdir"/"$buildfilename"
+          return
+      fi
+  done
+}
+
 _buck_completion() {
   if [[ "${BASH_VERSION:0:1}" -gt "3" ]] ; then
     local prev="${COMP_WORDS[$((COMP_CWORD - 1))]}"
     local cur="${COMP_WORDS[COMP_CWORD]}"
     if [[ "$prev" == "buck" ]]; then
-      COMPREPLY=( $(compgen -W 'audit autodeps build cache clean distbuild \
+      mapfile -t COMPREPLY < <(compgen -W 'audit autodeps build cache clean cquery distbuild \
                                 doctor fetch help install machoutils project \
-                                publish query rage root run server suggest \
-                                targets test uninstall verify-caches' -- "$cur") )
+                                publish rage root run server suggest \
+                                targets test uninstall uquery verify-caches' -- "$cur")
     else
       if [[ "$prev" == "@" ]]; then
-        COMPREPLY=( $(_find_file_matches "$cur" "@") )
+        mapfile -t COMPREPLY < <(_find_file_matches "$cur" "@")
       elif [[ "${cur:0:1}" == "@" ]]; then
-        COMPREPLY=( $(_find_file_matches "${cur:1}" "@") )
+        mapfile -t COMPREPLY < <(_find_file_matches "${cur:1}" "@")
       elif [[ "$cur" == ":" || "$prev" == ":" ]]; then
         if [[ -z "$2" ]] ; then
           local delta=1
         else
           local delta=2
         fi
-        local cur="${COMP_WORDS[$((COMP_CWORD - $delta))]}"
-        local tdir="$(_resolve_cell "$cur")"/"${cur#*//}"
-        build_file=
-        if [[ -f "$tdir"/BUCK ]] ; then
-            build_file="$tdir"/BUCK
-        elif [[ -f "$tdir"/TARGETS ]]; then
-            build_file="$tdir"/TARGETS
-        elif [[ -f "$tdir"/BUCK.v2 ]]; then
-            build_file="$tdir"/BUCK.v2
-        elif [[ -f "$tdir"/TARGETS.v2 ]]; then
-            build_file="$tdir"/TARGETS.v2
-        fi
+        local cur="${COMP_WORDS[$((COMP_CWORD - delta))]}"
+        local tdir
+        local build_file
+        tdir="$(_resolve_cell "$cur")"/"${cur#*//}"
+        build_file="$(_resolve_build_file "$tdir")"
         if [[ -n "$build_file" ]]; then
-            COMPREPLY=($(sed -n "s/ *name *= *['\"]\($2[a-zA-Z0-9_-]*\)['\"].*/\1/gp" "$build_file"))
+          mapfile -t COMPREPLY < <(sed -n "s: *name *= *['\"]\($2[a-zA-Z0-9_\.-]*\)['\"].*:\1:gp" "$build_file")
         fi
       else
-          COMPREPLY=( $(_find_dir_matches "$cur" "") )
+        mapfile -t COMPREPLY < <(_find_dir_matches "$cur" "")
       fi
     fi
   fi
 }
 
 complete -o dirnames -F _buck_completion buck
-complete -o dirnames -F _buck_completion buck-beta
+complete -o dirnames -F _buck_completion buck1
+complete -o dirnames -F _buck_completion buck2
+complete -o dirnames -F _buck_completion lastbuck
+complete -o dirnames -F _buck_completion buck_lastbuck
+complete -o dirnames -F _buck_completion output_attrs
+complete -o dirnames -F _buck_completion output_cattrs
