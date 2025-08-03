@@ -9,9 +9,15 @@ alias ll='ls -l'
 alias l='ls -AlF'
 
 # emacs aliases
-alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
-alias emasc='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
-alias emac='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+if [[ -f '/opt/homebrew/bin/emacs' ]]; then
+    alias emacs='/opt/homebrew/bin/emacs -nw'
+    alias emasc='/opt/homebrew/bin/emacs -nw'
+    alias emac='/opt/homebrew/bin/emacs -nw'
+else
+    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+    alias emasc='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+    alias emac='/Applications/Emacs.app/Contents/MacOS/Emacs-arm64-11 -nw'
+fi
 
 # VPN Aliases
 alias vpnstatus='/opt/cisco/secureclient/bin/vpn state'
