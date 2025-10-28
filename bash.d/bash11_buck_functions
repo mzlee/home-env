@@ -1,0 +1,51 @@
+# Functions for buck development and use
+
+function buck_root
+{
+    local dir="$PWD"
+    while [[ ! -f "$dir/.buckconfig" ]]; do
+        dir="$(dirname "$dir")"
+        if [[ "$dir" = '/' ]]; then
+            return
+        fi
+    done
+    echo "$dir"
+}
+
+# Given a cell, get the path
+function _cell_path
+{
+    local root="$(buck_root)"
+    echo $(realpath "$root/$(grep -E -A 20 '\[(repositories|cells)\]' "$root"/.buckconfig | grep " $1 " | head -n1 | cut -d'=' -f2 | tr -d '[:space:]')")
+}
+
+# Given a string, compute the cell path
+function resolve_cell_path
+{
+    local cell
+    if [[ "$1" =~ "//" ]]; then
+        local rest="${1#*//}"
+        cell="${1%//*}"
+        echo $(_cell_path "$cell")/"$rest"
+    elif [[ "$1" =~ "/" ]]; then
+        echo "$(buck_root)"/"$1"
+    else
+        cell="$1"
+        _cell_path "$cell"
+    fi
+}
+
+function clean_args
+{
+    for arg in "$@"; do
+        if [[ "$arg" =~ //.*: ]]; then
+            arg="$(resolve_cell_path $(echo "$arg" | cut -d':' -f1)/BUCK)"
+        fi
+        if [[ "$arg" =~ ^[a|b]/.* ]]; then
+            arg="$(echo "$arg" | cut -d'/' -f2-)"
+        elif [[ "$arg" =~ ^//.* ]]; then
+            arg="$(resolve_cell_path echo "$arg")"
+        fi
+        echo "$arg"
+    done
+}

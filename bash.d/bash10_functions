@@ -147,28 +147,6 @@ function cp_p
          END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
 }
 
-function clean_args
-{
-    for arg in "$@"; do
-        if [[ "$arg" =~ //.*: ]]; then
-            arg="$(echo "$arg" | cut -d':' -f1)/BUCK"
-        fi
-        if [[ "$arg" =~ ^[a|b]/.* ]]; then
-            arg="$(echo "$arg" | cut -d'/' -f2-)"
-        elif [[ "$arg" =~ ^//.* ]]; then
-            arg="$(echo "$arg" | cut -d'/' -f3-)"
-        fi
-        echo "$arg"
-    done
-}
-
-EMACS="$(which emacs | grep '/bin/' | xargs)"
-
-function _emacs
-{
-    "$EMACS" "$(clean_args "$@")"
-}
-
 function papers
 {
     if [ -n "${PAPERS_DIR}" ]; then

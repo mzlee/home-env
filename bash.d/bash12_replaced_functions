@@ -1,0 +1,30 @@
+# Replacements for the existing
+# Alternatively, I can hook into the missing binary system
+
+export AG_BIN="$(get_bin ag)"
+export EMACS_BIN="$(get_bin emacs)"
+
+function ag {
+    if [[ -z "$AG_BIN" ]]; then
+        rg "$@"
+    else
+        "$AG_BIN" "$@"
+    fi
+}
+
+function emacs {
+    "$EMACS_BIN" $(clean_args "$@")
+}
+
+# Repo replacements already exist
+function hg {
+    rhg $(clean_args "$@")
+}
+
+function sl {
+    rsl $(clean_args "$@")
+}
+
+function git {
+    rgit "$@"
+}

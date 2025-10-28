@@ -65,61 +65,63 @@ function _repo_info
     fi
 
     local br
-    if [ "X$r" == "Xhg" ]; then
+    if [[ "X$r" == "Xhg" ]]; then
 	br=$(__hg_info "${d}" "${r}")
-    elif [ "X$r" == "Xgit" ]; then
+    elif [[ "X$r" == "Xgit" ]]; then
 	br=$(__git_info "${d}" "${r}")
     fi
-    if [ -n ${br} ]; then
+    if [[ -n ${br} ]]; then
 	printf "(${br})"
     fi
 }
 
-function _rgit
+export GIT_BIN="$(get_bin git)"
+export HG_BIN="$(get_bin hg)"
+export HG_BIN="$(get_bin sl)"
+
+function r
 {
-    /usr/local/bin/git "$@"
+    case "$REPO" in
+        git)
+            "$GIT_BIN" "$@"
+            ;;
+        hg)
+            "$HG_BIN" "$@"
+        ;;
+        sl)
+            "$SL_BIN" "$@"
+        ;;
+        *)
+            "$REPO" "$@"
+        ;;
+    esac
 }
 
 function rgit
 {
     if [[ -z "$REPO" ]]; then
-	_rgit "$@"
+        "$GIT_BIN" "$@"
     else
-        "$REPO" "$@"
+        r "$@"
     fi
-}
-
-function _rhg
-{
-    /usr/local/bin/hg "$@"
 }
 
 function rhg
 {
     if [[ -z "$REPO" ]]; then
-	_rhg "$@"
+	"$HG_BIN" "$@"
     else
-        "$REPO" "$@"
+        r "$@"
     fi
-}
-
-function _rsl
-{
-    /opt/homebrew/bin/sl "$@"
 }
 
 function rsl
 {
     if [[ -z "$REPO" ]]; then
-	_rsl "$@"
+	"$SL_BIN" "$@"
     else
-        "$REPO" "$@"
+        r "$@"
     fi
-}
-
-function r
-{
-    "$REPO" "$@"
 }
 
 function repo_commit
