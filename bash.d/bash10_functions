@@ -92,7 +92,12 @@ function proxy_disconnect {
     sudo networksetup -setsocksfirewallproxystate Wi-Fi off
 }
 
-OLD_CP=/bin/cp
+# Replaced functions: Utilities
+function get_bin() {
+    which "$1"  --skip-functions --skip-alias
+}
+
+CP_BIN="$(get_bin cp)"
 
 function _cp {
     local args=( $@ )
@@ -107,7 +112,7 @@ function _cp {
 
     if [ $OS_PLATFORM = linux ]; then
         if [ $progress = 0 ]; then
-            ${OLD_CP} ${args[@]}
+            ${CP_BIN} ${args[@]}
         else
             i=0
             for arg in ${args[@]}; do
@@ -119,13 +124,13 @@ function _cp {
             cp_p ${args[@]}
         fi
     else
-        ${OLD_CP} ${args[@]}
+        ${CP_BIN} ${args[@]}
     fi
 }
 
 function cp_p
 {
-    strace -q -ewrite ${OLD_CP} -- "${1}" "${2}" 2>&1 \
+    strace -q -ewrite ${CP_BIN} -- "${1}" "${2}" 2>&1 \
         | awk '{
         count += $NF
             if (count % 10 == 0) {
