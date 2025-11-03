@@ -39,12 +39,13 @@ function clean_args
 {
     for arg in "$@"; do
         if [[ "$arg" =~ //.*: ]]; then
-            arg="$(resolve_cell_path $(echo "$arg" | cut -d':' -f1)/BUCK)"
+            arg="$(echo "$arg" | cut -d':' -f1)/BUCK"
+        fi
+        if [[ "$arg" =~ //.* ]]; then
+            arg="$(resolve_cell_path "$arg")"
         fi
         if [[ "$arg" =~ ^[a|b]/.* ]]; then
             arg="$(echo "$arg" | cut -d'/' -f2-)"
-        elif [[ "$arg" =~ ^//.* ]]; then
-            arg="$(resolve_cell_path echo "$arg")"
         fi
         echo "$arg"
     done
