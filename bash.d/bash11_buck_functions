@@ -26,7 +26,11 @@ function resolve_cell_path
     if [[ "$1" =~ "//" ]]; then
         local rest="${1#*//}"
         cell="${1%//*}"
-        echo $(_cell_path "$cell")/"$rest"
+        if [[ -z "$cell" ]]; then
+            echo "$(buck_root)"/"$rest"
+        else
+            echo $(_cell_path "$cell")/"$rest"
+        fi
     elif [[ "$1" =~ "/" ]]; then
         echo "$(buck_root)"/"$1"
     else
