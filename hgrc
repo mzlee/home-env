@@ -70,6 +70,13 @@ changeset.public = red
 log.date = green
 log.bookmark = yellow
 log.user = blue
+# Don't bold/color public commits
+sl.public=none
+# Color draft commits
+sl.draft=bold red
+# Mark current commits / descriptions as yellow
+sl.current=yellow
+sl.desc.current=yellow
 
 [hooks]
 pre-amend.format_code = if [[ -e "$HOME/hgrc.d/hooks/format_code.sh" ]]; then $HOME/hgrc.d/hooks/format_code.sh ; fi
