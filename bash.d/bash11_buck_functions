@@ -42,12 +42,19 @@ function resolve_cell_path
 function clean_args
 {
     for arg in "$@"; do
+        # Strip leading - or + prefix (common in diff output or line numbers)
+        if [[ "$arg" =~ ^[-+] ]]; then
+            arg="${arg:1}"
+        fi
+        # Convert buck targets with : to BUCK file paths
         if [[ "$arg" =~ //.*: ]]; then
             arg="$(echo "$arg" | cut -d':' -f1)/BUCK"
         fi
+        # Resolve cell paths
         if [[ "$arg" =~ //.* ]]; then
             arg="$(resolve_cell_path "$arg")"
         fi
+        # Strip a/ or b/ prefixes (from diff output)
         if [[ "$arg" =~ ^[a|b]/.* ]]; then
             arg="$(echo "$arg" | cut -d'/' -f2-)"
         fi
