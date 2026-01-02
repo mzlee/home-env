@@ -4,22 +4,11 @@ if [[ -f /etc/zshrc ]]; then
     source /etc/zshrc
 fi
 
-if [[ -d "$HOME/bin" && "$PATH" != *$HOME/bin* ]]; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
-if [[ -d "$HOME/.local/bin" && "$PATH" != *$HOME/.local/bin* ]]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [[ -d "$HOME/homebrew/bin" && "$PATH" != *$HOME/homebrew/bin* ]]; then
-    export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
-fi
-
-if [[ -d "/opt/homebrew/bin" && "$PATH" != */opt/homebrew/bin$ ]]; then
-    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-fi
-
+for _dir in "$HOME/bin" "$HOME/.local/bin" "$HOME/homebrew/bin" "/opt/homebrew/bin" "/Applications/Docker.app/Contents/Resources/bin"; do
+    if [[ -d "$_dir" && "$PATH" != *$_dir* ]]; then
+	export PATH="$_dir:$PATH"
+    fi
+done
 
 autoload -U select-word-style
 select-word-style bash
